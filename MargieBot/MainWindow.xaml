@@ -1,0 +1,30 @@
+﻿<mui:ModernWindow 
+    x:Class="MargieBot.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+    xmlns:vm="clr-namespace:MargieBot.ViewModels"
+    Height="350"
+    Title="Margie Bot" 
+    Width="525">
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock
+            Foreground="{StaticResource ForegroundBrush}"
+            Grid.Row="0"
+            Text="{Binding Message}"
+            TextWrapping="WrapWithOverflow" />
+        
+        <Button 
+            Grid.Row="1"
+            Command="{Binding CallCommand}" 
+            Content="Go!" />
+    </Grid>
+</mui:ModernWindow>
