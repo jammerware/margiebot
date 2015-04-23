@@ -10,21 +10,23 @@
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
-        <TextBlock
-            Foreground="{StaticResource ForegroundBrush}"
-            Grid.Row="0"
-            Text="{Binding Message}"
-            TextWrapping="WrapWithOverflow" />
-        
-        <Button 
-            Grid.Row="1"
-            Command="{Binding CallCommand}" 
-            Content="Go!" />
+    <Grid Style="{StaticResource ContentRoot}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Foreground="{StaticResource ForegroundBrush}"
+                Grid.Row="0"
+                Text="{Binding Message}"
+                TextWrapping="WrapWithOverflow" />
+
+            <Button 
+                Grid.Row="1"
+                Command="{Binding CallCommand}" 
+                Content="Go!" />
+        </Grid>
     </Grid>
 </mui:ModernWindow>
