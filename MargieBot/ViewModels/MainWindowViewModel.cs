@@ -2,7 +2,6 @@
 using BazamWPF.ViewModels;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -12,6 +11,7 @@ namespace MargieBot.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private Connection _Connection = null;
         private HubConnection _Hub = null;
         private string _WebSocketUrl = string.Empty;
 
@@ -19,9 +19,9 @@ namespace MargieBot.ViewModels
         {
             get {
                 return new RelayCommand(async (timeToParty) => {
-                    _Hub = new HubConnection(_WebSocketUrl);
-                    _Hub.Received += (string message) => { Message = message; };
-                    await _Hub.Start();
+                    _Connection = new Connection(_WebSocketUrl);
+                    _Connection.Received += (string message) => { Message = message; };
+                    await _Connection.Start();
                 });
             }
         }
@@ -33,11 +33,13 @@ namespace MargieBot.ViewModels
             set { ChangeProperty<MainWindowViewModel>(vm => vm.Message, value); }
         }
 
+        // xoxb-4597209409-Sy4JJEX6GblzmKrdF9mPngy7
+        // xoxb-4599190677-HJTfW7q5O4hwaBqMBbEl4RBG
         public MainWindowViewModel()
         {
             Message = "Starting up...";
             WebRequest request = WebRequest.Create("https://slack.com/api/rtm.start");
-            byte[] body = Encoding.UTF8.GetBytes("token=xoxb-4597209409-Sy4JJEX6GblzmKrdF9mPngy7");
+            byte[] body = Encoding.UTF8.GetBytes("token=xoxb-4599190677-HJTfW7q5O4hwaBqMBbEl4RBG");
             request.Method = "POST";
             request.ContentLength = body.Length;
             request.ContentType = "application/x-www-form-urlencoded";
