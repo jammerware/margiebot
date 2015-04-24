@@ -1,5 +1,6 @@
 ﻿using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
+using MargieBot.Infrastructure;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -14,11 +15,13 @@ namespace MargieBot.ViewModels
     {
         private WebSocket _WebSocket = null;
         private string _WebSocketUrl = string.Empty;
+        private Margie _Margie = new Margie();
 
         public ICommand ConnectCommand
         {
             get {
-                return new RelayCommand((timeToParty) => {
+                return new RelayCommand(async (timeToParty) => {
+                    _WebSocketUrl = await _Margie.GetSocketUrl();
                     StartWebSocket();
                 });
             }
@@ -43,11 +46,14 @@ namespace MargieBot.ViewModels
 
         private void StartWebSocket()
         {
+            StopWebSocket();
+
             _WebSocket = new WebSocket(_WebSocketUrl);
             _WebSocket.OnMessage += (object sender, MessageEventArgs args) => {
-                Message = args.Data.ToString();
+                _Margie.ListenTo(args.Data);
             };
             _WebSocket.Connect();
+            Message = "Connected";
         }
 
         private void StopWebSocket()
@@ -58,29 +64,18 @@ namespace MargieBot.ViewModels
             }
         }
 
-        // xoxb-4597209409-Sy4JJEX6GblzmKrdF9mPngy7
-        // xoxb-4599190677-HJTfW7q5O4hwaBqMBbEl4RBG
+        private void Margie_DebugRequested(string debugMessage, string completeJson)
+        {
+            Message = debugMessage;
+            if (completeJson != string.Empty) {
+                Message += Environment.NewLine + completeJson;
+            }
+        }
+
         public MainWindowViewModel()
         {
+            _Margie.OnDebugRequested += Margie_DebugRequested;
             Message = "Disconnected";
-            WebRequest request = WebRequest.Create("https://slack.com/api/rtm.start");
-            byte[] body = Encoding.UTF8.GetBytes("token=xoxb-4599190677-HJTfW7q5O4hwaBqMBbEl4RBG");
-            request.Method = "POST";
-            request.ContentLength = body.Length;
-            request.ContentType = "application/x-www-form-urlencoded";
-            using(BinaryWriter writer = new BinaryWriter(request.GetRequestStream())) {
-                writer.Write(body);
-            }
-
-            string responseJson = string.Empty;
-            WebResponse response = request.GetResponse();
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                responseJson = reader.ReadToEnd();
-            }
-
-            JObject jObject = JObject.Parse(responseJson);
-            _WebSocketUrl = jObject["url"].Value<string>();
         }
     }
 }

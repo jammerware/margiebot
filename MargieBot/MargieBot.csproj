@@ -67,6 +67,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\System.Windows.Interactivity.dll</HintPath>
@@ -91,7 +92,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Infrastructure\Net\MargieWebSocket.cs" />
+    <Compile Include="Infrastructure\Constants.cs" />
+    <Compile Include="Infrastructure\Debugging\MargieDebuggingEventHandler.cs" />
+    <Compile Include="Infrastructure\Margie.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\DebugMessageProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\DefaultMessageProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\IMessageProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\ScoreMessageProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\SlackbotMessageProcessor.cs" />
+    <Compile Include="Infrastructure\Models\Scorebook.cs" />
+    <Compile Include="Infrastructure\Models\SlackMessage.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
