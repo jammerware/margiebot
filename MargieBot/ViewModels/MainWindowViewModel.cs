@@ -1,27 +1,35 @@
-﻿using Alchemy;
-using Alchemy.Classes;
-using BazamWPF.UIHelpers;
+﻿using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Input;
+using WebSocketSharp;
 
 namespace MargieBot.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private WebSocketClient _Client = null;
+        private WebSocket _WebSocket = null;
         private string _WebSocketUrl = string.Empty;
 
-        public ICommand CallCommand
+        public ICommand ConnectCommand
         {
             get {
                 return new RelayCommand((timeToParty) => {
-                    _Client = new WebSocketClient(_WebSocketUrl);
-                    _Client.OnReceive = OnReceive;
-                    _Client.Connect();
+                    StartWebSocket();
+                });
+            }
+        }
+        
+        public ICommand DisconnectCommand
+        {
+            get
+            {
+                return new RelayCommand((timeForThings) => {
+                    StopWebSocket();
                 });
             }
         }
@@ -33,18 +41,28 @@ namespace MargieBot.ViewModels
             set { ChangeProperty<MainWindowViewModel>(vm => vm.Message, value); }
         }
 
-        
-
-        private void OnReceive(UserContext data)
+        private void StartWebSocket()
         {
-            Message = data.Data.ToString();
+            _WebSocket = new WebSocket(_WebSocketUrl);
+            _WebSocket.OnMessage += (object sender, MessageEventArgs args) => {
+                Message = args.Data.ToString();
+            };
+            _WebSocket.Connect();
+        }
+
+        private void StopWebSocket()
+        {
+            if (_WebSocket != null && _WebSocket.IsAlive) {
+                _WebSocket.Close();
+                Message = "Disconnected";
+            }
         }
 
         // xoxb-4597209409-Sy4JJEX6GblzmKrdF9mPngy7
         // xoxb-4599190677-HJTfW7q5O4hwaBqMBbEl4RBG
         public MainWindowViewModel()
         {
-            Message = "Starting up...";
+            Message = "Disconnected";
             WebRequest request = WebRequest.Create("https://slack.com/api/rtm.start");
             byte[] body = Encoding.UTF8.GetBytes("token=xoxb-4599190677-HJTfW7q5O4hwaBqMBbEl4RBG");
             request.Method = "POST";

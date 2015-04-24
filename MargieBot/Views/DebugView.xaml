@@ -11,16 +11,28 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
         <TextBlock
             Foreground="{StaticResource ForegroundBrush}"
             Grid.Row="0"
+            Grid.ColumnSpan="2"
             Text="{Binding Message}"
             TextWrapping="WrapWithOverflow" />
 
         <Button 
             Grid.Row="1"
-            Command="{Binding CallCommand}" 
-            Content="Go!" />
+            Grid.Column="0"
+            Command="{Binding ConnectCommand}" 
+            Content="Connect" />
+
+        <Button 
+            Grid.Row="1"
+            Grid.Column="1"
+            Command="{Binding DisconnectCommand}" 
+            Content="D/C" />
     </Grid>
 </UserControl>
