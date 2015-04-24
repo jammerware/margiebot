@@ -1,6 +1,6 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
 
-namespace MargieBot
+namespace MargieBot.Views
 {
     public partial class MainWindow : ModernWindow
     {
