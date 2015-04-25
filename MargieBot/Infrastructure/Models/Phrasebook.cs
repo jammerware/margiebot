@@ -46,10 +46,22 @@ namespace MargieBot.Infrastructure.Models
             return queries[new Random().Next(queries.Length - 1)];
         }
 
+        public string GetScoreboardHype()
+        {
+            string[] hypes = new string[] {
+                "Alright, y'all. Here's how this here dogpile's shaping up so far.",
+                "Hooboy! It's a _fierce_ day o' competition on the scoreboard. Here's where we're at.",
+                "Howdy, friends! It's time for an update on this here rodeo. Here's how we're lookin."
+            };
+
+            return hypes[new Random().Next(hypes.Length - 1)];
+        }
+
         public string GetSlackbotSalutation()
         {
             string[] salutations = new string[] {
                 "Hey, Slackbot! How you doin', cutie?",
+                "Howdy, Slackbot! Aren't you lookin' fine?",
                 "Mornin', Slackbot! Heard you were out with Rita Bot last night. How'd it go?",
                 "Well, howdy, Slackbot. You're lookin' mighty handsome today."
             };

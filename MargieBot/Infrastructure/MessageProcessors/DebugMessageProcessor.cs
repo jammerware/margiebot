@@ -1,6 +1,6 @@
-﻿using MargieBot.Infrastructure.Debugging;
+﻿using System.Text.RegularExpressions;
+using MargieBot.Infrastructure.EventHandlers;
 using MargieBot.Infrastructure.Models;
-using System.Text.RegularExpressions;
 
 namespace MargieBot.Infrastructure.MessageProcessors
 {
@@ -8,18 +8,18 @@ namespace MargieBot.Infrastructure.MessageProcessors
     {
         public event MargieDebuggingEventHandler OnDebugRequested;
 
-        public bool CanRespond(SlackMessage message, bool hasBeenRespondedTo)
+        public bool CanRespond(MargieContext context)
         {
-            return Regex.IsMatch(message.Text, "margie(.+)?repeat");
+            return Regex.IsMatch(context.Message.Text, "margie(.+)?repeat");
         }
 
-        public string Respond(SlackMessage message, Phrasebook phrasebook)
+        public string GetResponse(MargieContext context)
         {
             if (OnDebugRequested != null) {
-                OnDebugRequested(message.Text, message.RawData);
+                OnDebugRequested(context.Message.Text, context.Message.RawData);
             }
 
-            return "I'll send that right out to the debug winda, " + message.User + ". Hoo, boy. I hate for you to see me like this.";
+            return "I'll send that right out to the debug winda, " + context.Message.FormattedUser + ". Hoo, boy. I hate for you to see me like this.";
         }
     }
 }

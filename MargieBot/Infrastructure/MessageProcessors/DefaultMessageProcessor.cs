@@ -4,12 +4,15 @@ namespace MargieBot.Infrastructure.MessageProcessors
 {
     public class DefaultMessageProcessor : IResponseProcessor
     {
-        public bool CanResponse(MargieContext context)
+        public bool CanRespond(MargieContext context)
         {
-            return (context.Message.Text.ToLower().Contains("margie") || context.Message.Text.Contains("@" +  context.MargiesUserID))  && !context.MessageHasBeenRespondedTo;
+            return 
+                (context.Message.Text.ToLower().Contains("margie") || context.Message.Text.Contains("@" +  context.MargiesUserID))  && 
+                !context.MessageHasBeenRespondedTo &&
+                context.Message.User != context.MargiesUserID;
         }
 
-        public string Respond(MargieContext context)
+        public string GetResponse(MargieContext context)
         {
             return context.Phrasebook.GetQuery();
         }

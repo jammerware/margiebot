@@ -4,13 +4,13 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.Infrastructure.MessageProcessors
 {
-    public class ScoreResponseProcessor : IResponseProcessor
+    public class ScoreResponseProcessor : IResponseProcessor, IScoringProcessor
     {
         private static string SCORE_REGEX = @"(?<formattedUserID>\<@(?<userID>U[a-zA-Z0-9]+)\>)\s*\+\s*1";
 
         public bool CanRespond(MargieContext context)
         {
-            return context.Message.User != Constants.USER_SLACKBOT && Regex.IsMatch(context.Message.Text, SCORE_REGEX);
+            return IsScoringMessage(context.Message);
         }
 
         public string GetResponse(MargieContext context)
@@ -23,13 +23,13 @@ namespace MargieBot.Infrastructure.MessageProcessors
                 return string.Format("Oh, honey. {0}, you can't score yourself! What kinda game would this be?! Y'all, {0} is cute, but I think he/she might be dumb as a box o' rocks.", formattedUserID);
             }
             else {
-                //margie.Scorebook.ScoreUser(userID, 1);
-                //int userScore = margie.Scorebook.GetUserScore(userID);
+                int userScore = context.ScoreContext.GetUserScore(userID);
 
                 if (userID == context.MargiesUserID) {
-                    return string.Format("Awwww, aren't you a sweetie! *[blushes]* If you insist. Now I have {0} point{1}.", context.UserContext.Score, context.UserContext.Score == 1 ? string.Empty : "s");
+                    int margieScore = context.ScoreContext.GetUserScore(context.MargiesUserID);
+                    return string.Format("Awwww, aren't you a sweetie! *[blushes]* If you insist. Now I have {0} point{1}.", margieScore, margieScore == 1 ? string.Empty : "s");
                 }
-                else if (!context.UserContext.HasScoredPreviously) {
+                else if (context.ScoreContext.NewScoreResult != null && context.ScoreContext.NewScoreResult.UserID == userID) {
                     return string.Format("A new challenger appears, y'all! {0} is on the board with a point. {1}", formattedUserID, context.Phrasebook.GetAffirmation());
                 }
                 else {
@@ -38,10 +38,26 @@ namespace MargieBot.Infrastructure.MessageProcessors
                         context.Phrasebook.GetExclamation(),
                         formattedUserID,
                         context.Phrasebook.GetAffirmation(),
-                        context.UserContext.Score
+                        userScore
                     );
                 }
             }
+        }
+
+        public bool IsScoringMessage(SlackMessage message)
+        {
+            return message.User != Constants.USER_SLACKBOT && Regex.IsMatch(message.Text, SCORE_REGEX);
+        }
+
+        public ScoreResult Score(SlackMessage message)
+        {
+            Match userScored = Regex.Match(message.Text, SCORE_REGEX);
+            string userID = userScored.Groups["userID"].Value;
+
+            return new ScoreResult() {
+                ScoreIncrement = 1,
+                UserID = userID
+            };
         }
     }
 }
