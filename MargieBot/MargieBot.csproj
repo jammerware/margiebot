@@ -97,11 +97,14 @@
     <Compile Include="Infrastructure\Margie.cs" />
     <Compile Include="Infrastructure\MessageProcessors\DebugMessageProcessor.cs" />
     <Compile Include="Infrastructure\MessageProcessors\DefaultMessageProcessor.cs" />
-    <Compile Include="Infrastructure\MessageProcessors\IMessageProcessor.cs" />
-    <Compile Include="Infrastructure\MessageProcessors\ScoreMessageProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\IResponseProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="Infrastructure\MessageProcessors\SlackbotMessageProcessor.cs" />
+    <Compile Include="Infrastructure\Models\MargieContext.cs" />
+    <Compile Include="Infrastructure\Models\Phrasebook.cs" />
     <Compile Include="Infrastructure\Models\Scorebook.cs" />
     <Compile Include="Infrastructure\Models\SlackMessage.cs" />
+    <Compile Include="Infrastructure\Models\UserContext.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

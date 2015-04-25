@@ -2,16 +2,16 @@
 
 namespace MargieBot.Infrastructure.MessageProcessors
 {
-    public class DefaultMessageProcessor : IMessageProcessor
+    public class DefaultMessageProcessor : IResponseProcessor
     {
-        public bool IsRelevant(SlackMessage message, Margie margie, bool hasBeenRespondedTo)
+        public bool CanResponse(MargieContext context)
         {
-            return (message.Text.ToLower().Contains("margie") || message.Text.Contains("@" +  margie.UserID))  && !hasBeenRespondedTo;
+            return (context.Message.Text.ToLower().Contains("margie") || context.Message.Text.Contains("@" +  context.MargiesUserID))  && !context.MessageHasBeenRespondedTo;
         }
 
-        public void Respond(SlackMessage message, Margie margie)
+        public string Respond(MargieContext context)
         {
-            margie.Say(margie.GetQuery(), message.Channel);
+            return context.Phrasebook.GetQuery();
         }
     }
 }

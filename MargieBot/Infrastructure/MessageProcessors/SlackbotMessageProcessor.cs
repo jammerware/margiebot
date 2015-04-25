@@ -3,16 +3,16 @@ using System;
 
 namespace MargieBot.Infrastructure.MessageProcessors
 {
-    public class SlackbotMessageProcessor : IMessageProcessor
+    public class SlackbotMessageProcessor : IResponseProcessor
     {
-        public bool IsRelevant(SlackMessage message, Margie margie, bool hasBeenRespondedTo)
+        public bool CanRespond(MargieContext context)
         {
-            return (message.User == "USLACKBOT" && new Random().Next(8) <= 2);
+            return (context.Message.User == "USLACKBOT" && new Random().Next(8) <= 2);
         }
 
-        public void Respond(SlackMessage message, Margie margie)
+        public string GetResponse(MargieContext context)
         {
-            margie.Say(margie.GetSlackbotSalutation(), message.Channel);
+            return context.Phrasebook.GetSlackbotSalutation();
         }
     }
 }
