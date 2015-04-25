@@ -98,7 +98,7 @@ namespace MargieBot.Infrastructure
         private void ListenTo(string json)
         {
            JObject jObject = JObject.Parse(json);
-            if (jObject["type"] != null && jObject["type"].Value<string>() == "message") {
+            if (jObject["type"].Value<string>() == "message") {
                 SlackMessage message = new SlackMessage() {
                     Channel = jObject["channel"].Value<string>(),
                     RawData = json,
