@@ -68,5 +68,16 @@ namespace MargieBot.Infrastructure.Models
 
             return salutations[new Random().Next(salutations.Length - 1)];
         }
+
+        public string GetYoureWelcome()
+        {
+            string[] youreWelcomes = new string[] {
+                "Happy to, darlin'!",
+                "It's my pleasure, hun!",
+                "No prob, sweetie."
+            };
+
+            return youreWelcomes[new Random().Next(youreWelcomes.Length - 1)];
+        }
     }
 }
