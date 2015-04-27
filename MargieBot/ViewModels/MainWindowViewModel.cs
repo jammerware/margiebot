@@ -2,6 +2,8 @@
 using BazamWPF.ViewModels;
 using MargieBot.Infrastructure;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Input;
 
 namespace MargieBot.ViewModels
@@ -12,35 +14,44 @@ namespace MargieBot.ViewModels
 
         public ICommand ConnectCommand
         {
-            get { return new RelayCommand((timeForThings) => { _Margie.Connect(); }); }
-        }
-        
-        public ICommand DisconnectCommand
-        {
-            get { return new RelayCommand((timeForThings) => { _Margie.Disconnect(); }); }
+            get { 
+                return new RelayCommand((timeForThings) => {
+                    if (ConnectionStatus) {
+                        _Margie.Disconnect();
+                    }
+                    else {
+                        _Margie.Connect(); 
+                    }
+                }); 
+            }
         }
 
-        private string _Message;
-        public string Message
+        private bool _ConnectionStatus = false;
+        public bool ConnectionStatus
         {
-            get { return _Message; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.Message, value); }
+            get { return _ConnectionStatus; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectionStatus, value); }
+        }
+
+        private List<string> _Messages = new List<string>();
+        public IEnumerable<string> Messages
+        {
+            get { return _Messages; }
         }
 
         public MainWindowViewModel()
         {
-            _Margie.OnConnectionStatusChanged += (bool isConnected) => {
-                Message = isConnected ? "Connected" : "Disconnected";
+            _Margie.ConnectionStatusChanged += (bool isConnected) => {
+                ConnectionStatus = isConnected;
             };
 
-            _Margie.OnDebugRequested += (string debugMessage, string completeJson) => {
-                Message = debugMessage;
-                if (completeJson != string.Empty) {
-                    Message += Environment.NewLine + completeJson;
+            _Margie.MessageReceived += (string message) => {
+                while (_Messages.Count > 500) {
+                    _Messages.RemoveAt(0);
                 }
+                _Messages.Add(message);
+                RaisePropertyChanged("Messages");
             };
-
-            Message = "Disconnected";
         }
     }
 }

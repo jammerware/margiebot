@@ -7,6 +7,7 @@ using MargieBot.Infrastructure.MessageProcessors;
 using MargieBot.Infrastructure.Models;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
+using System.IO;
 
 namespace MargieBot.Infrastructure
 {
@@ -42,8 +43,10 @@ namespace MargieBot.Infrastructure
 
             // initialize the message processors
             // the debug one needs special setup
-            DebugMessageProcessor debugProcessor = new DebugMessageProcessor();
-            debugProcessor.OnDebugRequested += RaiseDebugRequested;
+            DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
+            debugProcessor.OnDebugRequested += (string debugText) => {
+                File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
+            };
 
             // also the ScoreResponseProcessor is pulling double duty as the ScoringProcessor
             ScoringProcessor = new ScoreResponseProcessor();
@@ -100,6 +103,8 @@ namespace MargieBot.Infrastructure
 
         private void ListenTo(string json)
         {
+            RaiseMessageReceived(json);
+
            JObject jObject = JObject.Parse(json);
             if (jObject["type"].Value<string>() == "message") {
                 SlackMessage message = new SlackMessage() {
@@ -120,21 +125,24 @@ namespace MargieBot.Infrastructure
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                // score first
-                if (ScoringProcessor.IsScoringMessage(message)) {
-                    ScoreResult result = ScoringProcessor.Score(message);
-                    if (!Scorebook.HasUserScored(result.UserID)) {
-                        context.ScoreContext.NewScoreResult = result;
+                // margie can never score or respond to herself
+                if (message.User != UserID) {
+                    // score first
+                    if (ScoringProcessor.IsScoringMessage(message)) {
+                        ScoreResult result = ScoringProcessor.Score(message);
+                        if (!Scorebook.HasUserScored(result.UserID)) {
+                            context.ScoreContext.NewScoreResult = result;
+                        }
+
+                        Scorebook.ScoreUser(result);
                     }
 
-                    Scorebook.ScoreUser(result);
-                }
-
-                // then respond
-                foreach (IResponseProcessor processor in ResponseProcessors) {
-                    if (processor.CanRespond(context)) {
-                        Say(processor.GetResponse(context), message.Channel);
-                        context.MessageHasBeenRespondedTo = true;
+                    // then respond
+                    foreach (IResponseProcessor processor in ResponseProcessors) {
+                        if (processor.CanRespond(context)) {
+                            Say(processor.GetResponse(context), message.Channel);
+                            context.MessageHasBeenRespondedTo = true;
+                        }
                     }
                 }
             }
@@ -153,19 +161,19 @@ namespace MargieBot.Infrastructure
         }
 
         #region Events
-        public event MargieConnectionStatusChangedEventHandler OnConnectionStatusChanged;
+        public event MargieConnectionStatusChangedEventHandler ConnectionStatusChanged;
         private void RaiseConnectionStatusChanged()
         {
-            if (OnConnectionStatusChanged != null) {
-                OnConnectionStatusChanged(IsConnected);
+            if (ConnectionStatusChanged != null) {
+                ConnectionStatusChanged(IsConnected);
             }
         }
 
-        public event MargieDebuggingEventHandler OnDebugRequested;
-        private void RaiseDebugRequested(string debugMessage, string completeJson)
+        public event MargieMessageReceivedEventHandler MessageReceived;
+        private void RaiseMessageReceived(string debugText)
         {
-            if (OnDebugRequested != null) {
-                OnDebugRequested(debugMessage, completeJson);
+            if (MessageReceived != null) {
+                MessageReceived(debugText);
             }
         }
         #endregion

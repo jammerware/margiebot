@@ -12,4 +12,8 @@
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource MyAccentColor}" />
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+    
+    <!--Margins-->
+    <Thickness x:Key="HorizontalControlMargin" Left="4" Top="0" Right="0" Bottom="0" />
+    <Thickness x:Key="VerticalControlMargin" Left="0" Top="4" Right="0" Bottom="0" />
 </ResourceDictionary>

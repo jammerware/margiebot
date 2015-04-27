@@ -1,4 +1,4 @@
 ﻿namespace MargieBot.Infrastructure.EventHandlers
 {
-    public delegate void MargieDebuggingEventHandler(string debugMessage, string completeJson = "");
+    public delegate void MargieDebuggingEventHandler(string debugText);
 }

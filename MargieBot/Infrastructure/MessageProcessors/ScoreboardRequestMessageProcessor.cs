@@ -10,7 +10,7 @@ namespace MargieBot.Infrastructure.MessageProcessors
     {
         public bool CanRespond(MargieContext context)
         {
-            return Regex.IsMatch(context.Message.Text, @"(margie|margiebot|margie\sbot|<@" + context.MargiesUserID + @">)(.+)?(score)\?", RegexOptions.IgnoreCase);
+            return Regex.IsMatch(context.Message.Text, @"(score)", RegexOptions.IgnoreCase) && Regex.IsMatch(context.Message.Text, context.MargieNameRegex, RegexOptions.IgnoreCase);
         }
 
         public string GetResponse(MargieContext context)
