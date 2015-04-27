@@ -3,12 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--Colors-->
-    <Color x:Key="AccentColor">#AD91C2</Color>
+    <!--Accent color named differently to avoid collision with MUI, ick -->
+    <Color x:Key="MyAccentColor">#AD91C2</Color>
     <Color x:Key="BackgroundColor">#333333</Color>
     <Color x:Key="ForegroundColor">#DDDDDD</Color>
 
     <!--Brushes-->
-    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource MyAccentColor}" />
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
 </ResourceDictionary>

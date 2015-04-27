@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FirstFloor.ModernUI.Presentation;
 using System.Windows;
+using System.Windows.Media;
 
 namespace MargieBot
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private void this_Startup(object sender, StartupEventArgs e)
+        {
+            // set up MUI theme
+            Color myAccentColor = (Color)App.Current.FindResource("MyAccentColor");
+            AppearanceManager.Current.AccentColor = myAccentColor;
+        }
     }
 }
