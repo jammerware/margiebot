@@ -20,7 +20,7 @@ namespace MargieBot.Infrastructure.MessageProcessors
             string formattedUserID = userScored.Groups["formattedUserID"].Value;
 
             if (userID == context.Message.User) {
-                return string.Format("Oh, honey. {0}, you can't score yourself! What kinda game would this be?! Y'all, {0} is cute, but I think he/she might be dumb as a box o' rocks.", formattedUserID);
+                return string.Format("Oh, honey. {0}, you can't score yourself! What kinda game would that be?! Y'all, {0} is cute, but I think he/she might be dumb as a box o' rocks.", formattedUserID);
             }
             else {
                 int userScore = context.ScoreContext.GetUserScore(userID);
