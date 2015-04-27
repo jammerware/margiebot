@@ -55,7 +55,7 @@ namespace MargieBot.Infrastructure.MessageProcessors
             string userID = userScored.Groups["userID"].Value;
 
             return new ScoreResult() {
-                ScoreIncrement = 1,
+                ScoreIncrement = (userID != message.User ? 1 : 0),
                 UserID = userID
             };
         }

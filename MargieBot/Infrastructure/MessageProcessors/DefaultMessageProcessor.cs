@@ -1,4 +1,5 @@
 ﻿using MargieBot.Infrastructure.Models;
+using System.Text.RegularExpressions;
 
 namespace MargieBot.Infrastructure.MessageProcessors
 {
@@ -6,10 +7,11 @@ namespace MargieBot.Infrastructure.MessageProcessors
     {
         public bool CanRespond(MargieContext context)
         {
-            return 
-                (context.Message.Text.ToLower().Contains("margie") || context.Message.Text.Contains("@" +  context.MargiesUserID))  && 
+            return
+                Regex.IsMatch(context.Message.Text, @"(hi|hey|hello)(.+)?(margie|margie\sbot|<@" + context.MargiesUserID + @">)", RegexOptions.IgnoreCase) &&
                 !context.MessageHasBeenRespondedTo &&
-                context.Message.User != context.MargiesUserID;
+                context.Message.User != context.MargiesUserID &&
+                context.Message.User != Constants.USER_SLACKBOT;
         }
 
         public string GetResponse(MargieContext context)

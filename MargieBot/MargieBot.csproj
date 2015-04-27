@@ -103,6 +103,8 @@
     <Compile Include="Infrastructure\MessageProcessors\ScoreboardRequestMessageProcessor.cs" />
     <Compile Include="Infrastructure\MessageProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="Infrastructure\MessageProcessors\SlackbotMessageProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\WhatDoYouDoResponseProcessor.cs" />
+    <Compile Include="Infrastructure\MessageProcessors\WhatsNewResponseProcessor.cs" />
     <Compile Include="Infrastructure\MessageProcessors\YoureWelcomeResponseProcessor.cs" />
     <Compile Include="Infrastructure\Models\MargieContext.cs" />
     <Compile Include="Infrastructure\Models\Phrasebook.cs" />

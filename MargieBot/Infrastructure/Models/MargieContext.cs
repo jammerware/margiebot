@@ -10,5 +10,10 @@ namespace MargieBot.Infrastructure.Models
         public Phrasebook Phrasebook { get; set; }
         public ScoreContext ScoreContext { get; set; }
         public IReadOnlyDictionary<string, string> UserNameCache { get; set; }
+
+        public string MargieNameRegex
+        {
+            get { return "(margie|margie bot|<@" + MargiesUserID + ">)"; }
+        }
     }
 }

@@ -50,6 +50,8 @@ namespace MargieBot.Infrastructure
 
             ResponseProcessors = new List<IResponseProcessor>();
             ResponseProcessors.Add(new SlackbotMessageProcessor());
+            ResponseProcessors.Add(new WhatDoYouDoResponseProcessor());
+            ResponseProcessors.Add(new WhatsNewResponseProcessor());
             ResponseProcessors.Add(new YoureWelcomeResponseProcessor());
             ResponseProcessors.Add((IResponseProcessor)ScoringProcessor);
             ResponseProcessors.Add(new ScoreboardRequestMessageProcessor());
