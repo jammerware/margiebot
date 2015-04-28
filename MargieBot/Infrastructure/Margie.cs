@@ -17,10 +17,15 @@ namespace MargieBot.Infrastructure
         private IList<IResponseProcessor> ResponseProcessors { get; set; }
         private IScoringProcessor ScoringProcessor { get; set; }
         private Scorebook Scorebook { get; set; }
+        private string SlackKey { get; set; }
         private string TeamID { get; set; }
         private string UserID { get; set; }
         private Dictionary<string, string> UserNameCache { get; set; }
         private WebSocket WebSocket { get; set; }
+
+        public IReadOnlyList<SlackChatHub> ConnectedChannels { get; private set; }
+        public IReadOnlyList<SlackChatHub> ConnectedDMs { get; private set; }
+        public IReadOnlyList<SlackChatHub> ConnectedGroups { get; private set; }
 
         private bool _IsConnected = false;
         public bool IsConnected 
@@ -35,8 +40,11 @@ namespace MargieBot.Infrastructure
             }
         }
 
-        public Margie()
+        public Margie(string slackKey)
         {
+            // store the slack key
+            this.SlackKey = slackKey;
+
             // get the books ready
             Phrasebook = new Phrasebook();
             UserNameCache = new Dictionary<string, string>();
@@ -68,15 +76,23 @@ namespace MargieBot.Infrastructure
             Disconnect();
 
             NoobWebClient client = new NoobWebClient();
-            string json = await client.GetResponse("https://slack.com/api/rtm.start", "token", Constants.AUTH_TOKEN);
-            JObject jObject = JObject.Parse(json);
+            string json = await client.GetResponse("https://slack.com/api/rtm.start", "token", this.SlackKey);
+            JObject jData = JObject.Parse(json);
 
-            TeamID = jObject["team"]["id"].Value<string>();
-            UserID = jObject["self"]["id"].Value<string>();
-            string webSocketUrl = jObject["url"].Value<string>();
+            TeamID = jData["team"]["id"].Value<string>();
+            UserID = jData["self"]["id"].Value<string>();
+            string webSocketUrl = jData["url"].Value<string>();
 
-            foreach (JObject userObject in jObject["users"]) {
+            foreach (JObject userObject in jData["users"]) {
                 UserNameCache.Add(userObject["id"].Value<string>(), userObject["name"].Value<string>());
+            }
+            
+            // load the channels, groups, and DMs that margie's in
+            ConnectedChannels = new List<SlackChatHub>();
+            if (jData["channels"] != null) {
+                foreach (JObject channelData in jData["channels"]) {
+                    //ConnectedChannel
+                }
             }
 
             // start up scorebook for this team
@@ -153,7 +169,7 @@ namespace MargieBot.Infrastructure
             NoobWebClient client = new NoobWebClient();
             await client.GetResponse(
                 "https://slack.com/api/chat.postMessage", 
-                "token", Constants.AUTH_TOKEN, 
+                "token", this.SlackKey, 
                 "channel", channel, 
                 "text", text,
                 "as_user", "true"

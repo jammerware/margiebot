@@ -7,13 +7,21 @@
     <Color x:Key="MyAccentColor">#AD91C2</Color>
     <Color x:Key="BackgroundColor">#333333</Color>
     <Color x:Key="ForegroundColor">#DDDDDD</Color>
+    <Color x:Key="SubtleColor">#888888</Color>
 
     <!--Brushes-->
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource MyAccentColor}" />
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+    <SolidColorBrush x:Key="SubtleBrush" Color="{StaticResource SubtleColor}" />
     
     <!--Margins-->
     <Thickness x:Key="HorizontalControlMargin" Left="4" Top="0" Right="0" Bottom="0" />
     <Thickness x:Key="VerticalControlMargin" Left="0" Top="4" Right="0" Bottom="0" />
+    <Thickness x:Key="HorizontalAndVerticalControlMargin" Left="4" Top="4" Right="0" Bottom="0" />
+    
+    <!--Styles-->
+    <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource SubtleBrush}" />
+    </Style>
 </ResourceDictionary>

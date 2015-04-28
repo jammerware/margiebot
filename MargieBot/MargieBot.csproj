@@ -115,6 +115,8 @@
     <Compile Include="Infrastructure\Models\Scorebook.cs" />
     <Compile Include="Infrastructure\Models\ScoreContext.cs" />
     <Compile Include="Infrastructure\Models\ScoreResult.cs" />
+    <Compile Include="Infrastructure\Models\SlackChatHub.cs" />
+    <Compile Include="Infrastructure\Models\SlackChatHubType.cs" />
     <Compile Include="Infrastructure\Models\SlackMessage.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BooleanInversionConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Behaviors\TextChangedAppendBehavior.cs" />
@@ -122,9 +124,19 @@
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BoolToConnectionStatusConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\ListOfStringToStringConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\ConfigureView.xaml.cs">
+      <DependentUpon>ConfigureView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TalkView.xaml.cs">
+      <DependentUpon>TalkView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\ConfigureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DebugView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TalkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

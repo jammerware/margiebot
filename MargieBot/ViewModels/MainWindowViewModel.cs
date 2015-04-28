@@ -1,29 +1,27 @@
 ﻿using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
 using MargieBot.Infrastructure;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace MargieBot.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private Margie _Margie = new Margie();
+        private Margie _Margie;
 
-        public ICommand ConnectCommand
+        private string _AuthKeySlack = string.Empty;
+        public string AuthKeySlack
         {
-            get { 
-                return new RelayCommand((timeForThings) => {
-                    if (ConnectionStatus) {
-                        _Margie.Disconnect();
-                    }
-                    else {
-                        _Margie.Connect(); 
-                    }
-                }); 
-            }
+            get { return _AuthKeySlack; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeySlack, value); }
+        }
+
+        private string _AuthKeyWunderground = string.Empty;
+        public string AuthKeyWunderground
+        {
+            get { return _AuthKeyWunderground; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeyWunderground, value); }
         }
 
         private bool _ConnectionStatus = false;
@@ -39,19 +37,39 @@ namespace MargieBot.ViewModels
             get { return _Messages; }
         }
 
-        public MainWindowViewModel()
+        private string _MessageToSend = string.Empty;
+        public string MessageToSend
         {
-            _Margie.ConnectionStatusChanged += (bool isConnected) => {
-                ConnectionStatus = isConnected;
-            };
+            get { return _MessageToSend; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.MessageToSend, value); }
+        }
 
-            _Margie.MessageReceived += (string message) => {
-                while (_Messages.Count > 500) {
-                    _Messages.RemoveAt(0);
-                }
-                _Messages.Add(message);
-                RaisePropertyChanged("Messages");
-            };
+        public ICommand ConnectCommand
+        {
+            get { 
+                return new RelayCommand((timeForThings) => {
+                    if (_Margie != null && ConnectionStatus) {
+                        _Margie.Disconnect();
+                    }
+                    else {
+                        _Margie = new Margie(AuthKeySlack);
+                        _Margie.ConnectionStatusChanged += (bool isConnected) => {
+                            ConnectionStatus = isConnected;
+                        };
+                        _Margie.MessageReceived += (string message) => {
+                            int messageCount = _Messages.Count - 500;
+                            for (int i = 0; i < messageCount; i++) {
+                                _Messages.RemoveAt(0);
+                            }
+
+                            _Messages.Add(message);
+                            RaisePropertyChanged("Messages");
+                        };
+
+                        _Margie.Connect(); 
+                    }
+                }); 
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace MargieBot.Infrastructure.MessageProcessors
                 }
                 sortedScores.Sort((x, y) => { return y.Value.CompareTo(x.Value); });
 
-                foreach(KeyValuePair<string, int> userScore in sortedScores.Take(5))  {
+                foreach(KeyValuePair<string, int> userScore in sortedScores)  {
                     StringBuilder nameString = new StringBuilder(userScore.Key);
                     while(nameString.Length < longestName.Length) {
                         nameString.Append(" ");
