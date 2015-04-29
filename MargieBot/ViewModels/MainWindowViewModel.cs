@@ -1,6 +1,7 @@
 ﻿using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
 using MargieBot.Infrastructure;
+using MargieBot.Infrastructure.Models;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -24,6 +25,13 @@ namespace MargieBot.ViewModels
             set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeyWunderground, value); }
         }
 
+        private IReadOnlyList<SlackChatHub> _ConnectedHubs;
+        public IReadOnlyList<SlackChatHub> ConnectedHubs
+        {
+            get { return _ConnectedHubs; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectedHubs, value); }
+        }
+
         private bool _ConnectionStatus = false;
         public bool ConnectionStatus
         {
@@ -44,10 +52,17 @@ namespace MargieBot.ViewModels
             set { ChangeProperty<MainWindowViewModel>(vm => vm.MessageToSend, value); }
         }
 
+        private SlackChatHub _SelectedChatHub;
+        public SlackChatHub SelectedChatHub
+        {
+            get { return _SelectedChatHub; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.SelectedChatHub, value); }
+        }
+
         public ICommand ConnectCommand
         {
             get { 
-                return new RelayCommand((timeForThings) => {
+                return new RelayCommand(async (timeForThings) => {
                     if (_Margie != null && ConnectionStatus) {
                         _Margie.Disconnect();
                     }
@@ -66,9 +81,27 @@ namespace MargieBot.ViewModels
                             RaisePropertyChanged("Messages");
                         };
 
-                        _Margie.Connect(); 
+                        await _Margie.Connect(); 
+
+                        // now that we're connected, build list of connected hubs for great glory
+                        List<SlackChatHub> hubs = new List<SlackChatHub>();
+                        hubs.AddRange(_Margie.ConnectedChannels);
+                        hubs.AddRange(_Margie.ConnectedGroups);
+                        hubs.AddRange(_Margie.ConnectedDMs);
+                        ConnectedHubs = hubs;
                     }
                 }); 
+            }
+        }
+
+        public ICommand TalkCommand
+        {
+            get
+            {
+                return new RelayCommand(async (letsChatterYall) => {
+                    await _Margie.Say(MessageToSend, SelectedChatHub);
+                    MessageToSend = string.Empty;
+                });
             }
         }
     }

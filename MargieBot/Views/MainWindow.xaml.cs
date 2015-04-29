@@ -1,8 +1,8 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
+﻿using MargieBot.Infrastructure.UIHelpers.Controls;
 
 namespace MargieBot.Views
 {
-    public partial class MainWindow : ModernWindow
+    public partial class MainWindow : MargiesModernWindow
     {
         public MainWindow()
         {

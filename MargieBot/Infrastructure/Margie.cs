@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Bazam.NoobWebClient;
 using MargieBot.Infrastructure.EventHandlers;
 using MargieBot.Infrastructure.MessageProcessors;
@@ -8,6 +9,7 @@ using MargieBot.Infrastructure.Models;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MargieBot.Infrastructure
 {
@@ -70,7 +72,7 @@ namespace MargieBot.Infrastructure
             ResponseProcessors.Add(new DefaultMessageProcessor());
         }
 
-        public async void Connect()
+        public async Task Connect()
         {
             // disconnect in case we're already connected like a crazy person
             Disconnect();
@@ -88,12 +90,53 @@ namespace MargieBot.Infrastructure
             }
             
             // load the channels, groups, and DMs that margie's in
-            ConnectedChannels = new List<SlackChatHub>();
+            List<SlackChatHub> channels = new List<SlackChatHub>();
+            List<SlackChatHub> dms = new List<SlackChatHub>();
+            List<SlackChatHub> groups = new List<SlackChatHub>();
+            
+            // channelz
             if (jData["channels"] != null) {
                 foreach (JObject channelData in jData["channels"]) {
-                    //ConnectedChannel
+                    if (!channelData["is_archived"].Value<bool>() && channelData["is_member"].Value<bool>()) {
+                        SlackChatHub channel = new SlackChatHub() {
+                            ID = channelData["id"].Value<string>(),
+                            Name = "#" + channelData["name"].Value<string>(),
+                            Type = SlackChatHubType.Channel
+                        };
+                        channels.Add(channel);
+                    }
                 }
             }
+            ConnectedChannels = channels;
+
+            // groupz
+            if (jData["groups"] != null) {
+                foreach (JObject groupData in jData["groups"]) {
+                    if (!groupData["is_archived"].Value<bool>() && groupData["members"].Values<string>().Contains(UserID)) {
+                        SlackChatHub group = new SlackChatHub() {
+                            ID = groupData["id"].Value<string>(),
+                            Name = groupData["name"].Value<string>(),
+                            Type = SlackChatHubType.Group
+                        };
+                        groups.Add(group);
+                    }
+                }
+            }
+            ConnectedGroups = groups;
+
+            // dmz
+            if (jData["ims"] != null) {
+                foreach (JObject dmData in jData["ims"]) {
+                    string userID = dmData["user"].Value<string>();
+                    SlackChatHub dm = new SlackChatHub() {
+                        ID = dmData["id"].Value<string>(),
+                        Name = "@" + (UserNameCache.ContainsKey(userID) ? UserNameCache[userID] : userID),
+                        Type = SlackChatHubType.DM
+                    };
+                    dms.Add(dm);
+                }
+            }
+            ConnectedDMs = dms;
 
             // start up scorebook for this team
             Scorebook = new Scorebook(TeamID);
@@ -103,8 +146,8 @@ namespace MargieBot.Infrastructure
             WebSocket.OnClose += (object sender, CloseEventArgs e) => {
                 IsConnected = false;
             };
-            WebSocket.OnMessage += (object sender, MessageEventArgs args) => {
-                ListenTo(args.Data);
+            WebSocket.OnMessage += async (object sender, MessageEventArgs args) => {
+                await ListenTo(args.Data);
             };
             WebSocket.OnOpen += (object sender, EventArgs e) => {
                 IsConnected = true;
@@ -117,7 +160,7 @@ namespace MargieBot.Infrastructure
             if (WebSocket != null && WebSocket.IsAlive) WebSocket.Close();
         }
 
-        private void ListenTo(string json)
+        private async Task ListenTo(string json)
         {
             RaiseMessageReceived(json);
 
@@ -156,7 +199,7 @@ namespace MargieBot.Infrastructure
                     // then respond
                     foreach (IResponseProcessor processor in ResponseProcessors) {
                         if (processor.CanRespond(context)) {
-                            Say(processor.GetResponse(context), message.Channel);
+                            await Say(processor.GetResponse(context), message.Channel);
                             context.MessageHasBeenRespondedTo = true;
                         }
                     }
@@ -164,7 +207,7 @@ namespace MargieBot.Infrastructure
             }
         }
 
-        private async void Say(string text, string channel)
+        private async Task Say(string text, string channel)
         {
             NoobWebClient client = new NoobWebClient();
             await client.GetResponse(
@@ -174,6 +217,11 @@ namespace MargieBot.Infrastructure
                 "text", text,
                 "as_user", "true"
             );
+        }
+
+        public async Task Say(string text, SlackChatHub hub)
+        {
+            await Say(text, hub.ID);
         }
 
         #region Events

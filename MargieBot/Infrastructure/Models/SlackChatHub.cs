@@ -5,6 +5,7 @@
     /// </summary>
     public class SlackChatHub
     {
+        public string ID { get; set; }
         public string Name { get; set; }
         public SlackChatHubType Type { get; set; }
     }

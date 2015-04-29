@@ -83,6 +83,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="websocket-sharp">
       <HintPath>Libs\websocket-sharp.dll</HintPath>
     </Reference>
@@ -118,8 +119,10 @@
     <Compile Include="Infrastructure\Models\SlackChatHub.cs" />
     <Compile Include="Infrastructure\Models\SlackChatHubType.cs" />
     <Compile Include="Infrastructure\Models\SlackMessage.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Controls\MargiesModernWindow.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BooleanInversionConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Behaviors\TextChangedAppendBehavior.cs" />
+    <Compile Include="Infrastructure\UIHelpers\ValueConverters\BooleanToBrushConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BoolToConnectionButtonTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BoolToConnectionStatusConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\ListOfStringToStringConverter.cs" />

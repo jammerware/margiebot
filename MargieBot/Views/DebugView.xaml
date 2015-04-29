@@ -14,7 +14,6 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -22,13 +21,8 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock
-            Foreground="{StaticResource ForegroundBrush}"
-            Grid.Row="0"
-            Text="{Binding ConnectionStatus, Converter={StaticResource BoolToConnectionStatusConverter}}" />
-
         <TextBox
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="0"
             AcceptsReturn="True"
             IsReadOnly="True"
@@ -41,7 +35,7 @@
         </TextBox>
         
         <Button 
-            Grid.Row="2"
+            Grid.Row="1"
             Command="{Binding ConnectCommand}" 
             Content="{Binding ConnectionStatus, Converter={StaticResource BoolToConnectionButtonTextConverter}}"
             Margin="{StaticResource VerticalControlMargin}"/>
