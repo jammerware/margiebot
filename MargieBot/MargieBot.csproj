@@ -125,7 +125,9 @@
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BooleanToBrushConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BoolToConnectionButtonTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\BoolToConnectionStatusConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\ValueConverters\BoolToLinkGroupCollectionConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\ValueConverters\ListOfStringToStringConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\ValueConverters\ConnectionDataToBoolConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\ConfigureView.xaml.cs">
       <DependentUpon>ConfigureView.xaml</DependentUpon>
@@ -136,6 +138,10 @@
     <Compile Include="Views\TalkView.xaml.cs">
       <DependentUpon>TalkView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\AppConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConfigureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,7 +157,7 @@
     <Compile Include="Views\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Styles\AppStyles.xaml">
+    <Page Include="Resources\AppStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,22 +8,11 @@
     xmlns:convert="clr-namespace:MargieBot.Infrastructure.UIHelpers.ValueConverters">
     <UserControl.Resources>
         <convert:BooleanInversionConverter x:Key="BooleanInversionConverter" />
-        <convert:BoolToConnectionStatusConverter x:Key="BoolToConnectionStatusConverter" />
         <convert:BoolToConnectionButtonTextConverter x:Key="BoolToConnectionButtonTextConverter" />
         <convert:ListOfStringToStringConverter x:Key="ListOfStringToStringConverter" />
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
         <TextBox
-            Grid.Row="0"
-            Grid.Column="0"
             AcceptsReturn="True"
             IsReadOnly="True"
             Margin="{StaticResource VerticalControlMargin}"
@@ -33,11 +22,5 @@
                 <behaviors:TextChangedAppendBehavior />
             </i:Interaction.Behaviors>
         </TextBox>
-        
-        <Button 
-            Grid.Row="1"
-            Command="{Binding ConnectCommand}" 
-            Content="{Binding ConnectionStatus, Converter={StaticResource BoolToConnectionButtonTextConverter}}"
-            Margin="{StaticResource VerticalControlMargin}"/>
     </Grid>
 </UserControl>

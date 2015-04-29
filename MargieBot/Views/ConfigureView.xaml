@@ -2,14 +2,41 @@
     x:Class="MargieBot.Views.ConfigureView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" >
-    <StackPanel>
-        <TextBlock Style="{StaticResource FieldLabelStyle}">slack key</TextBlock>
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:convert="clr-namespace:MargieBot.Infrastructure.UIHelpers.ValueConverters">
+    <Grid>
+        <Grid.Resources>
+            <convert:BoolToConnectionButtonTextConverter x:Key="BoolToConnectionButtonTextConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock 
+            Grid.Row="0"
+            Style="{StaticResource FieldLabelStyle}"
+            Text="slack key" />
         <TextBox
+            Grid.Row="1"
             Margin="0,0,0,20"
             Text="{Binding AuthKeySlack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-        <TextBlock Style="{StaticResource FieldLabelStyle}">wunderground key</TextBlock>
-        <TextBox Text="{Binding AuthKeyWunderground, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-    </StackPanel>
+        <TextBlock 
+            Grid.Row="2"
+            Style="{StaticResource FieldLabelStyle}"
+            Text="wunderground key" />
+        <TextBox 
+            Grid.Row="3"
+            Text="{Binding AuthKeyWunderground, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+        <Button 
+            Grid.Row="5"
+            Command="{Binding ConnectCommand}" 
+            Content="{Binding ConnectionStatus, Converter={StaticResource BoolToConnectionButtonTextConverter}}" />
+    </Grid>
 </UserControl>

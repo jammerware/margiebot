@@ -9,6 +9,7 @@
     ContentSource="/Views/ConfigureView.xaml"
     Icon="/MargieBot;component/Assets/logo.ico"
     Height="480"
+    MenuLinkGroups="{Binding ConnectionStatus, Converter={StaticResource BoolToLinkGroupCollectionConverter}}"
     Style="{StaticResource MainWindowStyle}"
     Title="Margie Bot" 
     Width="640">
@@ -24,13 +25,4 @@
     <mui:ModernWindow.DataContext>
         <vm:MainWindowViewModel />
     </mui:ModernWindow.DataContext>
-    <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="margie bot">
-            <mui:LinkGroup.Links>
-                <mui:Link DisplayName="configure" Source="/Views/ConfigureView.xaml" />
-                <mui:Link DisplayName="debug" Source="/Views/DebugView.xaml" />
-                <mui:Link DisplayName="talk" Source="/Views/TalkView.xaml" />
-            </mui:LinkGroup.Links>
-        </mui:LinkGroup>
-    </mui:ModernWindow.MenuLinkGroups>
 </controls:MargiesModernWindow>

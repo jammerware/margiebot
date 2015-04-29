@@ -64,6 +64,8 @@ namespace MargieBot.ViewModels
             get { 
                 return new RelayCommand(async (timeForThings) => {
                     if (_Margie != null && ConnectionStatus) {
+                        SelectedChatHub = null;
+                        ConnectedHubs = null;
                         _Margie.Disconnect();
                     }
                     else {
@@ -89,6 +91,10 @@ namespace MargieBot.ViewModels
                         hubs.AddRange(_Margie.ConnectedGroups);
                         hubs.AddRange(_Margie.ConnectedDMs);
                         ConnectedHubs = hubs;
+
+                        if (ConnectedHubs.Count > 0) {
+                            SelectedChatHub = ConnectedHubs[0];
+                        }
                     }
                 }); 
             }
