@@ -64,6 +64,7 @@
     <Compile Include="MessageProcessors\ScoreboardRequestMessageProcessor.cs" />
     <Compile Include="MessageProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="MessageProcessors\SlackbotMessageProcessor.cs" />
+    <Compile Include="MessageProcessors\WeatherRequestResponseProcessor.cs" />
     <Compile Include="MessageProcessors\WhatDoYouDoResponseProcessor.cs" />
     <Compile Include="MessageProcessors\WhatsNewResponseProcessor.cs" />
     <Compile Include="MessageProcessors\YoureWelcomeResponseProcessor.cs" />

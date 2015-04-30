@@ -68,6 +68,7 @@ namespace MargieBot
             ResponseProcessors.Add(new YoureWelcomeResponseProcessor());
             ResponseProcessors.Add((IResponseProcessor)ScoringProcessor);
             ResponseProcessors.Add(new ScoreboardRequestMessageProcessor());
+            ResponseProcessors.Add(new WeatherRequestResponseProcessor());
             ResponseProcessors.Add(debugProcessor);
             ResponseProcessors.Add(new DefaultMessageProcessor());
         }
@@ -78,7 +79,7 @@ namespace MargieBot
             Disconnect();
 
             NoobWebClient client = new NoobWebClient();
-            string json = await client.GetResponse("https://slack.com/api/rtm.start", "token", this.SlackKey);
+            string json = await client.GetResponse("https://slack.com/api/rtm.start", RequestType.Post, "token", this.SlackKey);
             JObject jData = JObject.Parse(json);
 
             TeamID = jData["team"]["id"].Value<string>();
@@ -147,7 +148,12 @@ namespace MargieBot
                 IsConnected = false;
             };
             WebSocket.OnMessage += async (object sender, MessageEventArgs args) => {
-                await ListenTo(args.Data);
+                try {
+                    await ListenTo(args.Data);
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                }
             };
             WebSocket.OnOpen += (object sender, EventArgs e) => {
                 IsConnected = true;
@@ -169,8 +175,9 @@ namespace MargieBot
                 SlackMessage message = new SlackMessage() {
                     Channel = jObject["channel"].Value<string>(),
                     RawData = json,
-                    Text = jObject["text"].Value<string>(),
-                    User = jObject["user"].Value<string>()
+                    // some messages may not have text or a user (like unfurled data from URLs)
+                    Text = (jObject["text"] != null ? jObject["text"].Value<string>() : null),
+                    User = (jObject["user"] != null ? jObject["user"].Value<string>() : null)
                 };
 
                 MargieContext context = new MargieContext() {
@@ -184,8 +191,8 @@ namespace MargieBot
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                // margie can never score or respond to herself
-                if (message.User != UserID) {
+                // margie can never score or respond to herself and requires that the message have text
+                if (message.User != UserID && message.Text != null) {
                     // score first
                     if (ScoringProcessor.IsScoringMessage(message)) {
                         ScoreResult result = ScoringProcessor.Score(message);
@@ -212,6 +219,7 @@ namespace MargieBot
             NoobWebClient client = new NoobWebClient();
             await client.GetResponse(
                 "https://slack.com/api/chat.postMessage", 
+                RequestType.Post,
                 "token", this.SlackKey, 
                 "channel", channel, 
                 "text", text,
