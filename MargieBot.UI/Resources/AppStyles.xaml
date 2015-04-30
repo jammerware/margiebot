@@ -101,9 +101,10 @@
                                         </ItemsControl>
 
                                         <!-- logo (visible only when LogoData is not null) -->
-                                        <Border Grid.Column="3" Background="{DynamicResource Accent}" Width="36" Height="36" Margin="8,0"
-                                                DataContext="{TemplateBinding LogoData}"
-                                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=inverse}">
+                                        <Border 
+                                            Grid.Column="3" Background="{DynamicResource Accent}" Width="36" Height="36" Margin="8,0"
+                                            DataContext="{TemplateBinding LogoData}"
+                                            Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=inverse}">
                                             <Path Data="{Binding}" Stretch="Fill" Fill="White" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Border>
 
