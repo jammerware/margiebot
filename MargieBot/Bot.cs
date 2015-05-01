@@ -224,17 +224,6 @@ namespace MargieBot
             );
         }
 
-        #region Syntactic sugar
-        public MargieSimpleResponseChainer RespondsTo(string simplePhrase, bool requireBotMention = false)
-        {
-            return new MargieSimpleResponseChainer() { 
-                Bot = this,
-                CanRespond = (MargieContext context) => { return Regex.IsMatch(context.Message.Text, "^" + Regex.Escape(simplePhrase) + "$", RegexOptions.IgnoreCase); },
-                RequireBotMention = requireBotMention
-            };
-        }
-        #endregion?
-
         #region Events
         public event MargieConnectionStatusChangedEventHandler ConnectionStatusChanged;
         private void RaiseConnectionStatusChanged()

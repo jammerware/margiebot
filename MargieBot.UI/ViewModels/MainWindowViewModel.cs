@@ -1,5 +1,6 @@
 ﻿using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
+using MargieBot.Extensions;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
