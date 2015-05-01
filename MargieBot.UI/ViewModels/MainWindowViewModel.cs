@@ -12,7 +12,7 @@ namespace MargieBot.UI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private Margie _Margie;
+        private Bot _Margie;
 
         private string _AuthKeySlack = string.Empty;
         public string AuthKeySlack
@@ -66,7 +66,7 @@ namespace MargieBot.UI.ViewModels
                     }
                     else {
                         // let's margie
-                        _Margie = new Margie(AuthKeySlack);
+                        _Margie = new Bot(AuthKeySlack);
                         
                         // wire up some response processors
                         // the debug one needs special setup

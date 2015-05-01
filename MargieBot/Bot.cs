@@ -14,7 +14,7 @@ using WebSocketSharp;
 
 namespace MargieBot
 {
-    public class Margie
+    public class Bot
     {
         private Phrasebook Phrasebook { get; set; }
         public IList<IResponseProcessor> ResponseProcessors { get; set; }
@@ -43,7 +43,7 @@ namespace MargieBot
             }
         }
 
-        public Margie(string slackKey)
+        public Bot(string slackKey)
         {
             // store the slack key
             this.SlackKey = slackKey;

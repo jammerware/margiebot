@@ -56,7 +56,7 @@
     <Compile Include="EventHandlers\MargieConnectionStatusChangedEventHandler.cs" />
     <Compile Include="EventHandlers\MargieDebuggingEventHandler.cs" />
     <Compile Include="EventHandlers\MargieMessageReceivedEventHandler.cs" />
-    <Compile Include="Margie.cs" />
+    <Compile Include="Bot.cs" />
     <Compile Include="MessageProcessors\IResponseProcessor.cs" />
     <Compile Include="MessageProcessors\IScoringProcessor.cs" />
     <Compile Include="Models\MargieContext.cs" />
