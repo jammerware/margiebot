@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class WeatherRequestResponseProcessor : IResponseProcessor
+    public class WeatherRequestResponseProcessor : IBotMentionedResponseProcessor
     {
         private const string WUNDERGROUND_API_KEY = "34c36fc5e831f2b9";
         private string _LastData = string.Empty;
@@ -41,11 +41,6 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             else {
                 return "Aww, nuts. My weatherbot gal-pal ain't around. Try 'gin later - she's prolly just fixin' her makeup.";
             }
-        }
-
-        public bool ResponseRequiresBotMention(MargieContext context)
-        {
-            return true;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class DebugResponseProcessor : IResponseProcessor
+    public class DebugResponseProcessor : IBotMentionedResponseProcessor
     {
         public event MargieDebuggingEventHandler OnDebugRequested;
 
@@ -21,11 +21,6 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             }
 
             return "I'll send that right out to the debug winda, " + context.Message.FormattedUser + ". Hoo, boy. I hate for y'all to see me like this.";
-        }
-
-        public bool ResponseRequiresBotMention(MargieContext context)
-        {
-            return true;
         }
     }
 }

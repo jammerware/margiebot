@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class ScoreboardRequestMessageProcessor : IResponseProcessor
+    public class ScoreboardRequestMessageProcessor : IBotMentionedResponseProcessor
     {
         public bool CanRespond(MargieContext context)
         {
@@ -46,11 +46,6 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 return builder.ToString();
             }
             else { return "Not a one-of-ya has scored yet. Come on, sleepyheads!"; }
-        }
-
-        public bool ResponseRequiresBotMention(MargieContext context)
-        {
-            return true;
         }
     }
 }

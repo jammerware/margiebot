@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class WhatsNewResponseProcessor : IResponseProcessor
+    public class WhatsNewResponseProcessor : IBotMentionedResponseProcessor
     {
         public bool CanRespond(MargieContext context)
         {
@@ -26,11 +26,6 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 "- Before I tended to get a touch ornery (or \"throw exceptions\" as them city folk say) when Slack did that \"unfurling\" business. It just rubbed me the wrong way. Now I'm okay with it though.\n" +
                 "- I learned about the weather, y'all! Ask me now!" + 
                 "```";
-        }
-
-        public bool ResponseRequiresBotMention(MargieContext context)
-        {
-            return true;
         }
     }
 }

@@ -6,6 +6,5 @@ namespace MargieBot.MessageProcessors
     {
         bool CanRespond(MargieContext context);
         string GetResponse(MargieContext context);
-        bool ResponseRequiresBotMention(MargieContext context);
     }
 }

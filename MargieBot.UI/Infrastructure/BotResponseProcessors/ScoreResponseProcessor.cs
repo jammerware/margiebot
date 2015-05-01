@@ -44,11 +44,6 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             }
         }
 
-        public bool ResponseRequiresBotMention(MargieContext context)
-        {
-            return false;
-        }
-
         public bool IsScoringMessage(SlackMessage message)
         {
             return message.User != Constants.USER_SLACKBOT && Regex.IsMatch(message.Text, SCORE_REGEX);

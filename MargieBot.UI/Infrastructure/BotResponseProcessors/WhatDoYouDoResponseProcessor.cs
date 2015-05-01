@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class WhatDoYouDoResponseProcessor : IResponseProcessor
+    public class WhatDoYouDoResponseProcessor : IBotMentionedResponseProcessor
     {
         public bool CanRespond(MargieContext context)
         {
