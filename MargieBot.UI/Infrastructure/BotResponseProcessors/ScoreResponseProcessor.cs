@@ -1,7 +1,8 @@
-﻿using MargieBot.Models;
+﻿using MargieBot.MessageProcessors;
+using MargieBot.Models;
 using System.Text.RegularExpressions;
 
-namespace MargieBot.MessageProcessors
+namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
     public class ScoreResponseProcessor : IResponseProcessor, IScoringProcessor
     {
@@ -41,6 +42,11 @@ namespace MargieBot.MessageProcessors
                     );
                 }
             }
+        }
+
+        public bool ResponseRequiresBotMention(MargieContext context)
+        {
+            return false;
         }
 
         public bool IsScoringMessage(SlackMessage message)

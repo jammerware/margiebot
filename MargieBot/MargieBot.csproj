@@ -57,17 +57,8 @@
     <Compile Include="EventHandlers\MargieDebuggingEventHandler.cs" />
     <Compile Include="EventHandlers\MargieMessageReceivedEventHandler.cs" />
     <Compile Include="Margie.cs" />
-    <Compile Include="MessageProcessors\DebugResponseProcessor.cs" />
-    <Compile Include="MessageProcessors\DefaultMessageProcessor.cs" />
     <Compile Include="MessageProcessors\IResponseProcessor.cs" />
     <Compile Include="MessageProcessors\IScoringProcessor.cs" />
-    <Compile Include="MessageProcessors\ScoreboardRequestMessageProcessor.cs" />
-    <Compile Include="MessageProcessors\ScoreResponseProcessor.cs" />
-    <Compile Include="MessageProcessors\SlackbotMessageProcessor.cs" />
-    <Compile Include="MessageProcessors\WeatherRequestResponseProcessor.cs" />
-    <Compile Include="MessageProcessors\WhatDoYouDoResponseProcessor.cs" />
-    <Compile Include="MessageProcessors\WhatsNewResponseProcessor.cs" />
-    <Compile Include="MessageProcessors\YoureWelcomeResponseProcessor.cs" />
     <Compile Include="Models\MargieContext.cs" />
     <Compile Include="Models\Phrasebook.cs" />
     <Compile Include="Models\Scorebook.cs" />

@@ -1,10 +1,11 @@
 ﻿using Bazam.NoobWebClient;
+using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Text.RegularExpressions;
 
-namespace MargieBot.MessageProcessors
+namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
     public class WeatherRequestResponseProcessor : IResponseProcessor
     {
@@ -14,7 +15,7 @@ namespace MargieBot.MessageProcessors
 
         public bool CanRespond(MargieContext context)
         {
-            return Regex.IsMatch(context.Message.Text, context.MargieNameRegex) && Regex.IsMatch(context.Message.Text, @"\bweather\b");
+            return Regex.IsMatch(context.Message.Text, @"\bweather\b");
         }
 
         public string GetResponse(MargieContext context)
@@ -32,11 +33,19 @@ namespace MargieBot.MessageProcessors
             
             JObject jData = JObject.Parse(data);
             if (jData["current_observation"] != null) {
-                return "It's about " + jData["current_observation"]["temp_f"].Value<string>() + " degrees out, and it's " + jData["current_observation"]["weather"].Value<string>().ToLower() + ". Not bad, but it ain't hoedown weather, is it?\n\nIf you wanna see more. head over to " + jData["current_observation"]["forecast_url"].Value<string>() + " - my girlfriend DonnaBot works over there!";
+                string tempString = jData["current_observation"]["temp_f"].Value<string>();
+                double temp = double.Parse(tempString);
+
+                return "It's about " + Math.Round(temp).ToString() + "° out, and it's " + jData["current_observation"]["weather"].Value<string>().ToLower() + ". Not bad, but it ain't hoedown weather, is it?\n\nIf you wanna see more. head over to " + jData["current_observation"]["forecast_url"].Value<string>() + " - my girlfriend DonnaBot works over there!";
             }
             else {
                 return "Aww, nuts. My weatherbot gal-pal ain't around. Try 'gin later - she's prolly just fixin' her makeup.";
             }
+        }
+
+        public bool ResponseRequiresBotMention(MargieContext context)
+        {
+            return true;
         }
     }
 }

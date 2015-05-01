@@ -1,7 +1,11 @@
 ﻿using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
+using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.UI.Infrastructure.BotResponseProcessors;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Input;
 
 namespace MargieBot.UI.ViewModels
@@ -15,13 +19,6 @@ namespace MargieBot.UI.ViewModels
         {
             get { return _AuthKeySlack; }
             set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeySlack, value); }
-        }
-
-        private string _AuthKeyWunderground = string.Empty;
-        public string AuthKeyWunderground
-        {
-            get { return _AuthKeyWunderground; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeyWunderground, value); }
         }
 
         private IReadOnlyList<SlackChatHub> _ConnectedHubs;
@@ -68,7 +65,31 @@ namespace MargieBot.UI.ViewModels
                         _Margie.Disconnect();
                     }
                     else {
+                        // let's margie
                         _Margie = new Margie(AuthKeySlack);
+                        
+                        // wire up some response processors
+                        // the debug one needs special setup
+                        DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
+                        debugProcessor.OnDebugRequested += (string debugText) => {
+                            File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
+                        };
+
+                        // also the ScoreResponseProcessor is pulling double duty as the ScoringProcessor
+                        _Margie.ScoringProcessor = new ScoreResponseProcessor();
+
+                        List<IResponseProcessor> responseProcessors = new List<IResponseProcessor>();
+                        responseProcessors.Add(new SlackbotMessageProcessor());
+                        responseProcessors.Add(new WhatDoYouDoResponseProcessor());
+                        responseProcessors.Add(new WhatsNewResponseProcessor());
+                        responseProcessors.Add(new YoureWelcomeResponseProcessor());
+                        responseProcessors.Add((IResponseProcessor)_Margie.ScoringProcessor);
+                        responseProcessors.Add(new ScoreboardRequestMessageProcessor());
+                        responseProcessors.Add(new WeatherRequestResponseProcessor());
+                        responseProcessors.Add(debugProcessor);
+                        responseProcessors.Add(new DefaultMessageProcessor());
+                        _Margie.ResponseProcessors = responseProcessors;
+
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
                             ConnectionStatus = isConnected;
                         };

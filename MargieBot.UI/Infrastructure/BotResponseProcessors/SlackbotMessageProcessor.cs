@@ -1,7 +1,8 @@
-﻿using MargieBot.Models;
+﻿using MargieBot.MessageProcessors;
+using MargieBot.Models;
 using System;
 
-namespace MargieBot.MessageProcessors
+namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
     public class SlackbotMessageProcessor : IResponseProcessor
     {
@@ -13,6 +14,11 @@ namespace MargieBot.MessageProcessors
         public string GetResponse(MargieContext context)
         {
             return context.Phrasebook.GetSlackbotSalutation();
+        }
+
+        public bool ResponseRequiresBotMention(MargieContext context)
+        {
+            return false;
         }
     }
 }

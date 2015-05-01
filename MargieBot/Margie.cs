@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebSocketSharp;
 
@@ -16,8 +17,8 @@ namespace MargieBot
     public class Margie
     {
         private Phrasebook Phrasebook { get; set; }
-        private IList<IResponseProcessor> ResponseProcessors { get; set; }
-        private IScoringProcessor ScoringProcessor { get; set; }
+        public IList<IResponseProcessor> ResponseProcessors { get; set; }
+        public IScoringProcessor ScoringProcessor { get; set; }
         private Scorebook Scorebook { get; set; }
         private string SlackKey { get; set; }
         private string TeamID { get; set; }
@@ -51,26 +52,7 @@ namespace MargieBot
             Phrasebook = new Phrasebook();
             UserNameCache = new Dictionary<string, string>();
 
-            // initialize the message processors
-            // the debug one needs special setup
-            DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
-            debugProcessor.OnDebugRequested += (string debugText) => {
-                File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
-            };
-
-            // also the ScoreResponseProcessor is pulling double duty as the ScoringProcessor
-            ScoringProcessor = new ScoreResponseProcessor();
-
-            ResponseProcessors = new List<IResponseProcessor>();
-            ResponseProcessors.Add(new SlackbotMessageProcessor());
-            ResponseProcessors.Add(new WhatDoYouDoResponseProcessor());
-            ResponseProcessors.Add(new WhatsNewResponseProcessor());
-            ResponseProcessors.Add(new YoureWelcomeResponseProcessor());
-            ResponseProcessors.Add((IResponseProcessor)ScoringProcessor);
-            ResponseProcessors.Add(new ScoreboardRequestMessageProcessor());
-            ResponseProcessors.Add(new WeatherRequestResponseProcessor());
-            ResponseProcessors.Add(debugProcessor);
-            ResponseProcessors.Add(new DefaultMessageProcessor());
+            
         }
 
         public async Task Connect()
@@ -205,7 +187,7 @@ namespace MargieBot
 
                     // then respond
                     foreach (IResponseProcessor processor in ResponseProcessors) {
-                        if (processor.CanRespond(context)) {
+                        if ((!processor.ResponseRequiresBotMention(context) || Regex.IsMatch(message.Text, "(margie|margie bot|<@" + UserID + ">)", RegexOptions.IgnoreCase)) && processor.CanRespond(context)) {
                             await Say(processor.GetResponse(context), message.Channel);
                             context.MessageHasBeenRespondedTo = true;
                         }

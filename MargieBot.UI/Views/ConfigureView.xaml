@@ -11,8 +11,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -26,16 +24,8 @@
             Margin="0,0,0,20"
             Text="{Binding AuthKeySlack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-        <TextBlock 
-            Grid.Row="2"
-            Style="{StaticResource FieldLabelStyle}"
-            Text="wunderground key" />
-        <TextBox 
-            Grid.Row="3"
-            Text="{Binding AuthKeyWunderground, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-
         <Button 
-            Grid.Row="5"
+            Grid.Row="3"
             Command="{Binding ConnectCommand}" 
             Content="{Binding ConnectionStatus, Converter={StaticResource BoolToConnectionButtonTextConverter}}" />
     </Grid>

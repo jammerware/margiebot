@@ -93,6 +93,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\BotResponseProcessors\DebugResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\DefaultMessageProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\ScoreboardRequestMessageProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\ScoreResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\SlackbotMessageProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\WeatherRequestResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\WhatDoYouDoResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\WhatsNewResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\YoureWelcomeResponseProcessor.cs" />
     <Compile Include="Views\Helpers\Controls\MargiesModernWindow.cs" />
     <Compile Include="Views\Helpers\ValueConverters\BooleanInversionConverter.cs" />
     <Compile Include="Views\Helpers\Behaviors\TextChangedAppendBehavior.cs" />

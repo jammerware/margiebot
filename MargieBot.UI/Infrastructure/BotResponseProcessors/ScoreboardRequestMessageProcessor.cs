@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using MargieBot.MessageProcessors;
+using MargieBot.Models;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.Models;
 
-namespace MargieBot.MessageProcessors
+namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
     public class ScoreboardRequestMessageProcessor : IResponseProcessor
     {
         public bool CanRespond(MargieContext context)
         {
-            return Regex.IsMatch(context.Message.Text, @"(score)", RegexOptions.IgnoreCase) && Regex.IsMatch(context.Message.Text, context.MargieNameRegex, RegexOptions.IgnoreCase);
+            return Regex.IsMatch(context.Message.Text, @"\bscore\b", RegexOptions.IgnoreCase);
         }
 
         public string GetResponse(MargieContext context)
@@ -46,6 +46,11 @@ namespace MargieBot.MessageProcessors
                 return builder.ToString();
             }
             else { return "Not a one-of-ya has scored yet. Come on, sleepyheads!"; }
+        }
+
+        public bool ResponseRequiresBotMention(MargieContext context)
+        {
+            return true;
         }
     }
 }
