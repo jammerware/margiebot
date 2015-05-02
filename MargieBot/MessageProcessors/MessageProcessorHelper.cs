@@ -1,5 +1,6 @@
-﻿using MargieBot.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using MargieBot.Models;
 
 namespace MargieBot.MessageProcessors
 {
@@ -9,8 +10,8 @@ namespace MargieBot.MessageProcessors
         {
             return 
                 requireBotMention ? 
-                    new SimpleBotMentionedResponseProcessor() { CanRespondFactory = canRespond, GetResponseFactory = getResponse } : 
-                    new SimpleResponseProcessor() { CanRespondFactory = canRespond, GetResponseFactory = getResponse };
+                    new SimpleBotMentionedResponseProcessor() { CanRespondFunction = canRespond, GetResponseFunctions = new List<Func<MargieContext, string>>() { getResponse  } } :
+                    new SimpleResponseProcessor() { CanRespondFunction = canRespond, GetResponseFunctions = new List<Func<MargieContext, string>>() { getResponse } };
         }
     }
 }

@@ -9,6 +9,11 @@ namespace MargieBot.MessageProcessors
         public Func<MargieContext, bool> CanRespondFunction { get; set; }
         public List<Func<MargieContext, string>> GetResponseFunctions { get; set; }
 
+        public SimpleResponseProcessor()
+        {
+            GetResponseFunctions = new List<Func<MargieContext, string>>();
+        }
+
         public bool CanRespond(MargieContext context)
         {
             return CanRespondFunction(context);

@@ -25,13 +25,14 @@ namespace MargieBot
                 // only build the regex if we're connected - if we're not connected we won't know our bot's name or user ID
                 if (_BotNameRegex == string.Empty && IsConnected) {
                     StringBuilder builder = new StringBuilder();
-                    builder.Append("(<@" + UserID + ">|");
-                    builder.Append("\b" + UserName + "\b");
+                    builder.Append(@"(<@" + UserID + @">|");
+                    builder.Append(@"\b" + UserName + @"\b");
 
                     foreach (string pseudonym in Pseudonyms) {
-                        builder.Append("|\b" + pseudonym + "\b");
+                        builder.Append(@"|\b" + pseudonym + @"\b");
                     }
-                    builder.Append(")");
+                    builder.Append(@")");
+                    _BotNameRegex = builder.ToString();
                 }
 
                 return _BotNameRegex;

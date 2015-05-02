@@ -1,4 +1,4 @@
 ﻿namespace MargieBot.MessageProcessors
 {
-    internal class SimpleBotMentionedResponseProcessor : SimpleResponseProcessor { }
+    internal class SimpleBotMentionedResponseProcessor : SimpleResponseProcessor, IBotMentionedResponseProcessor { }
 }

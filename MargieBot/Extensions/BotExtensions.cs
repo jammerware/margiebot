@@ -6,13 +6,13 @@ namespace MargieBot.Extensions
 {
     public static class BotExtensions
     {
-        public delegate void BotMentionedResponseProcessorRequestHandler(SimpleResponseProcessor oldProcessor);
+        internal delegate void BotMentionedResponseProcessorRequestHandler(SimpleResponseProcessor oldProcessor);
 
         public static MargieSimpleResponseChainer RespondsTo(this Bot bot, string phrase)
         {
             MargieSimpleResponseChainer chainer = new MargieSimpleResponseChainer();
             chainer.ResponseProcessor = new SimpleResponseProcessor();
-            chainer.ResponseProcessor.CanRespondFunction = (MargieContext context) => { return Regex.IsMatch(context.Message.Text, "^" + Regex.Escape(phrase) + "$", RegexOptions.IgnoreCase); };
+            chainer.ResponseProcessor.CanRespondFunction = (MargieContext context) => { return Regex.IsMatch(context.Message.Text, @"\b" + Regex.Escape(phrase) + @"\b", RegexOptions.IgnoreCase); };
             bot.ResponseProcessors.Add(chainer.ResponseProcessor);
 
             // this is here to allow the .IfBotIsMentioned method on the chainer - if they call it, we have to swap the processor to a SimpleBotMentionResponseProcessor and copy the properties to
@@ -25,6 +25,7 @@ namespace MargieBot.Extensions
 
                 bot.ResponseProcessors.Remove(oldProcessor);
                 bot.ResponseProcessors.Add(chainer.ResponseProcessor);
+                string boobs = "boobs";
             };
 
             return chainer;
@@ -32,10 +33,10 @@ namespace MargieBot.Extensions
 
         public class MargieSimpleResponseChainer
         {
-            public event BotMentionedResponseProcessorRequestHandler BotMentionedResponseProcessorRequested;
+            internal event BotMentionedResponseProcessorRequestHandler BotMentionedResponseProcessorRequested;
 
             internal MargieSimpleResponseChainer() { }
-            public SimpleResponseProcessor ResponseProcessor { get; set; }
+            internal SimpleResponseProcessor ResponseProcessor { get; set; }
 
             public MargieSimpleResponseChainer With(string response)
             {

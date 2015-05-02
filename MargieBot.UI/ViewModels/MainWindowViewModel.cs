@@ -1,14 +1,14 @@
-﻿using BazamWPF.UIHelpers;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
+using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
 using MargieBot.Extensions;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -69,6 +69,7 @@ namespace MargieBot.UI.ViewModels
                     else {
                         // let's margie
                         _Margie = new Bot(AuthKeySlack);
+                        _Margie.Pseudonyms = new List<string>() { "Margie" };
                         
                         // wire up some response processors
                         // the debug one needs special setup
@@ -91,7 +92,7 @@ namespace MargieBot.UI.ViewModels
                         responseProcessors.Add(new WhatsNewResponseProcessor());
 
                         // examples of smooth operator stupid processors
-                        _Margie.RespondsTo("Heya, Margie!").With("Heya, amigo!");
+                        _Margie.RespondsTo("Heya").With("Heya, amigo!").IfBotIsMentioned();
 
                         // examples of simple-ish "inline" processors
                         // this processor hits on Slackbot when he talks 1/4 times or so
