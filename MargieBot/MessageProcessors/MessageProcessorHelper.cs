@@ -12,23 +12,5 @@ namespace MargieBot.MessageProcessors
                     new SimpleBotMentionedResponseProcessor() { CanRespondFactory = canRespond, GetResponseFactory = getResponse } : 
                     new SimpleResponseProcessor() { CanRespondFactory = canRespond, GetResponseFactory = getResponse };
         }
-
-        private class SimpleResponseProcessor : IResponseProcessor
-        {
-            public Func<MargieContext, bool> CanRespondFactory { get; set; }
-            public Func<MargieContext, string> GetResponseFactory { get; set; }
-
-            public bool CanRespond(MargieContext context)
-            {
-                return CanRespondFactory(context);
-            }
-
-            public string GetResponse(MargieContext context)
-            {
-                return GetResponseFactory(context);
-            }
-        }
-
-        private class SimpleBotMentionedResponseProcessor : SimpleResponseProcessor, IBotMentionedResponseProcessor { }
     }
 }

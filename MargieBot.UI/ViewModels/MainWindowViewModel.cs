@@ -91,7 +91,7 @@ namespace MargieBot.UI.ViewModels
                         responseProcessors.Add(new WhatsNewResponseProcessor());
 
                         // examples of smooth operator stupid processors
-                        _Margie.RespondsTo("say \"yay!\", margie!").With("Yay!");
+                        _Margie.RespondsTo("Heya, Margie!").With("Heya, amigo!");
 
                         // examples of simple-ish "inline" processors
                         // this processor hits on Slackbot when he talks 1/4 times or so

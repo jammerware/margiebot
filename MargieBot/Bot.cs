@@ -1,29 +1,67 @@
-﻿using Bazam.NoobWebClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Bazam.NoobWebClient;
 using MargieBot.EventHandlers;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using WebSocketSharp;
 
 namespace MargieBot
 {
     public class Bot
     {
+        #region Private properties
+        private string _BotNameRegex;
+        public string BotNameRegex
+        {
+            get 
+            {
+                // only build the regex if we're connected - if we're not connected we won't know our bot's name or user ID
+                if (_BotNameRegex == string.Empty && IsConnected) {
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append("(<@" + UserID + ">|");
+                    builder.Append("\b" + UserName + "\b");
+
+                    foreach (string pseudonym in Pseudonyms) {
+                        builder.Append("|\b" + pseudonym + "\b");
+                    }
+                    builder.Append(")");
+                }
+
+                return _BotNameRegex;
+            }
+            set { _BotNameRegex = value; }
+        }
+        
         private Phrasebook Phrasebook { get; set; }
-        public List<IResponseProcessor> ResponseProcessors { get; private set; }
-        public IScoringProcessor ScoringProcessor { get; set; }
         private Scorebook Scorebook { get; set; }
         private string SlackKey { get; set; }
         private string TeamID { get; set; }
         private string UserID { get; set; }
+        private string UserName { get; set; }
         private Dictionary<string, string> UserNameCache { get; set; }
         private WebSocket WebSocket { get; set; }
+        #endregion
+
+        #region Public properties
+        private IReadOnlyList<string> _Pseudonyms;
+        public IReadOnlyList<string> Pseudonyms
+        {
+            get { return _Pseudonyms; }
+            set
+            {
+                _Pseudonyms = value;
+                BotNameRegex = string.Empty;
+            }
+        }
+        public List<IResponseProcessor> ResponseProcessors { get; private set; }
+        public IScoringProcessor ScoringProcessor { get; set; }
 
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
@@ -54,6 +92,7 @@ namespace MargieBot
                 }
             }
         }
+        #endregion
 
         public Bot(string slackKey)
         {
@@ -61,6 +100,7 @@ namespace MargieBot
             this.SlackKey = slackKey;
 
             // get the books ready
+            Pseudonyms = new List<string>();
             Phrasebook = new Phrasebook();
             ResponseProcessors = new List<IResponseProcessor>();
             UserNameCache = new Dictionary<string, string>();
@@ -71,12 +111,16 @@ namespace MargieBot
             // disconnect in case we're already connected like a crazy person
             Disconnect();
 
+            // kill the regex for our bot's name - we'll rebuild it upon request with some of the info we get here
+            BotNameRegex = string.Empty;
+
             NoobWebClient client = new NoobWebClient();
             string json = await client.GetResponse("https://slack.com/api/rtm.start", RequestType.Post, "token", this.SlackKey);
             JObject jData = JObject.Parse(json);
 
             TeamID = jData["team"]["id"].Value<string>();
             UserID = jData["self"]["id"].Value<string>();
+            UserName = jData["self"]["name"].Value<string>();
             string webSocketUrl = jData["url"].Value<string>();
 
             foreach (JObject userObject in jData["users"]) {
@@ -200,7 +244,7 @@ namespace MargieBot
 
                     // then respond
                     foreach (IResponseProcessor processor in ResponseProcessors) {
-                        if ((!(processor is IBotMentionedResponseProcessor) || Regex.IsMatch(message.Text, "(margie|margie bot|<@" + UserID + ">)", RegexOptions.IgnoreCase)) && processor.CanRespond(context)) {
+                        if ((!(processor is IBotMentionedResponseProcessor) || Regex.IsMatch(message.Text, BotNameRegex, RegexOptions.IgnoreCase)) && processor.CanRespond(context)) {
                             await Say(processor.GetResponse(context), hub);
                             context.MessageHasBeenRespondedTo = true;
                         }
