@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        public const string USER_SLACKBOT = "USLACKBOT";
+        public const string SLACKBOTS_USERID = "USLACKBOT";
     }
 }

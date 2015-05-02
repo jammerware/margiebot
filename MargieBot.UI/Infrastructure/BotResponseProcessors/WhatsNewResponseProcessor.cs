@@ -1,8 +1,8 @@
-﻿using MargieBot.MessageProcessors;
-using MargieBot.Models;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using MargieBot.MessageProcessors;
+using MargieBot.Models;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {

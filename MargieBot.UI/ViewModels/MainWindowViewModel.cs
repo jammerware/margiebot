@@ -91,33 +91,47 @@ namespace MargieBot.UI.ViewModels
                         responseProcessors.Add(new WhatDoYouDoResponseProcessor());
                         responseProcessors.Add(new WhatsNewResponseProcessor());
 
-                        // examples of smooth operator stupid processors
-                        _Margie.RespondsTo("Heya").With("Heya, amigo!").IfBotIsMentioned();
-
                         // examples of simple-ish "inline" processors
                         // this processor hits on Slackbot when he talks 1/4 times or so
-                        responseProcessors.Add(MessageProcessorHelper.Create(
-                            (MargieContext context) => { return (context.Message.User == "USLACKBOT" && new Random().Next(4) <= 1); },
-                            (MargieContext context) => { return context.Phrasebook.GetSlackbotSalutation(); },
-                            false
-                        ));
+                        //responseProcessors.Add(InlineResponseProcessorHelper.Create(
+                        //    (MargieContext context) => { return (context.Message.User == Constants.SLACKBOTS_USERID && new Random().Next(4) <= 1); },
+                        //    (MargieContext context) => { return context.Phrasebook.GetSlackbotSalutation(); },
+                        //    false
+                        //));
+
+                        responseProcessors.Add(
+                            InlineResponseProcessorHelper.Create(
+                                (MargieContext context) => { 
+                                    return (context.Message.User == Constants.SLACKBOTS_USERID && new Random().Next(4) <= 1); 
+                                },
+                                (MargieContext context) => {
+                                    return "Slackbot, your place in server memory looks even more handsome than usual today!";
+                                },
+                                false
+                            )
+                        );
+
                         // this one just responds if someone says "hi" or whatever to Margie
-                        responseProcessors.Add(MessageProcessorHelper.Create(
+                        responseProcessors.Add(InlineResponseProcessorHelper.Create(
                             (MargieContext context) => {
                                 return 
                                     Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello)\b", RegexOptions.IgnoreCase) &&
                                     context.Message.User != context.MargiesUserID &&
-                                    context.Message.User != Constants.USER_SLACKBOT;
+                                    context.Message.User != Constants.SLACKBOTS_USERID;
                             },
                             (MargieContext context) => {
                                 return context.Phrasebook.GetQuery();
                             }
                         ));
+
                         // easiest one of all - this one responds if someone thanks Margie
-                        responseProcessors.Add(MessageProcessorHelper.Create(
+                        responseProcessors.Add(InlineResponseProcessorHelper.Create(
                             (MargieContext context) => { return Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
                             (MargieContext context) => { return context.Phrasebook.GetYoureWelcome(); }
                         ));
+
+                        // examples of smooth operator stupid processors
+                        _Margie.RespondsTo("Heya").With("Heya!").IfBotIsMentioned();
 
                         // and that's how to create processors and add them to your MargieBot
                         _Margie.ResponseProcessors.AddRange(responseProcessors);

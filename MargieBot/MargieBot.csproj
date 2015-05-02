@@ -61,7 +61,7 @@
     <Compile Include="MessageProcessors\IBotMentionedResponseProcessor.cs" />
     <Compile Include="MessageProcessors\IResponseProcessor.cs" />
     <Compile Include="MessageProcessors\IScoringProcessor.cs" />
-    <Compile Include="MessageProcessors\MessageProcessorHelper.cs" />
+    <Compile Include="MessageProcessors\InlineResponseProcessorHelper.cs" />
     <Compile Include="MessageProcessors\SimpleBotMentionedResponseProcessor.cs" />
     <Compile Include="MessageProcessors\SimpleResponseProcessor.cs" />
     <Compile Include="Models\MargieContext.cs" />

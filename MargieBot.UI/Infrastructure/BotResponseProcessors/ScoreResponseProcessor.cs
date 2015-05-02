@@ -46,7 +46,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 
         public bool IsScoringMessage(SlackMessage message)
         {
-            return message.User != Constants.USER_SLACKBOT && Regex.IsMatch(message.Text, SCORE_REGEX);
+            return message.User != Constants.SLACKBOTS_USERID && Regex.IsMatch(message.Text, SCORE_REGEX);
         }
 
         public ScoreResult Score(SlackMessage message)

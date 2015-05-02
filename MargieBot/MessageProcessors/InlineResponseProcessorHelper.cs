@@ -4,7 +4,7 @@ using MargieBot.Models;
 
 namespace MargieBot.MessageProcessors
 {
-    public static class MessageProcessorHelper
+    public static class InlineResponseProcessorHelper
     {
         public static IResponseProcessor Create(Func<MargieContext, bool> canRespond, Func<MargieContext, string> getResponse, bool requireBotMention = true)
         {
