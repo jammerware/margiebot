@@ -28,7 +28,7 @@ namespace MargieBot
                     builder.Append(@"(<@" + UserID + @">|");
                     builder.Append(@"\b" + UserName + @"\b");
 
-                    foreach (string pseudonym in Pseudonyms) {
+                    foreach (string pseudonym in Aliases) {
                         builder.Append(@"|\b" + pseudonym + @"\b");
                     }
                     builder.Append(@")");
@@ -51,13 +51,13 @@ namespace MargieBot
         #endregion
 
         #region Public properties
-        private IReadOnlyList<string> _Pseudonyms;
-        public IReadOnlyList<string> Pseudonyms
+        private IReadOnlyList<string> _Aliases;
+        public IReadOnlyList<string> Aliases
         {
-            get { return _Pseudonyms; }
+            get { return _Aliases; }
             set
             {
-                _Pseudonyms = value;
+                _Aliases = value;
                 BotNameRegex = string.Empty;
             }
         }
@@ -101,7 +101,7 @@ namespace MargieBot
             this.SlackKey = slackKey;
 
             // get the books ready
-            Pseudonyms = new List<string>();
+            Aliases = new List<string>();
             Phrasebook = new Phrasebook();
             ResponseProcessors = new List<IResponseProcessor>();
             UserNameCache = new Dictionary<string, string>();

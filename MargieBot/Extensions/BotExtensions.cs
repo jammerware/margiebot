@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 
-// intentional put in the root namespace so that anyone using the Bot class will have these
+// intentionally put in the root namespace so that anyone using the Bot class will have these
 namespace MargieBot
 {
     public static class BotExtensions
@@ -28,6 +28,11 @@ namespace MargieBot
         {
             internal MargieSimpleResponseChainer() { }
             internal SimpleResponseProcessor ResponseProcessor { get; set; }
+
+            public SimpleResponseProcessor GetResponseProcessor()
+            {
+                return ResponseProcessor;
+            }
 
             public MargieSimpleResponseChainer With(string response)
             {

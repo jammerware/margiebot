@@ -4,7 +4,7 @@ using MargieBot.Models;
 
 namespace MargieBot.MessageProcessors
 {
-    internal class SimpleResponseProcessor : IResponseProcessor
+    public class SimpleResponseProcessor : IResponseProcessor
     {
         public Func<ResponseContext, bool> CanRespondFunction { get; set; }
         public List<Func<ResponseContext, string>> GetResponseFunctions { get; set; }

@@ -68,67 +68,10 @@ namespace MargieBot.UI.ViewModels
                     else {
                         // let's margie
                         _Margie = new Bot(AuthKeySlack);
-                        _Margie.Pseudonyms = new List<string>() { "Margie" };
+                        _Margie.Aliases = GetAliases();
                         
                         // PROCESSOR WIREUP
-                        // Some of these are more complicated than they need to be for the sake of example
-                        // the debug one needs special setup
-                        List<IResponseProcessor> responseProcessors = new List<IResponseProcessor>();
-
-                        // also the ScoreResponseProcessor is pulling double duty as the ScoringProcessor
-                        // going to modify the framework so this isn't a special case at some point soon
-                        _Margie.ScoringProcessor = new ScoreResponseProcessor();
-
-                        DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
-                        debugProcessor.OnDebugRequested += (string debugText) => {
-                            File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
-                        };
-
-                        // examples of semi-complex or "messier" processors (created in separate classes)
-                        responseProcessors.Add((IResponseProcessor)_Margie.ScoringProcessor);
-                        responseProcessors.Add(debugProcessor);
-                        responseProcessors.Add(new ScoreboardRequestMessageProcessor());
-                        responseProcessors.Add(new WeatherRequestResponseProcessor());
-                        responseProcessors.Add(new WhatDoYouDoResponseProcessor());
-                        responseProcessors.Add(new WhatsNewResponseProcessor());
-
-                        // examples of simple-ish "inline" processors
-                        // this processor hits on Slackbot when he talks 1/4 times or so
-                        responseProcessors.Add(_Margie.CreateResponseProcessor(
-                            (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
-                            (ResponseContext context) => { return context.Phrasebook.GetSlackbotSalutation(); }
-                        ));
-
-                        // this one just responds if someone says "hi" or whatever to Margie
-                        responseProcessors.Add(_Margie.CreateResponseProcessor(
-                            (ResponseContext context) => {
-                                return
-                                    context.Message.MentionsBot &&
-                                    Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello)\b", RegexOptions.IgnoreCase) &&
-                                    context.Message.User.ID != context.BotUserID &&
-                                    !context.Message.User.IsSlackbot;
-                            },
-                            (ResponseContext context) => {
-                                return context.Phrasebook.GetQuery();
-                            }
-                        ));
-
-                        // easiest one of all - this one responds if someone thanks Margie
-                        responseProcessors.Add(_Margie.CreateResponseProcessor(
-                            (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
-                            (ResponseContext context) => { return context.Phrasebook.GetYoureWelcome(); }
-                        ));
-
-                        // example of a smooth operator processor
-                        _Margie
-                            .RespondsTo("get on that")
-                            .With("Sure, hun!")
-                            .With("I'll see what I can do, sugar.")
-                            .With("I'll try. No promises, though!")
-                            .IfBotIsMentioned();
-
-                        // and that's how to create processors and add them to your MargieBot
-                        _Margie.ResponseProcessors.AddRange(responseProcessors);
+                        _Margie.ResponseProcessors.AddRange(GetResponseProcessors());
 
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
                             ConnectionStatus = isConnected;
@@ -169,6 +112,91 @@ namespace MargieBot.UI.ViewModels
                     MessageToSend = string.Empty;
                 });
             }
+        }
+
+        /// <summary>
+        /// Replace the contents of the list returned from this method with any aliases you might want your bot to respond to. If you
+        /// don't want your bot to respond to anything other than its actual name, just return an empty list here.
+        /// </summary>
+        /// <returns>A list of aliases that will cause the BotWasMentioned property of the ResponseContext to be true</returns>
+        private IReadOnlyList<string> GetAliases()
+        {
+            return new List<string>() { "Margie" };
+        }
+
+        /// <summary>
+        /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the processors
+        /// described in this method as you want and start fresh. Define your own resposne processors using the methods describe
+        /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IList<IResponseProcessor>. 
+        /// Boom! You have your own bot.
+        /// </summary>
+        /// <returns>A list of the processors this bot should respond with.</returns>
+        private IList<IResponseProcessor> GetResponseProcessors()
+        {
+            // Some of these are more complicated than they need to be for the sake of example
+            // the debug one needs special setup
+            List<IResponseProcessor> responseProcessors = new List<IResponseProcessor>();
+
+            // also the ScoreResponseProcessor is pulling double duty as the ScoringProcessor
+            // going to modify the framework so this isn't a special case at some point soon
+            _Margie.ScoringProcessor = new ScoreResponseProcessor();
+
+            DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
+            debugProcessor.OnDebugRequested += (string debugText) => {
+                File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
+            };
+
+            // examples of semi-complex or "messier" processors (created in separate classes)
+            responseProcessors.Add((IResponseProcessor)_Margie.ScoringProcessor);
+            responseProcessors.Add(debugProcessor);
+            responseProcessors.Add(new ScoreboardRequestMessageProcessor());
+            responseProcessors.Add(new WeatherRequestResponseProcessor());
+            responseProcessors.Add(new WhatDoYouDoResponseProcessor());
+            responseProcessors.Add(new WhatsNewResponseProcessor());
+
+            // examples of simple-ish "inline" processors
+            // this processor hits on Slackbot when he talks 1/4 times or so
+            _Margie.ResponseProcessors.Add(_Margie.CreateResponseProcessor(
+                (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
+                (ResponseContext context) => { return context.Phrasebook.GetSlackbotSalutation(); }
+            ));
+
+            // this one just responds if someone says "hi" or whatever to Margie
+            responseProcessors.Add(_Margie.CreateResponseProcessor(
+                (ResponseContext context) => {
+                    return
+                        context.Message.MentionsBot &&
+                        Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello)\b", RegexOptions.IgnoreCase) &&
+                        context.Message.User.ID != context.BotUserID &&
+                        !context.Message.User.IsSlackbot;
+                },
+                (ResponseContext context) => {
+                    return context.Phrasebook.GetQuery();
+                }
+            ));
+
+            // easiest one of all - this one responds if someone thanks Margie
+            responseProcessors.Add(_Margie.CreateResponseProcessor(
+                (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
+                (ResponseContext context) => { return context.Phrasebook.GetYoureWelcome(); }
+            ));
+
+            // example of a Supa Fly Mega EZ Syntactic Sugary Response Processor (not its actual name)
+            // note that a syntactically smoother way to do this is to actually do it in the scope that has the Bot object and just 
+            // write myBot.RespondsTo... etc. However, this method is designed to encapsulate the processor creation process so it's easier
+            // to make your own modifications and go, and I kept the bot out of scope for that reason, so we have to end with a call to
+            // .GetResponseProcessor()
+            responseProcessors.Add(
+                _Margie
+                    .RespondsTo("get on that")
+                    .With("Sure, hun!")
+                    .With("I'll see what I can do, sugar.")
+                    .With("I'll try. No promises, though!")
+                    .IfBotIsMentioned()
+                    .GetResponseProcessor()
+            );
+
+            return responseProcessors;
         }
     }
 }
