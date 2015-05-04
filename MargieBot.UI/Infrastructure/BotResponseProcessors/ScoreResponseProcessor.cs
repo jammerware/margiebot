@@ -19,7 +19,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             string userID = userScored.Groups["userID"].Value;
             string formattedUserID = userScored.Groups["formattedUserID"].Value;
 
-            if (userID == context.Message.UserID) {
+            if (userID == context.Message.User.ID) {
                 return string.Format("Oh, honey. {0}, you can't score yourself! What kinda game would that be?! Y'all, {0} is cute, but I think he/she might be dumb as a box o' rocks.", formattedUserID);
             }
             else {
@@ -46,7 +46,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 
         public bool IsScoringMessage(SlackMessage message)
         {
-            return message.UserID != Constants.SLACKBOTS_USERID && Regex.IsMatch(message.Text, SCORE_REGEX);
+            return !message.User.IsSlackbot && Regex.IsMatch(message.Text, SCORE_REGEX);
         }
 
         public ScoreResult Score(SlackMessage message)
@@ -55,7 +55,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             string userID = userScored.Groups["userID"].Value;
 
             return new ScoreResult() {
-                ScoreIncrement = (userID != message.UserID ? 1 : 0),
+                ScoreIncrement = (userID != message.User.ID ? 1 : 0),
                 UserID = userID
             };
         }

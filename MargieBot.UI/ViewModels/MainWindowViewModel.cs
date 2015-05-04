@@ -95,18 +95,18 @@ namespace MargieBot.UI.ViewModels
                         // examples of simple-ish "inline" processors
                         // this processor hits on Slackbot when he talks 1/4 times or so
                         responseProcessors.Add(_Margie.CreateResponseProcessor(
-                            (ResponseContext context) => { return (context.Message.UserID == Constants.SLACKBOTS_USERID && new Random().Next(4) <= 1); },
+                            (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
                             (ResponseContext context) => { return context.Phrasebook.GetSlackbotSalutation(); }
                         ));
 
                         // this one just responds if someone says "hi" or whatever to Margie
                         responseProcessors.Add(_Margie.CreateResponseProcessor(
                             (ResponseContext context) => {
-                                return 
+                                return
                                     context.Message.MentionsBot &&
                                     Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello)\b", RegexOptions.IgnoreCase) &&
-                                    context.Message.UserID != context.BotUserID &&
-                                    context.Message.UserID != Constants.SLACKBOTS_USERID;
+                                    context.Message.User.ID != context.BotUserID &&
+                                    !context.Message.User.IsSlackbot;
                             },
                             (ResponseContext context) => {
                                 return context.Phrasebook.GetQuery();

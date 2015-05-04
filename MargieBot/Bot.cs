@@ -220,7 +220,7 @@ namespace MargieBot
                     RawData = json,
                     // some messages may not have text or a user (like unfurled data from URLs)
                     Text = messageText,
-                    UserID = (jObject["user"] != null ? jObject["user"].Value<string>() : null)
+                    User = (jObject["user"] != null ? new SlackUser() { ID = jObject["user"].Value<string>() } : null)
                 };
 
                 ResponseContext context = new ResponseContext() {
@@ -234,8 +234,8 @@ namespace MargieBot
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                // margie can never score or respond to herself and requires that the message have text
-                if (message.UserID != UserID && message.Text != null) {
+                // margie can never score or respond to herself and requires that the message have text and be from an actual person
+                if (message.User != null && message.User.ID != UserID && message.Text != null) {
                     // score first
                     if (ScoringProcessor.IsScoringMessage(message)) {
                         ScoreResult result = ScoringProcessor.Score(message);

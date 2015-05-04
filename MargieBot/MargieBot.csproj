@@ -52,7 +52,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="EventHandlers\MargieConnectionStatusChangedEventHandler.cs" />
     <Compile Include="EventHandlers\MargieDebuggingEventHandler.cs" />
     <Compile Include="EventHandlers\MargieMessageReceivedEventHandler.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Models\SlackChatHub.cs" />
     <Compile Include="Models\SlackChatHubType.cs" />
     <Compile Include="Models\SlackMessage.cs" />
+    <Compile Include="Models\SlackUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
