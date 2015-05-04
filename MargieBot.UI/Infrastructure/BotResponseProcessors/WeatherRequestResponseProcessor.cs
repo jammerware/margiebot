@@ -1,24 +1,24 @@
-﻿using Bazam.NoobWebClient;
+﻿using System;
+using System.Text.RegularExpressions;
+using Bazam.NoobWebClient;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class WeatherRequestResponseProcessor : IBotMentionedResponseProcessor
+    public class WeatherRequestResponseProcessor : IResponseProcessor
     {
         private const string WUNDERGROUND_API_KEY = "34c36fc5e831f2b9";
         private string _LastData = string.Empty;
         private DateTime? _LastDataGrab = null;
 
-        public bool CanRespond(MargieContext context)
+        public bool CanRespond(ResponseContext context)
         {
-            return Regex.IsMatch(context.Message.Text, @"\bweather\b");
+            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\bweather\b");
         }
 
-        public string GetResponse(MargieContext context)
+        public string GetResponse(ResponseContext context)
         {
             string data = string.Empty;
             if (_LastDataGrab != null && _LastDataGrab.Value > DateTime.Now.AddMinutes(-10)) {

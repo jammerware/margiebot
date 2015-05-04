@@ -1,20 +1,20 @@
-﻿using MargieBot.EventHandlers;
+﻿using System.Text.RegularExpressions;
+using MargieBot.EventHandlers;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
-using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class DebugResponseProcessor : IBotMentionedResponseProcessor
+    public class DebugResponseProcessor : IResponseProcessor
     {
         public event MargieDebuggingEventHandler OnDebugRequested;
 
-        public bool CanRespond(MargieContext context)
+        public bool CanRespond(ResponseContext context)
         {
-            return Regex.IsMatch(context.Message.Text, @"\bdebug\b", RegexOptions.IgnoreCase);
+            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\bdebug\b", RegexOptions.IgnoreCase);
         }
 
-        public string GetResponse(MargieContext context)
+        public string GetResponse(ResponseContext context)
         {
             if (OnDebugRequested != null) {
                 OnDebugRequested(context.Message.RawData);

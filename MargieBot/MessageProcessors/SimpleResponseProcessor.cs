@@ -6,20 +6,20 @@ namespace MargieBot.MessageProcessors
 {
     internal class SimpleResponseProcessor : IResponseProcessor
     {
-        public Func<MargieContext, bool> CanRespondFunction { get; set; }
-        public List<Func<MargieContext, string>> GetResponseFunctions { get; set; }
+        public Func<ResponseContext, bool> CanRespondFunction { get; set; }
+        public List<Func<ResponseContext, string>> GetResponseFunctions { get; set; }
 
         public SimpleResponseProcessor()
         {
-            GetResponseFunctions = new List<Func<MargieContext, string>>();
+            GetResponseFunctions = new List<Func<ResponseContext, string>>();
         }
 
-        public bool CanRespond(MargieContext context)
+        public bool CanRespond(ResponseContext context)
         {
             return CanRespondFunction(context);
         }
 
-        public string GetResponse(MargieContext context)
+        public string GetResponse(ResponseContext context)
         {
             if (GetResponseFunctions.Count == 0) {
                 throw new InvalidOperationException("Attempted to get a response for \"" + context.Message.Text + "\", but no valid responses have been registered.");

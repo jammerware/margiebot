@@ -2,11 +2,11 @@
 
 namespace MargieBot.Models
 {
-    public class MargieContext
+    public class ResponseContext
     {
-        public string MargiesUserID { get; set; }
+        public bool BotHasResponded { get; set; }
+        public string BotUserID { get; set; }
         public SlackMessage Message { get; set; }
-        public bool MessageHasBeenRespondedTo { get; set; }
         public Phrasebook Phrasebook { get; set; }
         public ScoreContext ScoreContext { get; set; }
         public IReadOnlyDictionary<string, string> UserNameCache { get; set; }

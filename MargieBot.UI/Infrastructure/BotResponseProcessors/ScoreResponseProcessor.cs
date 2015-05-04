@@ -8,25 +8,25 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
     {
         private static string SCORE_REGEX = @"(?<formattedUserID>\<@(?<userID>U[a-zA-Z0-9]+)\>)\s*\+\s*1";
 
-        public bool CanRespond(MargieContext context)
+        public bool CanRespond(ResponseContext context)
         {
             return IsScoringMessage(context.Message);
         }
 
-        public string GetResponse(MargieContext context)
+        public string GetResponse(ResponseContext context)
         {
             Match userScored = Regex.Match(context.Message.Text, SCORE_REGEX);
             string userID = userScored.Groups["userID"].Value;
             string formattedUserID = userScored.Groups["formattedUserID"].Value;
 
-            if (userID == context.Message.User) {
+            if (userID == context.Message.UserID) {
                 return string.Format("Oh, honey. {0}, you can't score yourself! What kinda game would that be?! Y'all, {0} is cute, but I think he/she might be dumb as a box o' rocks.", formattedUserID);
             }
             else {
                 int userScore = context.ScoreContext.GetUserScore(userID);
 
-                if (userID == context.MargiesUserID) {
-                    int margieScore = context.ScoreContext.GetUserScore(context.MargiesUserID);
+                if (userID == context.BotUserID) {
+                    int margieScore = context.ScoreContext.GetUserScore(context.BotUserID);
                     return string.Format("Awwww, aren't you a sweetie! *[blushes]* If you insist. Now I have {0} point{1}.", margieScore, margieScore == 1 ? string.Empty : "s");
                 }
                 else if (context.ScoreContext.NewScoreResult != null && context.ScoreContext.NewScoreResult.UserID == userID) {
@@ -46,7 +46,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 
         public bool IsScoringMessage(SlackMessage message)
         {
-            return message.User != Constants.SLACKBOTS_USERID && Regex.IsMatch(message.Text, SCORE_REGEX);
+            return message.UserID != Constants.SLACKBOTS_USERID && Regex.IsMatch(message.Text, SCORE_REGEX);
         }
 
         public ScoreResult Score(SlackMessage message)
@@ -55,7 +55,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             string userID = userScored.Groups["userID"].Value;
 
             return new ScoreResult() {
-                ScoreIncrement = (userID != message.User ? 1 : 0),
+                ScoreIncrement = (userID != message.UserID ? 1 : 0),
                 UserID = userID
             };
         }

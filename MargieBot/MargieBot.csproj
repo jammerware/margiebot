@@ -58,13 +58,10 @@
     <Compile Include="EventHandlers\MargieMessageReceivedEventHandler.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Extensions\BotExtensions.cs" />
-    <Compile Include="MessageProcessors\IBotMentionedResponseProcessor.cs" />
     <Compile Include="MessageProcessors\IResponseProcessor.cs" />
     <Compile Include="MessageProcessors\IScoringProcessor.cs" />
-    <Compile Include="MessageProcessors\InlineResponseProcessorHelper.cs" />
-    <Compile Include="MessageProcessors\SimpleBotMentionedResponseProcessor.cs" />
     <Compile Include="MessageProcessors\SimpleResponseProcessor.cs" />
-    <Compile Include="Models\MargieContext.cs" />
+    <Compile Include="Models\ResponseContext.cs" />
     <Compile Include="Models\Phrasebook.cs" />
     <Compile Include="Models\Scorebook.cs" />
     <Compile Include="Models\ScoreContext.cs" />

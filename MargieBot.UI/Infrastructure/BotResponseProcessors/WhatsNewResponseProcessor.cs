@@ -6,14 +6,14 @@ using MargieBot.Models;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class WhatsNewResponseProcessor : IBotMentionedResponseProcessor
+    public class WhatsNewResponseProcessor : IResponseProcessor
     {
-        public bool CanRespond(MargieContext context)
+        public bool CanRespond(ResponseContext context)
         {
-            return Regex.IsMatch(context.Message.Text, @"\b(what's new)\b", RegexOptions.IgnoreCase);
+            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(what's new)\b", RegexOptions.IgnoreCase);
         }
 
-        public string GetResponse(MargieContext context)
+        public string GetResponse(ResponseContext context)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 

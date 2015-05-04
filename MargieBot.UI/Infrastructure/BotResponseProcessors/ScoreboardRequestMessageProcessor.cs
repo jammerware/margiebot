@@ -6,14 +6,14 @@ using System.Text.RegularExpressions;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class ScoreboardRequestMessageProcessor : IBotMentionedResponseProcessor
+    public class ScoreboardRequestMessageProcessor : IResponseProcessor
     {
-        public bool CanRespond(MargieContext context)
+        public bool CanRespond(ResponseContext context)
         {
-            return Regex.IsMatch(context.Message.Text, @"\bscore\b", RegexOptions.IgnoreCase);
+            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\bscore\b", RegexOptions.IgnoreCase);
         }
 
-        public string GetResponse(MargieContext context)
+        public string GetResponse(ResponseContext context)
         {
             if(context.ScoreContext.Scores.Count > 0) {
                 StringBuilder builder = new StringBuilder(context.Phrasebook.GetScoreboardHype());

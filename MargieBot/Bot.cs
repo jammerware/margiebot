@@ -212,18 +212,21 @@ namespace MargieBot
                     hubs.Add(hub);
                 }
 
+                string messageText = (jObject["text"] != null ? jObject["text"].Value<string>() : null);
+                // check to see if bot has been mentioned
                 SlackMessage message = new SlackMessage() {
                     ChatHub = hub,
+                    MentionsBot = (messageText != null ? Regex.IsMatch(messageText, BotNameRegex, RegexOptions.IgnoreCase) : false),
                     RawData = json,
                     // some messages may not have text or a user (like unfurled data from URLs)
-                    Text = (jObject["text"] != null ? jObject["text"].Value<string>() : null),
-                    User = (jObject["user"] != null ? jObject["user"].Value<string>() : null)
+                    Text = messageText,
+                    UserID = (jObject["user"] != null ? jObject["user"].Value<string>() : null)
                 };
 
-                MargieContext context = new MargieContext() {
-                    MargiesUserID = UserID,
+                ResponseContext context = new ResponseContext() {
+                    BotHasResponded = false,
+                    BotUserID = UserID,
                     Message = message,
-                    MessageHasBeenRespondedTo = false,
                     Phrasebook = this.Phrasebook,
                     ScoreContext = new ScoreContext() {
                         Scores = Scorebook.GetScores()
@@ -232,7 +235,7 @@ namespace MargieBot
                 };
 
                 // margie can never score or respond to herself and requires that the message have text
-                if (message.User != UserID && message.Text != null) {
+                if (message.UserID != UserID && message.Text != null) {
                     // score first
                     if (ScoringProcessor.IsScoringMessage(message)) {
                         ScoreResult result = ScoringProcessor.Score(message);
@@ -245,9 +248,9 @@ namespace MargieBot
 
                     // then respond
                     foreach (IResponseProcessor processor in ResponseProcessors) {
-                        if ((!(processor is IBotMentionedResponseProcessor) || Regex.IsMatch(message.Text, BotNameRegex, RegexOptions.IgnoreCase)) && processor.CanRespond(context)) {
+                        if (processor.CanRespond(context)) {
                             await Say(processor.GetResponse(context), hub);
-                            context.MessageHasBeenRespondedTo = true;
+                            context.BotHasResponded = true;
                         }
                     }
                 }
