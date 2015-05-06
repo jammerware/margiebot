@@ -22,9 +22,8 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 version.Major.ToString() + "." +
                 version.Minor.ToString() + "." +
                 version.Build.ToString() + "! Here's what all's been goin' on with me lately.```" +
-                "- I'm real stable now, y'all.\n" +
-                "- Before I tended to get a touch ornery (or \"throw exceptions\" as them city folk say) when Slack did that \"unfurling\" business. It just rubbed me the wrong way. Now I'm okay with it though.\n" +
-                "- I learned about the weather, y'all! Ask me now!" + 
+                "- Scoring is fun, and y'all seem to like it as much as I do, so I'm a little less picky about it now. You can score more than one person at a time. Try it now, but make sure you include @ben. He's my favorite :)\n" +
+                "- I'm an internet phenomenon now, y'all! You can learn more about me and how I work on github at https://github.com/jammerware/margiebot/wiki and even view my source! Y'all be gentlemen and ladies now. I'm a complicated gal!\n" +
                 "```";
         }
     }

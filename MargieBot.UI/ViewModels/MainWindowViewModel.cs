@@ -149,7 +149,6 @@ namespace MargieBot.UI.ViewModels
             responseProcessors.Add(debugProcessor);
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
-            responseProcessors.Add(new WhatDoYouDoResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
 
             // examples of simple-ish "inline" processors
@@ -179,20 +178,19 @@ namespace MargieBot.UI.ViewModels
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetYoureWelcome(); }
             ));
 
-            // example of a Supa Fly Mega EZ Syntactic Sugary Response Processor (not its actual name)
-            // note that a syntactically smoother way to do this is to actually do it in the scope that has the Bot object and just 
-            // write myBot.RespondsTo... etc. However, this method is designed to encapsulate the processor creation process so it's easier
-            // to make your own modifications and go, and I kept the bot out of scope for that reason, so we have to end with a call to
-            // .GetResponseProcessor()
-            responseProcessors.Add(
-                _Margie
-                    .RespondsTo("get on that")
-                    .With("Sure, hun!")
-                    .With("I'll see what I can do, sugar.")
-                    .With("I'll try. No promises, though!")
-                    .IfBotIsMentioned()
-                    .GetResponseProcessor()
-            );
+            // example of Supa Fly Mega EZ Syntactic Sugary Response Processors (not their actual name)
+            _Margie
+                .RespondsTo("get on that")
+                .With("Sure, hun!")
+                .With("I'll see what I can do, sugar.")
+                .With("I'll try. No promises, though!")
+                .IfBotIsMentioned();
+
+            // you can do these with regexes too
+            _Margie
+                .RespondsTo("what (can|do) you do", true)
+                .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
+                .IfBotIsMentioned();
 
             return responseProcessors;
         }

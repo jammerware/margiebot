@@ -94,7 +94,6 @@
     <Compile Include="Infrastructure\BotResponseProcessors\ScoreboardRequestResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\WeatherRequestResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponseProcessors\WhatDoYouDoResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\WhatsNewResponseProcessor.cs" />
     <Compile Include="Infrastructure\Models\Phrasebook.cs" />
     <Compile Include="Infrastructure\Models\Scorebook.cs" />
