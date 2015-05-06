@@ -91,7 +91,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\BotResponseProcessors\DebugResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponseProcessors\ScoreboardRequestMessageProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\ScoreboardRequestResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\WeatherRequestResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\WhatDoYouDoResponseProcessor.cs" />

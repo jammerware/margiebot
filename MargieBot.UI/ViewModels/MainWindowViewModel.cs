@@ -147,7 +147,7 @@ namespace MargieBot.UI.ViewModels
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(debugProcessor);
-            responseProcessors.Add(new ScoreboardRequestMessageProcessor());
+            responseProcessors.Add(new ScoreboardRequestResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
             responseProcessors.Add(new WhatDoYouDoResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());

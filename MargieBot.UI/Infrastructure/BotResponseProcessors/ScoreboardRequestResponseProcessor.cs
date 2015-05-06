@@ -7,7 +7,7 @@ using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
-    public class ScoreboardRequestMessageProcessor : IResponseProcessor
+    public class ScoreboardRequestResponseProcessor : IResponseProcessor
     {
         public bool CanRespond(ResponseContext context)
         {
