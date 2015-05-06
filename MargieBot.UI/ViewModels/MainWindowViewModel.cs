@@ -8,6 +8,7 @@ using BazamWPF.ViewModels;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
+using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -69,6 +70,7 @@ namespace MargieBot.UI.ViewModels
                         // let's margie
                         _Margie = new Bot(AuthKeySlack);
                         _Margie.Aliases = GetAliases();
+                        _Margie.StaticResponseContextData = GetStaticResponseContextData();
                         
                         // PROCESSOR WIREUP
                         _Margie.ResponseProcessors.AddRange(GetResponseProcessors());
@@ -137,17 +139,13 @@ namespace MargieBot.UI.ViewModels
             // the debug one needs special setup
             List<IResponseProcessor> responseProcessors = new List<IResponseProcessor>();
 
-            // also the ScoreResponseProcessor is pulling double duty as the ScoringProcessor
-            // going to modify the framework so this isn't a special case at some point soon
-            _Margie.ScoringProcessor = new ScoreResponseProcessor();
-
             DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
             debugProcessor.OnDebugRequested += (string debugText) => {
                 File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
             };
 
             // examples of semi-complex or "messier" processors (created in separate classes)
-            responseProcessors.Add((IResponseProcessor)_Margie.ScoringProcessor);
+            responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(debugProcessor);
             responseProcessors.Add(new ScoreboardRequestMessageProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
@@ -158,7 +156,7 @@ namespace MargieBot.UI.ViewModels
             // this processor hits on Slackbot when he talks 1/4 times or so
             _Margie.ResponseProcessors.Add(_Margie.CreateResponseProcessor(
                 (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
-                (ResponseContext context) => { return context.Phrasebook.GetSlackbotSalutation(); }
+                (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
             ));
 
             // this one just responds if someone says "hi" or whatever to Margie
@@ -171,14 +169,14 @@ namespace MargieBot.UI.ViewModels
                         !context.Message.User.IsSlackbot;
                 },
                 (ResponseContext context) => {
-                    return context.Phrasebook.GetQuery();
+                    return context.Get<Phrasebook>().GetQuery();
                 }
             ));
 
             // easiest one of all - this one responds if someone thanks Margie
             responseProcessors.Add(_Margie.CreateResponseProcessor(
                 (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
-                (ResponseContext context) => { return context.Phrasebook.GetYoureWelcome(); }
+                (ResponseContext context) => { return context.Get<Phrasebook>().GetYoureWelcome(); }
             ));
 
             // example of a Supa Fly Mega EZ Syntactic Sugary Response Processor (not its actual name)
@@ -197,6 +195,19 @@ namespace MargieBot.UI.ViewModels
             );
 
             return responseProcessors;
+        }
+
+        /// <summary>
+        /// If you want to share any data across all your processors, you can use the StaticResponseContextData property of the bot to do it. I elected
+        /// to have most of my processors use a "Phrasebook" object to ensure a consistent tone across the bot's responses, so I stuff the Phrasebook
+        /// into the context for use.
+        /// </summary>
+        /// <returns></returns>
+        private static Dictionary<string, object> GetStaticResponseContextData()
+        {
+            return new Dictionary<string, object>() { 
+                { "Phrasebook", new Phrasebook() }
+            };
         }
     }
 }

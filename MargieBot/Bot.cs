@@ -40,8 +40,6 @@ namespace MargieBot
             set { _BotNameRegex = value; }
         }
         
-        private Phrasebook Phrasebook { get; set; }
-        private Scorebook Scorebook { get; set; }
         private string SlackKey { get; set; }
         private string TeamID { get; set; }
         private string UserID { get; set; }
@@ -62,8 +60,7 @@ namespace MargieBot
             }
         }
         public List<IResponseProcessor> ResponseProcessors { get; private set; }
-        public IScoringProcessor ScoringProcessor { get; set; }
-
+        
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
             get { return ConnectedHubs.Values.Where(hub => hub.Type == SlackChatHubType.Channel).ToList(); }
@@ -93,6 +90,8 @@ namespace MargieBot
                 }
             }
         }
+
+        public Dictionary<string, object> StaticResponseContextData { get; set; }
         #endregion
 
         public Bot(string slackKey)
@@ -102,7 +101,6 @@ namespace MargieBot
 
             // get the books ready
             Aliases = new List<string>();
-            Phrasebook = new Phrasebook();
             ResponseProcessors = new List<IResponseProcessor>();
             UserNameCache = new Dictionary<string, string>();
         }
@@ -124,6 +122,7 @@ namespace MargieBot
             UserName = jData["self"]["name"].Value<string>();
             string webSocketUrl = jData["url"].Value<string>();
 
+            UserNameCache.Clear();
             foreach (JObject userObject in jData["users"]) {
                 UserNameCache.Add(userObject["id"].Value<string>(), userObject["name"].Value<string>());
             }
@@ -172,9 +171,6 @@ namespace MargieBot
                     hubs.Add(dm.ID, dm);
                 }
             }
-
-            // start up scorebook for this team
-            Scorebook = new Scorebook(TeamID);
 
             // set up the websocket and connect
             WebSocket = new WebSocket(webSocketUrl);
@@ -226,27 +222,20 @@ namespace MargieBot
                 ResponseContext context = new ResponseContext() {
                     BotHasResponded = false,
                     BotUserID = UserID,
+                    BotUserName = UserName,
                     Message = message,
-                    Phrasebook = this.Phrasebook,
-                    ScoreContext = new ScoreContext() {
-                        Scores = Scorebook.GetScores()
-                    },
+                    TeamID = this.TeamID,
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                // margie can never score or respond to herself and requires that the message have text and be from an actual person
-                if (message.User != null && message.User.ID != UserID && message.Text != null) {
-                    // score first
-                    if (ScoringProcessor.IsScoringMessage(message)) {
-                        ScoreResult result = ScoringProcessor.Score(message);
-                        if (!Scorebook.HasUserScored(result.UserID)) {
-                            context.ScoreContext.NewScoreResult = result;
-                        }
-
-                        Scorebook.ScoreUser(result);
+                if (StaticResponseContextData != null) {
+                    foreach (string key in StaticResponseContextData.Keys) {
+                        context.Set(key, StaticResponseContextData[key]);
                     }
+                }
 
-                    // then respond
+                // margie can never respond to herself and requires that the message have text and be from an actual person
+                if (message.User != null && message.User.ID != UserID && message.Text != null) {
                     foreach (IResponseProcessor processor in ResponseProcessors) {
                         if (processor.CanRespond(context)) {
                             await Say(processor.GetResponse(context), hub);

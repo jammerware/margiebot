@@ -1,8 +1,9 @@
-﻿using MargieBot.MessageProcessors;
-using MargieBot.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using MargieBot.MessageProcessors;
+using MargieBot.Models;
+using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
@@ -15,16 +16,18 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 
         public string GetResponse(ResponseContext context)
         {
-            if(context.ScoreContext.Scores.Count > 0) {
-                StringBuilder builder = new StringBuilder(context.Phrasebook.GetScoreboardHype());
+            IReadOnlyDictionary<string, int> scores = context.Get<Scorebook>().GetScores();
+
+            if (scores.Count > 0) {
+                StringBuilder builder = new StringBuilder(context.Get<Phrasebook>().GetScoreboardHype());
                 builder.Append("```");
 
                 // add the scores to a list for sorting. while we do, figure out who has the longest name for the pseudo table formatting
                 List<KeyValuePair<string, int>> sortedScores = new List<KeyValuePair<string, int>>();
                 string longestName = string.Empty;
 
-                foreach(string key in context.ScoreContext.Scores.Keys) {
-                    KeyValuePair<string, int> newScore = new KeyValuePair<string, int>(context.UserNameCache[key], context.ScoreContext.Scores[key]);
+                foreach (string key in scores.Keys) {
+                    KeyValuePair<string, int> newScore = new KeyValuePair<string, int>(context.UserNameCache[key], scores[key]);
                     if(newScore.Key.Length > longestName.Length) {
                         longestName = newScore.Key;
                     }

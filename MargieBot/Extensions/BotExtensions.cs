@@ -14,11 +14,20 @@ namespace MargieBot
             return new SimpleResponseProcessor() { CanRespondFunction = canRespond, GetResponseFunctions = new List<Func<ResponseContext, string>>() { getResponse } };
         }
 
-        public static MargieSimpleResponseChainer RespondsTo(this Bot bot, string phrase)
+        public static MargieSimpleResponseChainer RespondsTo(this Bot bot, string phrase, bool isRegex = false)
         {
             MargieSimpleResponseChainer chainer = new MargieSimpleResponseChainer();
             chainer.ResponseProcessor = new SimpleResponseProcessor();
-            chainer.ResponseProcessor.CanRespondFunction = (ResponseContext context) => { return Regex.IsMatch(context.Message.Text, @"\b" + Regex.Escape(phrase) + @"\b", RegexOptions.IgnoreCase); };
+            if (isRegex) {
+                chainer.ResponseProcessor.CanRespondFunction = (ResponseContext context) => {
+                    return Regex.IsMatch(context.Message.Text, phrase);
+                };
+            }
+            else {
+                chainer.ResponseProcessor.CanRespondFunction = (ResponseContext context) => {
+                    return Regex.IsMatch(context.Message.Text, @"\b" + Regex.Escape(phrase) + @"\b", RegexOptions.IgnoreCase);
+                };
+            }
             bot.ResponseProcessors.Add(chainer.ResponseProcessor);
 
             return chainer;

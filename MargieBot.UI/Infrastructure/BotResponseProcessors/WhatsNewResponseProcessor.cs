@@ -18,7 +18,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
             return
-                @"I'm Margiebot v." +
+                @"I'm " + context.BotUserName + " v." +
                 version.Major.ToString() + "." +
                 version.Minor.ToString() + "." +
                 version.Build.ToString() + "! Here's what all's been goin' on with me lately.```" +

@@ -58,13 +58,8 @@
     <Compile Include="Bot.cs" />
     <Compile Include="Extensions\BotExtensions.cs" />
     <Compile Include="MessageProcessors\IResponseProcessor.cs" />
-    <Compile Include="MessageProcessors\IScoringProcessor.cs" />
     <Compile Include="MessageProcessors\SimpleResponseProcessor.cs" />
     <Compile Include="Models\ResponseContext.cs" />
-    <Compile Include="Models\Phrasebook.cs" />
-    <Compile Include="Models\Scorebook.cs" />
-    <Compile Include="Models\ScoreContext.cs" />
-    <Compile Include="Models\ScoreResult.cs" />
     <Compile Include="Models\SlackChatHub.cs" />
     <Compile Include="Models\SlackChatHubType.cs" />
     <Compile Include="Models\SlackMessage.cs" />

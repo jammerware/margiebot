@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace MargieBot.Models
+namespace MargieBot.UI.Infrastructure.Models
 {
     public class Scorebook
     {
@@ -44,21 +44,28 @@ namespace MargieBot.Models
             return Scores.ContainsKey(userID);
         }
 
+        public void ScoreUser(string userID, int increment)
+        {
+            ScoreUsers(new string[] { userID }, increment);
+        }
+
+        public void ScoreUsers(IEnumerable<string> userIDs, int increment)
+        {
+            foreach (string userID in userIDs) {
+                if (Scores.ContainsKey(userID)) {
+                    Scores[userID] += increment;
+                }
+                else {
+                    Scores.Add(userID, increment);
+                }
+            }
+            Save();
+        }
+
         private void Save()
         {
             // TODO: exception handling, y'all
             File.WriteAllText(GetFilePath(), JsonConvert.SerializeObject(Scores));
-        }
-
-        public void ScoreUser(ScoreResult result)
-        {
-            if (Scores.ContainsKey(result.UserID)) {
-                Scores[result.UserID] += result.ScoreIncrement;
-            }
-            else {
-                Scores.Add(result.UserID, result.ScoreIncrement);
-            }
-            Save();
         }
     }
 }

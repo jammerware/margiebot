@@ -4,7 +4,7 @@
     {
         public string ID { get; set; }
 
-        public string FormattedUser
+        public string FormattedUserID
         {
             get
             {

@@ -20,7 +20,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 OnDebugRequested(context.Message.RawData);
             }
 
-            return "I'll send that right out to the debug winda, " + context.Message.User.FormattedUser + ". Hoo, boy. I hate for y'all to see me like this.";
+            return "I'll send that right out to the debug winda, " + context.Message.User.FormattedUserID + ". Hoo, boy. I hate for y'all to see me like this.";
         }
     }
 }
