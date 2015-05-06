@@ -3,10 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
     xmlns:convert="clr-namespace:MargieBot.UI.Views.Helpers.ValueConverters">
     <Grid>
         <Grid.Resources>
             <convert:BoolToConnectionButtonTextConverter x:Key="BoolToConnectionButtonTextConverter" />
+            <bazamConvert:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -21,8 +23,13 @@
             Text="slack key" />
         <TextBox
             Grid.Row="1"
-            Margin="0,0,0,20"
-            Text="{Binding AuthKeySlack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            Text="{Binding AuthKeySlack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Visibility="{Binding ConnectionStatus, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}" />
+        <TextBlock
+            Grid.Row="1"
+            Text="{Binding AuthKeySlack, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding ConnectionStatus, Converter={StaticResource BooleanVisibilityConverter}}" />
+            
 
         <Button 
             Grid.Row="3"

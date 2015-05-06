@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
 using MargieBot.MessageProcessors;
@@ -9,9 +10,14 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
     public class WeatherRequestResponseProcessor : IResponseProcessor
     {
-        private const string WUNDERGROUND_API_KEY = "34c36fc5e831f2b9";
-        private string _LastData = string.Empty;
-        private DateTime? _LastDataGrab = null;
+        private string LastData { get; set; }
+        private DateTime? LastDataGrab { get; set; }
+        private string WundergroundAPIKey { get; set; }
+
+        public WeatherRequestResponseProcessor()
+        {
+            WundergroundAPIKey = File.ReadAllText("weather.key");
+        }
 
         public bool CanRespond(ResponseContext context)
         {
@@ -21,14 +27,14 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
         public string GetResponse(ResponseContext context)
         {
             string data = string.Empty;
-            if (_LastDataGrab != null && _LastDataGrab.Value > DateTime.Now.AddMinutes(-10)) {
-                data = _LastData;
+            if (LastDataGrab != null && LastDataGrab.Value > DateTime.Now.AddMinutes(-10)) {
+                data = LastData;
             }
             else {
                 NoobWebClient client = new NoobWebClient();
-                data = client.GetResponse("http://api.wunderground.com/api/" + WUNDERGROUND_API_KEY + "/conditions/q/TN/Nashville.json", RequestType.Get).GetAwaiter().GetResult();
-                _LastData = data;
-                _LastDataGrab = DateTime.Now;
+                data = client.GetResponse("http://api.wunderground.com/api/" + WundergroundAPIKey + "/conditions/q/TN/Nashville.json", RequestType.Get).GetAwaiter().GetResult();
+                LastData = data;
+                LastDataGrab = DateTime.Now;
             }
             
             JObject jData = JObject.Parse(data);
