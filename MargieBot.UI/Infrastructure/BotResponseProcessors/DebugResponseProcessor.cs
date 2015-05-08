@@ -14,13 +14,15 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\bdebug\b", RegexOptions.IgnoreCase);
         }
 
-        public string GetResponse(ResponseContext context)
+        public BotMessage GetResponse(ResponseContext context)
         {
             if (OnDebugRequested != null) {
                 OnDebugRequested(context.Message.RawData);
             }
 
-            return "I'll send that right out to the debug winda, " + context.Message.User.FormattedUserID + ". Hoo, boy. I hate for y'all to see me like this.";
+            return new BotMessage() {
+                Text = "I'll send that right out to the debug winda, " + context.Message.User.FormattedUserID + ". Hoo, boy. I hate for y'all to see me like this."
+            };
         }
     }
 }

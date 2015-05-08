@@ -110,7 +110,7 @@ namespace MargieBot.UI.ViewModels
             get
             {
                 return new RelayCommand(async (letsChatterYall) => {
-                    await _Margie.Say(MessageToSend, SelectedChatHub);
+                    await _Margie.Say(new BotMessage() { Text = MessageToSend, ChatHub = SelectedChatHub });
                     MessageToSend = string.Empty;
                 });
             }

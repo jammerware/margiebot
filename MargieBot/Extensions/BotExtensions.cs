@@ -11,7 +11,7 @@ namespace MargieBot
     {
         public static IResponseProcessor CreateResponseProcessor(this Bot bot, Func<ResponseContext, bool> canRespond, Func<ResponseContext, string> getResponse)
         {
-            return new SimpleResponseProcessor() { CanRespondFunction = canRespond, GetResponseFunctions = new List<Func<ResponseContext, string>>() { getResponse } };
+            return new SimpleResponseProcessor() { CanRespondFunction = canRespond, GetResponseFunctions = new List<Func<ResponseContext, BotMessage>>() { (ResponseContext context) => { return new BotMessage() { Text = getResponse(context) }; } } };
         }
 
         public static MargieSimpleResponseChainer RespondsTo(this Bot bot, string phrase, bool isRegex = false)
@@ -45,7 +45,7 @@ namespace MargieBot
 
             public MargieSimpleResponseChainer With(string response)
             {
-                this.ResponseProcessor.GetResponseFunctions.Add((ResponseContext context) => { return response; });
+                this.ResponseProcessor.GetResponseFunctions.Add((ResponseContext context) => { return new BotMessage() { Text = response }; });
                 return this;
             }
 

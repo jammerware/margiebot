@@ -36,7 +36,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             return !context.Message.User.IsSlackbot && Regex.IsMatch(context.Message.Text, SCORE_REGEX);
         }
 
-        public string GetResponse(ResponseContext context)
+        public BotMessage GetResponse(ResponseContext context)
         {
             // perform scoring
             List<ScoringResult> scoringResults = new List<ScoringResult>();
@@ -126,7 +126,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 }
             }
 
-            return responseBuilder.ToString().Trim();
+            return new BotMessage() { Text = responseBuilder.ToString().Trim() };
         }
 
         private class ScoringResult
