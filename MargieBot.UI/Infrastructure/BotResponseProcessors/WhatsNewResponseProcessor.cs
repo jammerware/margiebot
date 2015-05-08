@@ -22,7 +22,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 version.Major.ToString() + "." +
                 version.Minor.ToString() + "." +
                 version.Build.ToString() + "! Here's what all's been goin' on with me lately.```" +
-                "- Scoring is fun, and y'all seem to like it as much as I do, so I'm a little less picky about it now. You can score more than one person at a time. Try it now, but make sure you include @ben. He's my favorite :)\n" +
+                "- I'm learnin' to roll dice because I have a crush on this nerdy bot who plays RPGs downtown. Ask me to roll 4d6 sometime!\n" +
                 "- I'm an internet phenomenon now, y'all! You can learn more about me and how I work on github at https://github.com/jammerware/margiebot/wiki and even view my source! Y'all be gentlemen and ladies now. I'm a complicated gal!\n" +
                 "```";
         }

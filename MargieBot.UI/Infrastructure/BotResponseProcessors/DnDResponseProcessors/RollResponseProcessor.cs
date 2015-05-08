@@ -21,10 +21,26 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
         {
             StringBuilder builder = new StringBuilder("Alright. Wish me luck, y'all! Lessee here...\n\n`");
             int runningTotal = 0;
+            bool conversionFailed = false;
 
             foreach (Match match in Regex.Matches(context.Message.Text, DICE_REGEX)) {
-                int numberOfDice = Convert.ToInt32(match.Groups["NumberOfDice"].Value);
-                Die die = new Die() { NumberOfSides = Convert.ToInt32(match.Groups["NumberOfSides"].Value) };
+                int numberOfDice = 0;
+                try {
+                    numberOfDice = Convert.ToInt32(match.Groups["NumberOfDice"].Value);
+                }
+                catch (Exception) {
+                    conversionFailed = true;
+                    break;
+                }
+
+                Die die = new Die();
+                try {
+                    die.NumberOfSides = Convert.ToInt32(match.Groups["NumberOfSides"].Value);
+                }
+                catch(Exception) {
+                    conversionFailed = true;
+                    break;
+                }
 
                 if (numberOfDice > 1) {
                     builder.Append("(");
@@ -49,7 +65,12 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
             builder.Append("`\n\n");
             builder.Append("Y'all! I got a " + runningTotal.ToString() + ". How'd I do???");
 
-            return builder.ToString();
+            if (!conversionFailed && builder.Length > 0) {
+                return builder.ToString();
+            }
+            else {
+                return "Are y'all funnin' with me again?";
+            }
         }
     }
 }

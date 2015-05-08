@@ -8,6 +8,7 @@ using BazamWPF.ViewModels;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
+using MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors;
 using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.ViewModels
@@ -148,6 +149,7 @@ namespace MargieBot.UI.ViewModels
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(debugProcessor);
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
+            responseProcessors.Add(new RollResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
 
@@ -191,6 +193,7 @@ namespace MargieBot.UI.ViewModels
                 .RespondsTo("what (can|do) you do", true)
                 .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
                 .IfBotIsMentioned();
+            _Margie.RespondsTo("(how did|how'd) you").With("Well, promise you won't tell nobody, but I'm a HUGE CSI fan. I learned a trick from those fellers and created a GUI interface using Visual Basic to track the IP.").IfBotIsMentioned();
 
             return responseProcessors;
         }
