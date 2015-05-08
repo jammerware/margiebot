@@ -163,7 +163,7 @@ namespace MargieBot.UI.ViewModels
                 (ResponseContext context) => {
                     return
                         context.Message.MentionsBot &&
-                        Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello)\b", RegexOptions.IgnoreCase) &&
+                        Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello|what's up|what's happening)\b", RegexOptions.IgnoreCase) &&
                         context.Message.User.ID != context.BotUserID &&
                         !context.Message.User.IsSlackbot;
                 },
