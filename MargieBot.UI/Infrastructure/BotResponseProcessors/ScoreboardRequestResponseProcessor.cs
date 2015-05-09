@@ -14,7 +14,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\bscore\b", RegexOptions.IgnoreCase);
         }
 
-        public string GetResponse(ResponseContext context)
+        public BotMessage GetResponse(ResponseContext context)
         {
             IReadOnlyDictionary<string, int> scores = context.Get<Scorebook>().GetScores();
 
@@ -46,9 +46,12 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 }
 
                 builder.Append("```");
-                return builder.ToString();
+
+                return new BotMessage() {
+                    Text = builder.ToString()
+                };
             }
-            else { return "Not a one-of-ya has scored yet. Come on, sleepyheads!"; }
+            else { return new BotMessage() { Text = "Not a one-of-ya has scored yet. Come on, sleepyheads!" }; }
         }
     }
 }

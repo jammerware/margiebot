@@ -238,7 +238,7 @@ namespace MargieBot
                 if (message.User != null && message.User.ID != UserID && message.Text != null) {
                     foreach (IResponseProcessor processor in ResponseProcessors) {
                         if (processor.CanRespond(context)) {
-                            await Say(processor.GetResponse(context), hub);
+                            await Say(processor.GetResponse(context), context);
                             context.BotHasResponded = true;
                         }
                     }
@@ -248,17 +248,36 @@ namespace MargieBot
             RaiseMessageReceived(json);
         }
 
-        public async Task Say(string text, SlackChatHub hub)
+        public async Task Say(BotMessage message)
         {
-            NoobWebClient client = new NoobWebClient();
-            await client.GetResponse(
-                "https://slack.com/api/chat.postMessage",
-                RequestType.Post,
-                "token", this.SlackKey,
-                "channel", hub.ID,
-                "text", text,
-                "as_user", "true"
-            );
+            await Say(message, null);
+        }
+
+        private async Task Say(BotMessage message, ResponseContext context)
+        {
+            string chatHubID = null;
+
+            if(message.ChatHub != null) {
+                chatHubID = message.ChatHub.ID;
+            }
+            else if(context != null && context.Message.ChatHub != null) {
+                chatHubID = context.Message.ChatHub.ID;
+            }
+
+            if(chatHubID != null) {
+                NoobWebClient client = new NoobWebClient();
+                await client.GetResponse(
+                    "https://slack.com/api/chat.postMessage",
+                    RequestType.Post,
+                    "token", this.SlackKey,
+                    "channel", chatHubID,
+                    "text", message.Text,
+                    "as_user", "true"
+                );
+            }
+            else {
+                throw new ArgumentException("When calling the Say() method, the message parameter must have its ChatHub property set.");
+            }
         }
 
         #region Events

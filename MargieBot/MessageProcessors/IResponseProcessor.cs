@@ -5,6 +5,6 @@ namespace MargieBot.MessageProcessors
     public interface IResponseProcessor
     {
         bool CanRespond(ResponseContext context);
-        string GetResponse(ResponseContext context);
+        BotMessage GetResponse(ResponseContext context);
     }
 }
