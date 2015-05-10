@@ -150,6 +150,7 @@ namespace MargieBot.UI.ViewModels
             responseProcessors.Add(debugProcessor);
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
             responseProcessors.Add(new RollResponseProcessor());
+            responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
 

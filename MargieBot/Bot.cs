@@ -9,6 +9,7 @@ using Bazam.NoobWebClient;
 using MargieBot.EventHandlers;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 
@@ -266,13 +267,23 @@ namespace MargieBot
 
             if(chatHubID != null) {
                 NoobWebClient client = new NoobWebClient();
-                await client.GetResponse(
-                    "https://slack.com/api/chat.postMessage",
-                    RequestType.Post,
+
+                List<string> values = new List<string>() {
                     "token", this.SlackKey,
                     "channel", chatHubID,
                     "text", message.Text,
                     "as_user", "true"
+                };
+
+                if (message.Attachments.Count > 0) {
+                    values.Add("attachments");
+                    values.Add(JsonConvert.SerializeObject(message.Attachments));
+                }
+
+                await client.GetResponse(
+                    "https://slack.com/api/chat.postMessage",
+                    RequestType.Post,
+                    values.ToArray()
                 );
             }
             else {

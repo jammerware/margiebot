@@ -17,7 +17,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
             return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\broll\b", RegexOptions.IgnoreCase) && Regex.IsMatch(context.Message.Text, DICE_REGEX, RegexOptions.IgnoreCase);
         }
 
-        public string GetResponse(ResponseContext context)
+        public BotMessage GetResponse(ResponseContext context)
         {
             StringBuilder builder = new StringBuilder("Alright. Wish me luck, y'all! Lessee here...\n\n`");
             int runningTotal = 0;
@@ -66,10 +66,10 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
             builder.Append("Y'all! I got a " + runningTotal.ToString() + ". How'd I do???");
 
             if (!conversionFailed && builder.Length > 0) {
-                return builder.ToString();
+                return new BotMessage() { Text = builder.ToString() };
             }
             else {
-                return "Are y'all funnin' with me again?";
+                return new BotMessage() { Text = "Are y'all funnin' with me again?" };
             }
         }
     }
