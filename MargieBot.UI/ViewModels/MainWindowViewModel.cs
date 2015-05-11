@@ -9,6 +9,7 @@ using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
 using MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors;
+using MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessors;
 using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.ViewModels
@@ -137,21 +138,15 @@ namespace MargieBot.UI.ViewModels
         private IList<IResponseProcessor> GetResponseProcessors()
         {
             // Some of these are more complicated than they need to be for the sake of example
-            // the debug one needs special setup
             List<IResponseProcessor> responseProcessors = new List<IResponseProcessor>();
-
-            DebugResponseProcessor debugProcessor = new DebugResponseProcessor();
-            debugProcessor.OnDebugRequested += (string debugText) => {
-                File.WriteAllText(DateTime.Now.Ticks.ToString(), debugText);
-            };
 
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
-            responseProcessors.Add(debugProcessor);
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
             responseProcessors.Add(new RollResponseProcessor());
             responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
+            responseProcessors.Add(new WvWResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
 
             // examples of simple-ish "inline" processors
@@ -159,20 +154,6 @@ namespace MargieBot.UI.ViewModels
             _Margie.ResponseProcessors.Add(_Margie.CreateResponseProcessor(
                 (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
-            ));
-
-            // this one just responds if someone says "hi" or whatever to Margie
-            responseProcessors.Add(_Margie.CreateResponseProcessor(
-                (ResponseContext context) => {
-                    return
-                        context.Message.MentionsBot &&
-                        Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello|what's up|what's happening)\b", RegexOptions.IgnoreCase) &&
-                        context.Message.User.ID != context.BotUserID &&
-                        !context.Message.User.IsSlackbot;
-                },
-                (ResponseContext context) => {
-                    return context.Get<Phrasebook>().GetQuery();
-                }
             ));
 
             // easiest one of all - this one responds if someone thanks Margie
@@ -195,6 +176,21 @@ namespace MargieBot.UI.ViewModels
                 .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
                 .IfBotIsMentioned();
             _Margie.RespondsTo("(how did|how'd) you").With("Well, promise you won't tell nobody, but I'm a HUGE CSI fan. I learned a trick from those fellers and created a GUI interface using Visual Basic to track the IP.").IfBotIsMentioned();
+
+            // this last one just responds if someone says "hi" or whatever to Margie, but only if no other processor has responded
+            responseProcessors.Add(_Margie.CreateResponseProcessor(
+                (ResponseContext context) => {
+                    return
+                        context.Message.MentionsBot &&
+                        !context.BotHasResponded &&
+                        Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello|what's up|what's happening)\b", RegexOptions.IgnoreCase) &&
+                        context.Message.User.ID != context.BotUserID &&
+                        !context.Message.User.IsSlackbot;
+                },
+                (ResponseContext context) => {
+                    return context.Get<Phrasebook>().GetQuery();
+                }
+            ));
 
             return responseProcessors;
         }
