@@ -93,6 +93,7 @@
     <Compile Include="Infrastructure\BotResponseProcessors\DebugResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\CharacterResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\RollResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\GW2ResponseProcessors\WvWResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\ScoreboardRequestResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\WeatherRequestResponseProcessor.cs" />
@@ -217,6 +218,7 @@
   <ItemGroup>
     <Resource Include="Assets\margie-warlock.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
