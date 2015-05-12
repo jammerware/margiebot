@@ -2,7 +2,9 @@
     x:Class="MargieBot.UI.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+    xmlns:bazamBehaviors="clr-namespace:BazamWPF.Behaviors;assembly=BazamWPF"
     xmlns:controls="clr-namespace:MargieBot.UI.Views.Helpers.Controls"
     xmlns:convert="clr-namespace:MargieBot.UI.Views.Helpers.ValueConverters"
     xmlns:vm="clr-namespace:MargieBot.UI.ViewModels"
@@ -13,6 +15,9 @@
     Style="{StaticResource MainWindowStyle}"
     Title="Margie Bot" 
     Width="640">
+    <i:Interaction.Behaviors>
+        <bazamBehaviors:SnapNearEdgesBehavior />
+    </i:Interaction.Behaviors>
     <mui:ModernWindow.Resources>
         <convert:BooleanToBrushConverter x:Key="BooleanToBrushConverter" />
     </mui:ModernWindow.Resources>
