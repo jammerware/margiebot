@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/jammerware/margiebot/wiki</projectUrl>
+    <iconUrl>https://drive.google.com/file/d/0BwPTjHn2z0umRGNPSHRWZDNLaGs/view?usp=sharing</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Margie's on NuGet, y'all!</releaseNotes>
+    <copyright>Copyright Jammerware 2015</copyright>
+    <tags>.NET Slack Bot Framework</tags>
+  </metadata>
+</package>

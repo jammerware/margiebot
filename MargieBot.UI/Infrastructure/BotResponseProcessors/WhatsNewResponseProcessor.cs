@@ -22,8 +22,8 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 version.Major.ToString() + "." +
                 version.Minor.ToString() + "." +
                 version.Build.ToString() + "! Here's what all's been goin' on with me lately.```" +
-                "- I'm learnin' to roll dice because I have a crush on this nerdy bot who plays RPGs downtown. Ask me to roll 4d6 sometime!\n" +
-                "- I'm an internet phenomenon now, y'all! You can learn more about me and how I work on github at https://github.com/jammerware/margiebot/wiki and even view my source! Y'all be gentlemen and ladies now. I'm a complicated gal!\n" +
+                "- Those nerdy bots down at my local game store have suckered me into learnin' how to play Dungeons and Draggins! Ask me about my character!\n" +
+                "- My internet legacy is growin', y'all! My wiki at https://github.com/jammerware/margiebot/wiki is real polished now, and you can add me to your next bot project from NuGet! Just Install-Package MargieBot. \n" +
                 "```";
 
             return new BotMessage() { Text = message };
