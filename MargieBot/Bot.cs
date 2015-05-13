@@ -115,7 +115,7 @@ namespace MargieBot
             BotNameRegex = string.Empty;
 
             NoobWebClient client = new NoobWebClient();
-            string json = await client.GetResponse("https://slack.com/api/rtm.start", RequestType.Post, "token", this.SlackKey);
+            string json = await client.GetResponse("https://slack.com/api/rtm.start", RequestMethod.Post, "token", this.SlackKey);
             JObject jData = JObject.Parse(json);
 
             TeamID = jData["team"]["id"].Value<string>();
@@ -282,7 +282,7 @@ namespace MargieBot
 
                 await client.GetResponse(
                     "https://slack.com/api/chat.postMessage",
-                    RequestType.Post,
+                    RequestMethod.Post,
                     values.ToArray()
                 );
             }
