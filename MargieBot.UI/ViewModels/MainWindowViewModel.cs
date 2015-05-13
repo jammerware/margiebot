@@ -170,6 +170,11 @@ namespace MargieBot.UI.ViewModels
                 .With("I'll try. No promises, though!")
                 .IfBotIsMentioned();
 
+            _Margie
+                .RespondsTo("got burned")
+                .With("Awww! I hate it when that happens. Maybe this'll help?: http://en.wikipedia.org/wiki/List_of_burn_centers_in_the_United_States")
+                .IfBotIsMentioned();
+
             // you can do these with regexes too
             _Margie
                 .RespondsTo("what (can|do) you do", true)
