@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using MargieBot.MessageProcessors;
@@ -11,7 +12,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
     {
         public bool CanRespond(ResponseContext context)
         {
-            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\bscore\b", RegexOptions.IgnoreCase);
+            return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, @"\bscore\b", RegexOptions.IgnoreCase);
         }
 
         public BotMessage GetResponse(ResponseContext context)
@@ -42,7 +43,13 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                         nameString.Append(" ");
                     }
 
-                    builder.Append(nameString.ToString() + " | " + userScore.Value.ToString() + "\n");
+                    // this is strictly and 100% to screw with sergei
+                    if (userScore.Key.Equals("sergei", StringComparison.CurrentCultureIgnoreCase)) {
+                        builder.Append(nameString.ToString() + " | " + "-472,336\n");
+                    }
+                    else {
+                        builder.Append(nameString.ToString() + " | " + userScore.Value.ToString() + "\n");
+                    }
                 }
 
                 builder.Append("```");

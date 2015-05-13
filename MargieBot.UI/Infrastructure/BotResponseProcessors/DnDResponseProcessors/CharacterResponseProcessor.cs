@@ -10,7 +10,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
     {
         public bool CanRespond(ResponseContext context)
         {
-            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\byour (race|class|character|level)\b");
+            return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, @"\byour (race|class|character|level)\b");
         }
 
         public BotMessage GetResponse(ResponseContext context)

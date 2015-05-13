@@ -14,7 +14,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
 
         public bool CanRespond(ResponseContext context)
         {
-            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\broll\b", RegexOptions.IgnoreCase) && Regex.IsMatch(context.Message.Text, DICE_REGEX, RegexOptions.IgnoreCase);
+            return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, @"\broll\b", RegexOptions.IgnoreCase) && Regex.IsMatch(context.Message.Text, DICE_REGEX, RegexOptions.IgnoreCase);
         }
 
         public BotMessage GetResponse(ResponseContext context)

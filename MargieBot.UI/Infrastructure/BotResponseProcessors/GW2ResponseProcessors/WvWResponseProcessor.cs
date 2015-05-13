@@ -14,7 +14,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessor
     {
         public bool CanRespond(ResponseContext context)
         {
-            return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(borlis pass|mist war)\b");
+            return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, @"\b(borlis pass|mist war)\b");
         }
 
         public BotMessage GetResponse(ResponseContext context)
