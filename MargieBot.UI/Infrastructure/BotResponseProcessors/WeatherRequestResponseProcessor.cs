@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.UI.Infrastructure.Models;
 using Newtonsoft.Json.Linq;
 
 namespace MargieBot.UI.Infrastructure.BotResponseProcessors
@@ -42,7 +43,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
                 string tempString = jData["current_observation"]["temp_f"].Value<string>();
                 double temp = double.Parse(tempString);
 
-                return new BotMessage() { Text = "It's about " + Math.Round(temp).ToString() + "° out, and it's " + jData["current_observation"]["weather"].Value<string>().ToLower() + ". Not bad, but it ain't hoedown weather, is it?\n\nIf you wanna see more. head over to " + jData["current_observation"]["forecast_url"].Value<string>() + " - my girlfriend DonnaBot works over there!" };
+                return new BotMessage() { Text = "It's about " + Math.Round(temp).ToString() + "° out, and it's " + jData["current_observation"]["weather"].Value<string>().ToLower() + ". " + context.Get<Phrasebook>().GetWeatherAnalysis(temp) + "\n\nIf you wanna see more. head over to " + jData["current_observation"]["forecast_url"].Value<string>() + " - my girlfriend DonnaBot works over there!" };
             }
             else {
                 return new BotMessage() { Text = "Aww, nuts. My weatherbot gal-pal ain't around. Try 'gin later - she's prolly just fixin' her makeup." };
