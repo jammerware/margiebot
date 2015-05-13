@@ -32,7 +32,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
             }
             else {
                 NoobWebClient client = new NoobWebClient();
-                data = client.GetResponse("http://api.wunderground.com/api/" + WundergroundAPIKey + "/conditions/q/TN/Nashville.json", RequestType.Get).GetAwaiter().GetResult();
+                data = client.GetResponse("http://api.wunderground.com/api/" + WundergroundAPIKey + "/conditions/q/TN/Nashville.json", RequestMethod.Get).GetAwaiter().GetResult();
                 LastData = data;
                 LastDataGrab = DateTime.Now;
             }
