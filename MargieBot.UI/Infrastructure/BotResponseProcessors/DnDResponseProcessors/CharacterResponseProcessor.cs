@@ -34,9 +34,9 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
                             new SlackAttachmentField() { IsShort = true, Title = "Level", Value = margiesChar.Level.ToString() },
                             new SlackAttachmentField() { IsShort = true, Title = "Alignment", Value = margiesChar.Alignment },
                         },
-                        ImageUrl = "https://slack-files.com/files-pub/T02FW532C-F04PL4DK6-4326a9bd7c/margie-warlock.jpg",
+                        ImageUrl = "https://drive.google.com/file/d/0BwPTjHn2z0umMHV6YlpNbUU3Njg/view?usp=sharing",
                         Title =  margiesChar.Name + " | character sheet",
-                        TitleLink = "https://drive.google.com/file/d/0BwPTjHn2z0umSm5YS1NadXFVYXc/view?usp=sharing",
+                        TitleLink = "https://drive.google.com/file/d/0BwPTjHn2z0umTDVwelhvOGlsODA/view?usp=sharing",
                     }
                 },
                 Text = messageText
