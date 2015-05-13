@@ -92,7 +92,7 @@ namespace MargieBot
             }
         }
 
-        public Dictionary<string, object> StaticResponseContextData { get; set; }
+        public Dictionary<string, object> ResponseContext { get; set; }
         #endregion
 
         public Bot(string slackKey)
@@ -229,9 +229,10 @@ namespace MargieBot
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                if (StaticResponseContextData != null) {
-                    foreach (string key in StaticResponseContextData.Keys) {
-                        context.Set(key, StaticResponseContextData[key]);
+                // if the end dev has added any static entries to the ResponseContext collection of Bot, add them to the context being passed to the processors.
+                if (ResponseContext != null) {
+                    foreach (string key in ResponseContext.Keys) {
+                        context.Set(key, ResponseContext[key]);
                     }
                 }
 

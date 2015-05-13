@@ -72,7 +72,7 @@ namespace MargieBot.UI.ViewModels
                         // let's margie
                         _Margie = new Bot(AuthKeySlack);
                         _Margie.Aliases = GetAliases();
-                        _Margie.StaticResponseContextData = GetStaticResponseContextData();
+                        _Margie.ResponseContext = GetStaticResponseContextData();
                         
                         // PROCESSOR WIREUP
                         _Margie.ResponseProcessors.AddRange(GetResponseProcessors());
