@@ -8,8 +8,6 @@ using Bazam.WPF.ViewModels;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
-using MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors;
-using MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessors;
 using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.ViewModels
@@ -143,10 +141,7 @@ namespace MargieBot.UI.ViewModels
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
-            responseProcessors.Add(new RollResponseProcessor());
-            responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
-            responseProcessors.Add(new WvWResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
 
             // examples of simple-ish "inline" processors
