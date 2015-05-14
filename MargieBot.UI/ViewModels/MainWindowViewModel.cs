@@ -143,6 +143,7 @@ namespace MargieBot.UI.ViewModels
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
+            responseProcessors.Add(new DefineResponseProcessor());
             responseProcessors.Add(new RollResponseProcessor());
             responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
@@ -181,6 +182,11 @@ namespace MargieBot.UI.ViewModels
                 .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
                 .IfBotIsMentioned();
             _Margie.RespondsTo("(how did|how'd) you").With("Well, promise you won't tell nobody, but I'm a HUGE CSI fan. I learned a trick from those fellers and created a GUI interface using Visual Basic to track the IP.").IfBotIsMentioned();
+
+            _Margie
+                .RespondsTo("civil war")
+                .With(@"Hoooooo boy! You're in luck. If you're a civil war buff or just want a good time for all ages, y'all should check out my favorite fella Tim and his crew up in Sacramento, KY this weekend as they reenact the Battle of Sacramento. Check it out here!: http://battleofsac.com/")
+                .IfBotIsMentioned();
 
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other processor has responded
             responseProcessors.Add(_Margie.CreateResponseProcessor(

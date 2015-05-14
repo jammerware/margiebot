@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
@@ -17,7 +18,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 
         public WeatherRequestResponseProcessor()
         {
-            WundergroundAPIKey = File.ReadAllText("weather.key");
+            WundergroundAPIKey = ConfigurationManager.AppSettings["wundergroundApiKey"];
         }
 
         public bool CanRespond(ResponseContext context)
