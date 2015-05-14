@@ -25,11 +25,32 @@ namespace MargieBot.UI.ViewModels
             set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeySlack, value); }
         }
 
+        private string _BotUserID = string.Empty;
+        public string BotUserID
+        {
+            get { return _BotUserID; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.BotUserID, value); }
+        }
+
+        private string _BotUserName = string.Empty;
+        public string BotUserName
+        {
+            get { return _BotUserName; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.BotUserName, value); }
+        }
+
         private IReadOnlyList<SlackChatHub> _ConnectedHubs;
         public IReadOnlyList<SlackChatHub> ConnectedHubs
         {
             get { return _ConnectedHubs; }
             set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectedHubs, value); }
+        }
+
+        private DateTime? _ConnectedSince = null;
+        public DateTime? ConnectedSince
+        {
+            get { return _ConnectedSince; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectedSince, value); }
         }
 
         private bool _ConnectionStatus = false;
@@ -59,6 +80,13 @@ namespace MargieBot.UI.ViewModels
             set { ChangeProperty<MainWindowViewModel>(vm => vm.SelectedChatHub, value); }
         }
 
+        private string _TeamName = string.Empty;
+        public string TeamName
+        {
+            get { return _TeamName; }
+            set { ChangeProperty<MainWindowViewModel>(vm => vm.TeamName, value); }
+        }
+
         public ICommand ConnectCommand
         {
             get { 
@@ -72,13 +100,41 @@ namespace MargieBot.UI.ViewModels
                         // let's margie
                         _Margie = new Bot(AuthKeySlack);
                         _Margie.Aliases = GetAliases();
-                        _Margie.ResponseContext = GetStaticResponseContextData();
+                        foreach(KeyValuePair<string, object> value in GetStaticResponseContextData()) {
+                            _Margie.ResponseContext.Add(value.Key, value.Value);
+                        }
                         
                         // PROCESSOR WIREUP
                         _Margie.ResponseProcessors.AddRange(GetResponseProcessors());
 
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
                             ConnectionStatus = isConnected;
+
+                            if (isConnected) {
+                                // now that we're connected, build list of connected hubs for great glory
+                                List<SlackChatHub> hubs = new List<SlackChatHub>();
+                                hubs.AddRange(_Margie.ConnectedChannels);
+                                hubs.AddRange(_Margie.ConnectedGroups);
+                                hubs.AddRange(_Margie.ConnectedDMs);
+                                ConnectedHubs = hubs;
+
+                                if (ConnectedHubs.Count > 0) {
+                                    SelectedChatHub = ConnectedHubs[0];
+                                }
+
+                                // also set other cool properties
+                                BotUserID = _Margie.UserID;
+                                BotUserName = _Margie.UserName;
+                                ConnectedSince = _Margie.ConnectedSince;
+                                TeamName = _Margie.TeamName;
+                            }
+                            else {
+                                ConnectedHubs = null;
+                                BotUserID = null;
+                                BotUserName = null;
+                                ConnectedSince = null;
+                                TeamName = null;
+                            }
                         };
                         _Margie.MessageReceived += (string message) => {
                             int messageCount = _Messages.Count - 500;
@@ -91,17 +147,6 @@ namespace MargieBot.UI.ViewModels
                         };
 
                         await _Margie.Connect(); 
-
-                        // now that we're connected, build list of connected hubs for great glory
-                        List<SlackChatHub> hubs = new List<SlackChatHub>();
-                        hubs.AddRange(_Margie.ConnectedChannels);
-                        hubs.AddRange(_Margie.ConnectedGroups);
-                        hubs.AddRange(_Margie.ConnectedDMs);
-                        ConnectedHubs = hubs;
-
-                        if (ConnectedHubs.Count > 0) {
-                            SelectedChatHub = ConnectedHubs[0];
-                        }
                     }
                 }); 
             }

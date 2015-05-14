@@ -19,7 +19,7 @@ namespace MargieBot
     {
         #region Private properties
         private string _BotNameRegex;
-        public string BotNameRegex
+        private string BotNameRegex
         {
             get 
             {
@@ -41,10 +41,6 @@ namespace MargieBot
             set { _BotNameRegex = value; }
         }
         
-        private string SlackKey { get; set; }
-        private string TeamID { get; set; }
-        private string UserID { get; set; }
-        private string UserName { get; set; }
         private Dictionary<string, string> UserNameCache { get; set; }
         private WebSocket WebSocket { get; set; }
         #endregion
@@ -79,20 +75,30 @@ namespace MargieBot
         
         public IReadOnlyDictionary<string, SlackChatHub> ConnectedHubs { get; private set; }
 
-        private bool _IsConnected = false;
         public bool IsConnected 
         {
-            get { return _IsConnected; }
+            get { return ConnectedSince != null; }
+        }
+
+        private DateTime? _ConnectedSince = null;
+        public DateTime? ConnectedSince
+        {
+            get { return _ConnectedSince; }
             set
             {
-                if (_IsConnected != value) {
-                    _IsConnected = value;
+                if (_ConnectedSince != value) {
+                    _ConnectedSince = value;
                     RaiseConnectionStatusChanged();
                 }
             }
         }
 
-        public Dictionary<string, object> ResponseContext { get; set; }
+        public Dictionary<string, object> ResponseContext { get; private set; }
+        public string SlackKey { get; private set; }
+        public string TeamID { get; private set; }
+        public string TeamName { get; private set; }
+        public string UserID { get; private set; }
+        public string UserName { get; private set; }
         #endregion
 
         public Bot(string slackKey)
@@ -102,6 +108,7 @@ namespace MargieBot
 
             // get the books ready
             Aliases = new List<string>();
+            ResponseContext = new Dictionary<string, object>();
             ResponseProcessors = new List<IResponseProcessor>();
             UserNameCache = new Dictionary<string, string>();
         }
@@ -119,6 +126,7 @@ namespace MargieBot
             JObject jData = JObject.Parse(json);
 
             TeamID = jData["team"]["id"].Value<string>();
+            TeamName = jData["team"]["name"].Value<string>();
             UserID = jData["self"]["id"].Value<string>();
             UserName = jData["self"]["name"].Value<string>();
             string webSocketUrl = jData["url"].Value<string>();
@@ -175,14 +183,20 @@ namespace MargieBot
 
             // set up the websocket and connect
             WebSocket = new WebSocket(webSocketUrl);
-            WebSocket.OnClose += (object sender, CloseEventArgs e) => {
-                IsConnected = false;
+            WebSocket.OnOpen += (object sender, EventArgs e) => {
+                // set connection-related properties
+                ConnectedSince = DateTime.Now;
             };
             WebSocket.OnMessage += async (object sender, MessageEventArgs args) => {
                 await ListenTo(args.Data);
             };
-            WebSocket.OnOpen += (object sender, EventArgs e) => {
-                IsConnected = true;
+            WebSocket.OnClose += (object sender, CloseEventArgs e) => {
+                // set connection-related properties
+                ConnectedSince = null;
+                TeamID = null;
+                TeamName = null;
+                UserID = null;
+                UserName = null;
             };
             WebSocket.Connect();
         }

@@ -27,6 +27,7 @@
     <!--Styles-->
     <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource SubtleBrush}" />
+        <Setter Property="Margin" Value="0,18,0,0" />
     </Style>
     
     <!--Custom ModernWindow style-->
