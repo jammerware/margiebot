@@ -8,8 +8,6 @@ using Bazam.WPF.ViewModels;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 using MargieBot.UI.Infrastructure.BotResponseProcessors;
-using MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors;
-using MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessors;
 using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.ViewModels
@@ -188,11 +186,7 @@ namespace MargieBot.UI.ViewModels
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
-            responseProcessors.Add(new DefineResponseProcessor());
-            responseProcessors.Add(new RollResponseProcessor());
-            responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WeatherRequestResponseProcessor());
-            responseProcessors.Add(new WvWResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
 
             // examples of simple-ish "inline" processors
@@ -216,21 +210,10 @@ namespace MargieBot.UI.ViewModels
                 .With("I'll try. No promises, though!")
                 .IfBotIsMentioned();
 
-            _Margie
-                .RespondsTo("got burned")
-                .With("Awww! I hate it when that happens. Maybe this'll help?: http://en.wikipedia.org/wiki/List_of_burn_centers_in_the_United_States")
-                .IfBotIsMentioned();
-
             // you can do these with regexes too
             _Margie
                 .RespondsTo("what (can|do) you do", true)
                 .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
-                .IfBotIsMentioned();
-            _Margie.RespondsTo("(how did|how'd) you").With("Well, promise you won't tell nobody, but I'm a HUGE CSI fan. I learned a trick from those fellers and created a GUI interface using Visual Basic to track the IP.").IfBotIsMentioned();
-
-            _Margie
-                .RespondsTo("civil war")
-                .With(@"Hoooooo boy! You're in luck. If you're a civil war buff or just want a good time for all ages, y'all should check out my favorite fella Tim and his crew up in Sacramento, KY this weekend as they reenact the Battle of Sacramento. Check it out here!: http://battleofsac.com/")
                 .IfBotIsMentioned();
 
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other processor has responded
