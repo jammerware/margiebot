@@ -92,6 +92,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\CharacterResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\RollResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\GW2ResponseProcessors\WvWResponseProcessor.cs" />
+    <Compile Include="Infrastructure\Models\DnD\Character.cs" />
+    <Compile Include="Infrastructure\Models\DnD\Die.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWColor.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWMap.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWMapType.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWMatch.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWMatchStandings.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWWorld.cs" />
+    <Compile Include="Infrastructure\Models\GW2\WvWWorldStanding.cs" />
     <Compile Include="Views\Helpers\Controls\MargiesModernWindow.cs" />
     <Compile Include="Views\Helpers\ValueConverters\BooleanInversionConverter.cs" />
     <Compile Include="Views\Helpers\Behaviors\TextChangedAppendBehavior.cs" />
