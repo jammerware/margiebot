@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.NoobWebClient;
 using MargieBot.EventHandlers;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
@@ -25,15 +25,7 @@ namespace MargieBot
             {
                 // only build the regex if we're connected - if we're not connected we won't know our bot's name or user ID
                 if (_BotNameRegex == string.Empty && IsConnected) {
-                    StringBuilder builder = new StringBuilder();
-                    builder.Append(@"(<@" + UserID + @">|");
-                    builder.Append(@"\b" + UserName + @"\b");
-
-                    foreach (string pseudonym in Aliases) {
-                        builder.Append(@"|\b" + pseudonym + @"\b");
-                    }
-                    builder.Append(@")");
-                    _BotNameRegex = builder.ToString();
+                    _BotNameRegex = new BotNameRegexComposer().ComposeFor(UserName, UserID, Aliases);
                 }
 
                 return _BotNameRegex;
@@ -101,11 +93,8 @@ namespace MargieBot
         public string UserName { get; private set; }
         #endregion
 
-        public Bot(string slackKey)
+        public Bot()
         {
-            // store the slack key
-            this.SlackKey = slackKey;
-
             // get the books ready
             Aliases = new List<string>();
             ResponseContext = new Dictionary<string, object>();
@@ -113,8 +102,10 @@ namespace MargieBot
             UserNameCache = new Dictionary<string, string>();
         }
 
-        public async Task Connect()
+        public async Task Connect(string slackKey)
         {
+            this.SlackKey = slackKey;
+
             // disconnect in case we're already connected like a crazy person
             Disconnect();
 

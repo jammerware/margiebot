@@ -10,16 +10,16 @@ using Bazam.NoobWebClient;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors
+namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 {
     public class DefineResponseProcessor : IResponseProcessor
     {
         private const string DEFINE_REGEX = @"define\s+(?<term>\w+)";
         private string ApiKey { get; set; }
 
-        public DefineResponseProcessor()
+        public DefineResponseProcessor(string apiKey)
         {
-            ApiKey = ConfigurationManager.AppSettings["dictionaryApiKey"];
+            ApiKey = apiKey;
         }
 
         public bool CanRespond(ResponseContext context)

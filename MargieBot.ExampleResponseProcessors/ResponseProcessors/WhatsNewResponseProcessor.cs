@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors
+namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 {
     public class WhatsNewResponseProcessor : IResponseProcessor
     {
