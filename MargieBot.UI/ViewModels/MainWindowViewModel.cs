@@ -97,7 +97,7 @@ namespace MargieBot.UI.ViewModels
                     }
                     else {
                         // let's margie
-                        _Margie = new Bot(AuthKeySlack);
+                        _Margie = new Bot();
                         _Margie.Aliases = GetAliases();
                         foreach(KeyValuePair<string, object> value in GetStaticResponseContextData()) {
                             _Margie.ResponseContext.Add(value.Key, value.Value);
@@ -145,7 +145,7 @@ namespace MargieBot.UI.ViewModels
                             RaisePropertyChanged("Messages");
                         };
 
-                        await _Margie.Connect(); 
+                        await _Margie.Connect(AuthKeySlack); 
                     }
                 }); 
             }

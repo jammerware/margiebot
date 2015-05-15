@@ -1,26 +1,15 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Text.RegularExpressions;
+using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.Text.RegularExpressions;
 
 namespace MargieBot.Tests
 {
     [TestClass]
     public class ResponseProcessorTests
     {
-        public ResponseProcessorTests()
-        {
-        }
-
         private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get { return testContextInstance; }
@@ -55,7 +44,7 @@ namespace MargieBot.Tests
             var context = Substitute.For<ResponseContext>();
             context.Message = new SlackMessage() {
                 ChatHub = Substitute.For<SlackChatHub>(),
-                MentionsBot = Regex.IsMatch(messageText, @"\bmargie\b"),
+                MentionsBot = Regex.IsMatch(messageText, @"\bmargie\b", RegexOptions.IgnoreCase),
                 RawData = string.Empty,
                 Text = messageText,
                 User = Substitute.For<SlackUser>()
@@ -66,11 +55,43 @@ namespace MargieBot.Tests
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void SimpleResponseProcessorCanRespond()
         {
-            //
-            // TODO: Add test logic here
-            //
+            Bot bot = new Bot();
+            IResponseProcessor processor = bot.RespondsTo("Hi").With("Hello, friend!").GetResponseProcessor();
+            ResponseContext context = GetResponseContext("Hi everybody.");
+
+            Assert.AreEqual(true, processor.CanRespond(context));
+        }
+
+        [TestMethod]
+        public void SimpleResponseProcessorRespondsCorrectly()
+        {
+            Bot bot = new Bot();
+            IResponseProcessor processor = bot.RespondsTo("Hi").With("Hello, friend!").GetResponseProcessor();
+            ResponseContext context = GetResponseContext("Hi, everybody.");
+
+            Assert.AreEqual("Hello, friend!", processor.GetResponse(context).Text);
+        }
+
+        [TestMethod]
+        public void SimpleResponseProcessorWithMentionRespondsToMention()
+        {
+            Bot bot = new Bot();
+            IResponseProcessor processor = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponseProcessor();
+            ResponseContext context = GetResponseContext("Hi, Margie.");
+
+            Assert.AreEqual(true, processor.CanRespond(context));
+        }
+
+        [TestMethod]
+        public void SimpleResponseProcessorWithMentionDoesntRespondWithoutMention()
+        {
+            Bot bot = new Bot();
+            IResponseProcessor processor = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponseProcessor();
+            ResponseContext context = GetResponseContext("Hi, everybody.");
+
+            Assert.AreEqual(false, processor.CanRespond(context));
         }
     }
 }
