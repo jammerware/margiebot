@@ -7,8 +7,9 @@ using Bazam.WPF.UIHelpers;
 using Bazam.WPF.ViewModels;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
-using MargieBot.UI.Infrastructure.BotResponseProcessors;
-using MargieBot.UI.Infrastructure.Models;
+using MargieBot.ExampleResponseProcessors.Models;
+using MargieBot.ExampleResponseProcessors.ResponseProcessors;
+using System.Configuration;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -175,6 +176,8 @@ namespace MargieBot.UI.ViewModels
         /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the processors
         /// described in this method as you want and start fresh. Define your own resposne processors using the methods describe
         /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IList<IResponseProcessor>. 
+        /// You create them in this project, in a separate one, or even in the ExampleProcessors project if you want.
+        /// 
         /// Boom! You have your own bot.
         /// </summary>
         /// <returns>A list of the processors this bot should respond with.</returns>
@@ -186,8 +189,11 @@ namespace MargieBot.UI.ViewModels
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
-            responseProcessors.Add(new WeatherRequestResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
+
+            // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
+            responseProcessors.Add(new WeatherRequestResponseProcessor(ConfigurationManager.AppSettings["wundergroundApiKey"]));
+            responseProcessors.Add(new DefineResponseProcessor(ConfigurationManager.AppSettings["dictionaryApiKey"]));
 
             // examples of simple-ish "inline" processors
             // this processor hits on Slackbot when he talks 1/4 times or so

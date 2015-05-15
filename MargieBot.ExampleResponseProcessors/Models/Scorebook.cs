@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace MargieBot.UI.Infrastructure.Models
+namespace MargieBot.ExampleResponseProcessors.Models
 {
     public class Scorebook
     {

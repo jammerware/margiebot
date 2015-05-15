@@ -3,12 +3,12 @@ using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
+using MargieBot.ExampleResponseProcessors.Models;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
-using MargieBot.UI.Infrastructure.Models;
 using Newtonsoft.Json.Linq;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors
+namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 {
     public class WeatherRequestResponseProcessor : IResponseProcessor
     {
@@ -16,9 +16,10 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
         private DateTime? LastDataGrab { get; set; }
         private string WundergroundAPIKey { get; set; }
 
-        public WeatherRequestResponseProcessor()
+        public WeatherRequestResponseProcessor(string apiKey)
         {
-            WundergroundAPIKey = ConfigurationManager.AppSettings["wundergroundApiKey"];
+            //WundergroundAPIKey = ConfigurationManager.AppSettings["wundergroundApiKey"];
+            WundergroundAPIKey = apiKey;
         }
 
         public bool CanRespond(ResponseContext context)

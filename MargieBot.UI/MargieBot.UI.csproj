@@ -92,13 +92,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Infrastructure\BotResponseProcessors\DefineResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponseProcessors\ScoreboardRequestResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponseProcessors\ScoreResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponseProcessors\WeatherRequestResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponseProcessors\WhatsNewResponseProcessor.cs" />
-    <Compile Include="Infrastructure\Models\Phrasebook.cs" />
-    <Compile Include="Infrastructure\Models\Scorebook.cs" />
     <Compile Include="Views\Helpers\Controls\MargiesModernWindow.cs" />
     <Compile Include="Views\Helpers\ValueConverters\BooleanInversionConverter.cs" />
     <Compile Include="Views\Helpers\Behaviors\TextChangedAppendBehavior.cs" />
@@ -205,6 +198,10 @@
     <Resource Include="Assets\logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MargieBot.ExampleResponseProcessors\MargieBot.ExampleResponseProcessors.csproj">
+      <Project>{c214b6b0-b876-4f24-9417-a05fc6d4b616}</Project>
+      <Name>MargieBot.ExampleResponseProcessors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MargieBot\MargieBot.csproj">
       <Project>{1c8dacef-74f1-45d2-ac76-b65dfb3dbca9}</Project>
       <Name>MargieBot</Name>
