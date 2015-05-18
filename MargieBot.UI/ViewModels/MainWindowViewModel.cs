@@ -190,6 +190,7 @@ namespace MargieBot.UI.ViewModels
             responseProcessors.Add(new ScoreResponseProcessor());
             responseProcessors.Add(new ScoreboardRequestResponseProcessor());
             responseProcessors.Add(new WhatsNewResponseProcessor());
+            responseProcessors.Add(new WikipediaResponseProcessor());
 
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
             responseProcessors.Add(new WeatherRequestResponseProcessor(ConfigurationManager.AppSettings["wundergroundApiKey"]));

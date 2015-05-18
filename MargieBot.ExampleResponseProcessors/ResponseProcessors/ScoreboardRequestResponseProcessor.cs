@@ -29,6 +29,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 
                 foreach (string key in scores.Keys) {
                     KeyValuePair<string, int> newScore = new KeyValuePair<string, int>(context.UserNameCache[key], scores[key]);
+                    
                     if(newScore.Key.Length > longestName.Length) {
                         longestName = newScore.Key;
                     }
@@ -43,13 +44,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
                         nameString.Append(" ");
                     }
 
-                    // this is strictly and 100% to screw with sergei
-                    if (userScore.Key.Equals("sergei", StringComparison.CurrentCultureIgnoreCase)) {
-                        builder.Append(nameString.ToString() + " | " + "-472,336\n");
-                    }
-                    else {
-                        builder.Append(nameString.ToString() + " | " + userScore.Value.ToString() + "\n");
-                    }
+                    builder.Append(nameString.ToString() + " | " + userScore.Value.ToString() + "\n");
                 }
 
                 builder.Append("```");
