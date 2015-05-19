@@ -43,6 +43,9 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
                     JObject articleData = JObject.Parse(articleResponse);
 
                     if (articleData["query"]["pages"]["-1"] == null) {
+                        foreach (var whateverThisIs in articleData["query"]["pages"].Children()) {
+                            string lol = whateverThisIs.ToString();
+                        }
                         return new BotMessage() {
                             Text = "Awwww yeah. I know all about that. Check it, y'all!: " + string.Format("http://en.wikipedia.org/wiki/{0}", articleTitle.Replace("_", string.Empty)) + " > " + articleData["query"]["pages"][0]["extract"]
                         };
@@ -51,7 +54,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
             }
 
             return new BotMessage() {
-                Text = "I never heard of that, which isn't all that surprisin'. What IS surprisin' is that neither has Wikipedia. Have you been hangin' out behind the barn again with Skeeterbot?"
+                Text = "I never heard of that, which isn't all that surprisin'. What IS surprisin' is that neither has Wikipedia. Have you been hangin' out behind the barn again with SkeeterBot?"
             };
         }
     }
