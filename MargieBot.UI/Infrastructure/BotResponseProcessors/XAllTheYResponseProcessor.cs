@@ -11,7 +11,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 
         public bool CanRespond(ResponseContext context)
         {
-            return Regex.IsMatch(context.Message.Text, XY_REGEX);
+            return (context.Message.ChatHub.Type == SlackChatHubType.DM || context.Message.MentionsBot) && Regex.IsMatch(context.Message.Text, XY_REGEX);
         }
 
         public BotMessage GetResponse(ResponseContext context)
