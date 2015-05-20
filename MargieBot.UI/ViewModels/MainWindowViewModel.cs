@@ -9,6 +9,7 @@ using MargieBot.ExampleResponseProcessors.Models;
 using MargieBot.ExampleResponseProcessors.ResponseProcessors;
 using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.UI.Infrastructure.BotResponseProcessors;
 using MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors;
 using MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessors;
 
@@ -191,6 +192,7 @@ namespace MargieBot.UI.ViewModels
             responseProcessors.Add(new RollResponseProcessor());
             responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WvWResponseProcessor());
+            responseProcessors.Add(new XAllTheYResponseProcessor());
 
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
