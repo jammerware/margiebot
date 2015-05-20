@@ -54,6 +54,7 @@
     <Compile Include="ResponseProcessors\ScoreResponseProcessor.cs" />
     <Compile Include="ResponseProcessors\WeatherRequestResponseProcessor.cs" />
     <Compile Include="ResponseProcessors\WhatsNewResponseProcessor.cs" />
+    <Compile Include="ResponseProcessors\WikipediaResponseProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MargieBot\MargieBot.csproj">

@@ -14,7 +14,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
     /// </summary>
     public class ScoreResponseProcessor : IResponseProcessor
     {
-        private static string SCORE_REGEX = @"((?<formattedUserID>\<@(?<userID>U[a-zA-Z0-9]+)\>)[\s,]*)+\+\s*1";
+        private static string SCORE_REGEX = @"((?<formattedUserID><@(?<userID>U[a-zA-Z0-9]+)>)[\s,]*)+:?\+\s*1";
 
         // this processor holds a scorebook that keeps track of the score per teamID. We hold internal references
         // to the team we're scoring so we don't have to build the scorebook every time a response is requested, but
