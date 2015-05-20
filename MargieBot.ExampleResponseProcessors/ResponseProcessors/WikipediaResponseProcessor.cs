@@ -10,7 +10,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 {
     public class WikipediaResponseProcessor : IResponseProcessor
     {
-        private const string WIKI_SINGLEWORD_REGEX = @"\b\b(wiki|wikipedia)\b\s+(?<term>\w+)";
+        private const string WIKI_SINGLEWORD_REGEX = @"\b(wiki|wikipedia)\b\s+(?<term>\w+)";
         private const string WIKI_MULTIWORD_REGEX = @"\b(wiki|wikipedia)\b\s+""(?<term>[\s\S]+)""";
 
         public bool CanRespond(ResponseContext context)
@@ -22,7 +22,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
         {
             Match match = Regex.Match(context.Message.Text, WIKI_MULTIWORD_REGEX);
             string searchTerm = string.Empty;
-            if (match != null) {
+            if (match.Success) {
                 searchTerm = match.Groups["term"].Value;
             }
             else {
@@ -43,11 +43,13 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
                     JObject articleData = JObject.Parse(articleResponse);
 
                     if (articleData["query"]["pages"]["-1"] == null) {
-                        foreach (var whateverThisIs in articleData["query"]["pages"].Children()) {
-                            string lol = whateverThisIs.ToString();
+                        string summary = articleData["query"]["pages"].First.First["extract"].Value<string>();
+                        if (summary.IndexOf('\n') > 0) {
+                            summary = summary.Substring(0, summary.IndexOf('\n'));
                         }
+                        
                         return new BotMessage() {
-                            Text = "Awwww yeah. I know all about that. Check it, y'all!: " + string.Format("http://en.wikipedia.org/wiki/{0}", articleTitle.Replace("_", string.Empty)) + " > " + articleData["query"]["pages"][0]["extract"]
+                            Text = "Awwww yeah. I know all about that. Check it, y'all!: " + string.Format("http://en.wikipedia.org/wiki/{0}", articleTitle.Replace(" ", "_")) + " \n> " + summary
                         };
                     }
                 }
