@@ -15,7 +15,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 
         public bool CanRespond(ResponseContext context)
         {
-            return context.Message.MentionsBot && (Regex.IsMatch(context.Message.Text, WIKI_MULTIWORD_REGEX) || Regex.IsMatch(context.Message.Text, WIKI_SINGLEWORD_REGEX));
+            return (context.Message.ChatHub.Type == SlackChatHubType.DM || context.Message.MentionsBot) && (Regex.IsMatch(context.Message.Text, WIKI_MULTIWORD_REGEX) || Regex.IsMatch(context.Message.Text, WIKI_SINGLEWORD_REGEX));
         }
 
         public BotMessage GetResponse(ResponseContext context)
