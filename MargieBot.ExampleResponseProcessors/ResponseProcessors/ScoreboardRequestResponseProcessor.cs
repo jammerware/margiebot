@@ -21,7 +21,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 
             if (scores.Count > 0) {
                 StringBuilder builder = new StringBuilder(context.Get<Phrasebook>().GetScoreboardHype());
-                builder.Append("```");
+                builder.Append("\n```");
 
                 // add the scores to a list for sorting. while we do, figure out who has the longest name for the pseudo table formatting
                 List<KeyValuePair<string, int>> sortedScores = new List<KeyValuePair<string, int>>();
@@ -47,7 +47,11 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
                     builder.Append(nameString.ToString() + " | " + userScore.Value.ToString() + "\n");
                 }
 
-                builder.Append("```");
+                DateTime lastDayOfThisMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+                DateTime firstOfNextMonth = lastDayOfThisMonth.AddDays(1);
+                builder.Append("```\n");
+
+                builder.Append("Better git on it. Imma reset the scoreboard in " + (firstOfNextMonth - DateTime.Now).Days + " days!");
 
                 return new BotMessage() {
                     Text = builder.ToString()
