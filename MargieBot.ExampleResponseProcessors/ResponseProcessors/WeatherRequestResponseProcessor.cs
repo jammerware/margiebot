@@ -18,13 +18,12 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 
         public WeatherRequestResponseProcessor(string apiKey)
         {
-            //WundergroundAPIKey = ConfigurationManager.AppSettings["wundergroundApiKey"];
             WundergroundAPIKey = apiKey;
         }
 
         public bool CanRespond(ResponseContext context)
         {
-            return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, @"\bweather\b");
+            return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, @"\bweather\b", RegexOptions.IgnoreCase);
         }
 
         public BotMessage GetResponse(ResponseContext context)

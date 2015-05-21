@@ -46,12 +46,13 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
 
                     builder.Append(nameString.ToString() + " | " + userScore.Value.ToString() + "\n");
                 }
+                builder.Append("```\n");
 
                 DateTime lastDayOfThisMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
                 DateTime firstOfNextMonth = lastDayOfThisMonth.AddDays(1);
-                builder.Append("```\n");
+                int remainingDays = (firstOfNextMonth - DateTime.Now).Days;
 
-                builder.Append("Better git on it. Imma reset the scoreboard in " + (firstOfNextMonth - DateTime.Now).Days + " days!");
+                if (remainingDays <= 10) { builder.Append("Better git on it. Imma reset the scoreboard in " + (firstOfNextMonth - DateTime.Now).Days + " days!"); }
 
                 return new BotMessage() {
                     Text = builder.ToString()

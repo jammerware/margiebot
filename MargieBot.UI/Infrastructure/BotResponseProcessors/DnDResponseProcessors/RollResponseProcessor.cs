@@ -10,7 +10,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
 {
     public class RollResponseProcessor : IResponseProcessor
     {
-        private const string DICE_REGEX = @"(?<NumberOfDice>a?[0-9])d(?<NumberOfSides>[1-9][0-9]*)";
+        private const string DICE_REGEX = @"(?<NumberOfDice>[0-9]+)d(?<NumberOfSides>[1-9][0-9]*)";
 
         public bool CanRespond(ResponseContext context)
         {
@@ -31,6 +31,16 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
                 catch (Exception) {
                     conversionFailed = true;
                     break;
+                }
+
+                // apparently my coworkers are literally incapable of not breaking things for fun. you'd think a bunch of developers could... just... nevermind.
+                // ...
+                // no, you know what? i understand that you really CAN idiot-proof everything, and that that's highly necessary in an actual production application,
+                // but this is a BOT in slack in a room full of developers. REALLY? you're mad she broke because you asked her to roll 9000 9000-sided dice? I'M SORRY.
+                //
+                // GOD.
+                if (numberOfDice > 100) {
+                    conversionFailed = true;
                 }
 
                 Die die = new Die();
