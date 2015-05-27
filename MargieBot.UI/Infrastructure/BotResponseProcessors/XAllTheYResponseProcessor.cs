@@ -7,7 +7,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors
 {
     public class XAllTheYResponseProcessor : IResponseProcessor
     {
-        private const string XY_REGEX = @"\b(?<x>\w+)\b all the \b(?<y>\w+)\b";
+        private const string XY_REGEX = @"\b(?<x>[\w-]+)\b all the \b(?<y>\w+)\b";
 
         public bool CanRespond(ResponseContext context)
         {
