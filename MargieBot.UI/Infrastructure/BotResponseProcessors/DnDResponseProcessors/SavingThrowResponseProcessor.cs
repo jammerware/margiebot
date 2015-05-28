@@ -44,7 +44,7 @@ namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessor
         public bool CanRespond(ResponseContext context)
         {
             return
-                (context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, THROW_REQUEST_REGEX, RegexOptions.IgnoreCase)) ||
+                ((context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, THROW_REQUEST_REGEX, RegexOptions.IgnoreCase)) ||
                 (_PendingThrows.Keys.Contains(context.Message.User.ID) && Regex.IsMatch(context.Message.Text, DC_VALUE_REGEX));
         }
 
