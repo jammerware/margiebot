@@ -26,7 +26,8 @@
         <TextBox
             Grid.Row="0"
             Grid.ColumnSpan="2"
-            Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}">
+            Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap">
             <i:Interaction.Behaviors>
                 <bazamBehaviors:ClickButtonOnEnterKeyBehavior Button="{Binding ElementName=TheButton}" />
             </i:Interaction.Behaviors>
