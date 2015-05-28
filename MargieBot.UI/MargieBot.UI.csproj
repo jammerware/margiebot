@@ -94,9 +94,11 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\CharacterResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\RollResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\SavingThrowResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\GW2ResponseProcessors\WvWResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\XAllTheYResponseProcessor.cs" />
     <Compile Include="Infrastructure\Models\DnD\Character.cs" />
+    <Compile Include="Infrastructure\Models\DnD\CharacterAttribute.cs" />
     <Compile Include="Infrastructure\Models\DnD\Die.cs" />
     <Compile Include="Infrastructure\Models\GW2\WvWColor.cs" />
     <Compile Include="Infrastructure\Models\GW2\WvWMap.cs" />

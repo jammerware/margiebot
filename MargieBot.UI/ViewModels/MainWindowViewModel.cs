@@ -193,6 +193,7 @@ namespace MargieBot.UI.ViewModels
             responseProcessors.Add(new CharacterResponseProcessor());
             responseProcessors.Add(new WvWResponseProcessor());
             responseProcessors.Add(new XAllTheYResponseProcessor());
+            responseProcessors.Add(new SavingThrowResponseProcessor());
 
             // examples of semi-complex or "messier" processors (created in separate classes)
             responseProcessors.Add(new ScoreResponseProcessor());
