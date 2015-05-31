@@ -23,7 +23,7 @@ namespace MargieBot.ExampleResponseProcessors.Models
 
         private string GetFilePath()
         {
-            return TeamID + ".json";
+            return TeamID + "-scorebook.json";
         }
 
         public IReadOnlyDictionary<string, int> GetScores()
