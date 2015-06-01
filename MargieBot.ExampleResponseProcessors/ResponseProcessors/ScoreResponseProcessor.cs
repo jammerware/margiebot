@@ -33,7 +33,7 @@ namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
             // put the scorebook in context in case someone wants to see the scoreboard
             context.Set<Scorebook>(this.Scorebook);
 
-            return !context.Message.User.IsSlackbot && Regex.IsMatch(context.Message.Text, SCORE_REGEX);
+            return !context.Message.User.IsSlackbot && context.Message.ChatHub.Type != SlackChatHubType.DM && Regex.IsMatch(context.Message.Text, SCORE_REGEX);
         }
 
         public BotMessage GetResponse(ResponseContext context)
