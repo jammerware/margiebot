@@ -1,8 +1,8 @@
 ﻿using MargieBot.Models;
 
-namespace MargieBot.MessageProcessors
+namespace MargieBot.Responders
 {
-    public interface IResponseProcessor
+    public interface IResponder
     {
         bool CanRespond(ResponseContext context);
         BotMessage GetResponse(ResponseContext context);

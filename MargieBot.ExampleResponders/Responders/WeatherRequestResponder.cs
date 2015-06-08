@@ -3,20 +3,20 @@ using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
-using MargieBot.ExampleResponseProcessors.Models;
-using MargieBot.MessageProcessors;
+using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
+using MargieBot.Responders;
 using Newtonsoft.Json.Linq;
 
-namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
+namespace MargieBot.ExampleResponders.Responders
 {
-    public class WeatherRequestResponseProcessor : IResponseProcessor
+    public class WeatherRequestResponder : IResponder
     {
         private string LastData { get; set; }
         private DateTime? LastDataGrab { get; set; }
         private string WundergroundAPIKey { get; set; }
 
-        public WeatherRequestResponseProcessor(string apiKey)
+        public WeatherRequestResponder(string apiKey)
         {
             WundergroundAPIKey = apiKey;
         }

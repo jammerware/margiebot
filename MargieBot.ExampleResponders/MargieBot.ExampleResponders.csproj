@@ -7,8 +7,8 @@
     <ProjectGuid>{C214B6B0-B876-4F24-9417-A05FC6D4B616}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MargieBot.ExampleResponseProcessors</RootNamespace>
-    <AssemblyName>MargieBot.ExampleResponseProcessors</AssemblyName>
+    <RootNamespace>MargieBot.ExampleResponders</RootNamespace>
+    <AssemblyName>MargieBot.ExampleResponders</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,12 +49,12 @@
     <Compile Include="Models\Phrasebook.cs" />
     <Compile Include="Models\Scorebook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponseProcessors\DefineResponseProcessor.cs" />
-    <Compile Include="ResponseProcessors\ScoreboardRequestResponseProcessor.cs" />
-    <Compile Include="ResponseProcessors\ScoreResponseProcessor.cs" />
-    <Compile Include="ResponseProcessors\WeatherRequestResponseProcessor.cs" />
-    <Compile Include="ResponseProcessors\WhatsNewResponseProcessor.cs" />
-    <Compile Include="ResponseProcessors\WikipediaResponseProcessor.cs" />
+    <Compile Include="Responders\DefineResponder.cs" />
+    <Compile Include="Responders\ScoreboardRequestResponder.cs" />
+    <Compile Include="Responders\ScoreResponder.cs" />
+    <Compile Include="Responders\WeatherRequestResponder.cs" />
+    <Compile Include="Responders\WhatsNewResponder.cs" />
+    <Compile Include="Responders\WikipediaResponder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MargieBot\MargieBot.csproj">

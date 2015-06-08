@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using MargieBot.Models;
 
-namespace MargieBot.MessageProcessors
+namespace MargieBot.Responders
 {
-    public class SimpleResponseProcessor : IResponseProcessor
+    public class SimpleResponder : IResponder
     {
         public Func<ResponseContext, bool> CanRespondFunction { get; set; }
         public List<Func<ResponseContext, BotMessage>> GetResponseFunctions { get; set; }
 
-        public SimpleResponseProcessor()
+        public SimpleResponder()
         {
             GetResponseFunctions = new List<Func<ResponseContext, BotMessage>>();
         }

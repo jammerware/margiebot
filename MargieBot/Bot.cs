@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.NoobWebClient;
 using MargieBot.EventHandlers;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 using MargieBot.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -48,7 +48,7 @@ namespace MargieBot
                 BotNameRegex = string.Empty;
             }
         }
-        public List<IResponseProcessor> ResponseProcessors { get; private set; }
+        public List<IResponder> Responders { get; private set; }
         
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
@@ -98,7 +98,7 @@ namespace MargieBot
             // get the books ready
             Aliases = new List<string>();
             ResponseContext = new Dictionary<string, object>();
-            ResponseProcessors = new List<IResponseProcessor>();
+            Responders = new List<IResponder>();
             UserNameCache = new Dictionary<string, string>();
         }
 
@@ -234,7 +234,7 @@ namespace MargieBot
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                // if the end dev has added any static entries to the ResponseContext collection of Bot, add them to the context being passed to the processors.
+                // if the end dev has added any static entries to the ResponseContext collection of Bot, add them to the context being passed to the responders.
                 if (ResponseContext != null) {
                     foreach (string key in ResponseContext.Keys) {
                         context.Set(key, ResponseContext[key]);
@@ -243,9 +243,9 @@ namespace MargieBot
 
                 // margie can never respond to herself and requires that the message have text and be from an actual person
                 if (message.User != null && message.User.ID != UserID && message.Text != null) {
-                    foreach (IResponseProcessor processor in ResponseProcessors) {
-                        if (processor.CanRespond(context)) {
-                            await Say(processor.GetResponse(context), context);
+                    foreach (IResponder responder in Responders) {
+                        if (responder.CanRespond(context)) {
+                            await Say(responder.GetResponse(context), context);
                             context.BotHasResponded = true;
                         }
                     }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.ExampleResponseProcessors.Models;
-using MargieBot.MessageProcessors;
+using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
+using MargieBot.Responders;
 
-namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
+namespace MargieBot.ExampleResponders.Responders
 {
-    public class ScoreboardRequestResponseProcessor : IResponseProcessor
+    public class ScoreboardRequestResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {

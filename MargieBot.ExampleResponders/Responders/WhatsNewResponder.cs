@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 
-namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
+namespace MargieBot.ExampleResponders.Responders
 {
-    public class WhatsNewResponseProcessor : IResponseProcessor
+    public class WhatsNewResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {
