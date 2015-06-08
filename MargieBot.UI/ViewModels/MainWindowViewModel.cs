@@ -189,11 +189,11 @@ namespace MargieBot.UI.ViewModels
             List<IResponder> responders = new List<IResponder>();
 
             // custom processors
-            responders.Add(new RollResponseProcessor());
-            responders.Add(new CharacterResponseProcessor());
-            responders.Add(new WvWResponseProcessor());
+            responders.Add(new RollResponder());
+            responders.Add(new CharacterResponder());
+            responders.Add(new WvWResponder());
             responders.Add(new XAllTheYResponder());
-            responders.Add(new SavingThrowResponseProcessor());
+            responders.Add(new SavingThrowResponder());
 
             // examples of semi-complex or "messier" processors (created in separate classes)
             responders.Add(new ScoreResponder());

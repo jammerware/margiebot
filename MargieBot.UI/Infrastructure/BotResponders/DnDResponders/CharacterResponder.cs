@@ -6,7 +6,7 @@ using MargieBot.UI.Infrastructure.Models.DnD;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class CharacterResponseProcessor : IResponder
+    public class CharacterResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {

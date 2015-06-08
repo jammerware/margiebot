@@ -8,7 +8,7 @@ using MargieBot.UI.Infrastructure.Models.DnD;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class RollResponseProcessor : IResponder
+    public class RollResponder : IResponder
     {
         private const string DICE_REGEX = @"(?<NumberOfDice>[0-9]+)d(?<NumberOfSides>[1-9][0-9]*)";
 

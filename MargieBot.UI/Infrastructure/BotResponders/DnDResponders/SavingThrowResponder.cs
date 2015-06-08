@@ -10,7 +10,7 @@ using MargieBot.UI.Infrastructure.Models.DnD;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class SavingThrowResponseProcessor : IResponder
+    public class SavingThrowResponder : IResponder
     {
         /*
          * This process lets Margie make saving throws in D&D!

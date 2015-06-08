@@ -93,10 +93,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\BotResponders\BountyResponder.cs" />
-    <Compile Include="Infrastructure\BotResponders\DnDResponders\CharacterResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponders\DnDResponders\RollResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponders\DnDResponders\SavingThrowResponseProcessor.cs" />
-    <Compile Include="Infrastructure\BotResponders\GW2Responders\WvWResponseProcessor.cs" />
+    <Compile Include="Infrastructure\BotResponders\DnDResponders\CharacterResponder.cs" />
+    <Compile Include="Infrastructure\BotResponders\DnDResponders\RollResponder.cs" />
+    <Compile Include="Infrastructure\BotResponders\DnDResponders\SavingThrowResponder.cs" />
+    <Compile Include="Infrastructure\BotResponders\GW2Responders\WvWResponder.cs" />
     <Compile Include="Infrastructure\BotResponders\XAllTheYResponder.cs" />
     <Compile Include="Infrastructure\Models\DnD\Character.cs" />
     <Compile Include="Infrastructure\Models\DnD\CharacterAttribute.cs" />

@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.GW2Responders
 {
-    public class WvWResponseProcessor : IResponder
+    public class WvWResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {
