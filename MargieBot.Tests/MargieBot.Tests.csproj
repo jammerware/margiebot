@@ -58,10 +58,6 @@
     <Compile Include="BotNameRegexComposerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MargieBot.ExampleResponseProcessors\MargieBot.ExampleResponders.csproj">
-      <Project>{c214b6b0-b876-4f24-9417-a05fc6d4b616}</Project>
-      <Name>MargieBot.ExampleResponders</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MargieBot\MargieBot.csproj">
       <Project>{1c8dacef-74f1-45d2-ac76-b65dfb3dbca9}</Project>
       <Name>MargieBot</Name>
