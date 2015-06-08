@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Bazam.NoobWebClient;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 
-namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
+namespace MargieBot.ExampleResponders.Responders
 {
-    public class DefineResponseProcessor : IResponseProcessor
+    public class DefineResponseProcessor : IResponder
     {
         private const string DEFINE_REGEX = @"define\s+(?<term>\w+)";
         private string ApiKey { get; set; }

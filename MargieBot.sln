@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot", "MargieBot\Marg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot.Tests", "MargieBot.Tests\MargieBot.Tests.csproj", "{2E347D00-FB86-4EF2-95BC-D8EEB98584DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot.ExampleResponseProcessors", "MargieBot.ExampleResponseProcessors\MargieBot.ExampleResponseProcessors.csproj", "{C214B6B0-B876-4F24-9417-A05FC6D4B616}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot.ExampleResponders", "MargieBot.ExampleResponseProcessors\MargieBot.ExampleResponders.csproj", "{C214B6B0-B876-4F24-9417-A05FC6D4B616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

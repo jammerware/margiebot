@@ -2,17 +2,17 @@
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.ExampleResponseProcessors.Models;
-using MargieBot.MessageProcessors;
+using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
+using MargieBot.Responders;
 
-namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
+namespace MargieBot.ExampleResponders.Responders
 {
     /// <summary>
     /// This processor makes MargieBot into a game! When a user says "@user+1" or similar in chat, Margie awards the mentioned user a point. The 
     /// accompanying ScoreboardRequestResponseProcessor displays the scoreboard to chat.
     /// </summary>
-    public class ScoreResponseProcessor : IResponseProcessor
+    public class ScoreResponseProcessor : IResponder
     {
         private static string SCORE_REGEX = @"((?<formattedUserID><@(?<userID>U[a-zA-Z0-9]+)>)[\s,:]*)+?\+\s*1";
 

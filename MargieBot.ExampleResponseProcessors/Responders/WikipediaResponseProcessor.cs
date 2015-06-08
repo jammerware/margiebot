@@ -1,14 +1,13 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 using Newtonsoft.Json.Linq;
 
-namespace MargieBot.ExampleResponseProcessors.ResponseProcessors
+namespace MargieBot.ExampleResponders.Responders
 {
-    public class WikipediaResponseProcessor : IResponseProcessor
+    public class WikipediaResponseProcessor : IResponder
     {
         private const string WIKI_SINGLEWORD_REGEX = @"\b(wiki|wikipedia)\b\s+(?<term>\w+)";
         private const string WIKI_MULTIWORD_REGEX = @"\b(wiki|wikipedia)\b\s+""(?<term>[\s\S]+)""";

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MargieBot.ExampleResponseProcessors.Models
+namespace MargieBot.ExampleResponders.Models
 {
     public class Phrasebook
     {

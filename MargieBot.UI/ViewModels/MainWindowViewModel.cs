@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Bazam.WPF.UIHelpers;
 using Bazam.WPF.ViewModels;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
-using MargieBot.ExampleResponseProcessors.Models;
-using MargieBot.ExampleResponseProcessors.ResponseProcessors;
+using MargieBot.ExampleResponders.Models;
+using MargieBot.ExampleResponders.Responders;
+using MargieBot.Responders;
 using System.Configuration;
 
 namespace MargieBot.UI.ViewModels
@@ -104,7 +104,7 @@ namespace MargieBot.UI.ViewModels
                         }
                         
                         // PROCESSOR WIREUP
-                        _Margie.ResponseProcessors.AddRange(GetResponseProcessors());
+                        _Margie.Responders.AddRange(GetResponders());
 
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
                             ConnectionStatus = isConnected;
@@ -175,36 +175,36 @@ namespace MargieBot.UI.ViewModels
         /// <summary>
         /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the processors
         /// described in this method as you want and start fresh. Define your own resposne processors using the methods describe
-        /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IList<IResponseProcessor>. 
+        /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IList<IResponder>. 
         /// You create them in this project, in a separate one, or even in the ExampleProcessors project if you want.
         /// 
         /// Boom! You have your own bot.
         /// </summary>
         /// <returns>A list of the processors this bot should respond with.</returns>
-        private IList<IResponseProcessor> GetResponseProcessors()
+        private IList<IResponder> GetResponders()
         {
             // Some of these are more complicated than they need to be for the sake of example
-            List<IResponseProcessor> responseProcessors = new List<IResponseProcessor>();
+            List<IResponder> responders = new List<IResponder>();
 
             // examples of semi-complex or "messier" processors (created in separate classes)
-            responseProcessors.Add(new ScoreResponseProcessor());
-            responseProcessors.Add(new ScoreboardRequestResponseProcessor());
-            responseProcessors.Add(new WhatsNewResponseProcessor());
-            responseProcessors.Add(new WikipediaResponseProcessor());
+            responders.Add(new ScoreResponseProcessor());
+            responders.Add(new ScoreboardRequestResponseProcessor());
+            responders.Add(new WhatsNewResponseProcessor());
+            responders.Add(new WikipediaResponseProcessor());
 
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
-            responseProcessors.Add(new WeatherRequestResponseProcessor(ConfigurationManager.AppSettings["wundergroundApiKey"]));
-            responseProcessors.Add(new DefineResponseProcessor(ConfigurationManager.AppSettings["dictionaryApiKey"]));
+            responders.Add(new WeatherRequestResponseProcessor(ConfigurationManager.AppSettings["wundergroundApiKey"]));
+            responders.Add(new DefineResponseProcessor(ConfigurationManager.AppSettings["dictionaryApiKey"]));
 
             // examples of simple-ish "inline" processors
             // this processor hits on Slackbot when he talks 1/4 times or so
-            _Margie.ResponseProcessors.Add(_Margie.CreateResponseProcessor(
+            _Margie.Responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
             ));
 
             // easiest one of all - this one responds if someone thanks Margie
-            responseProcessors.Add(_Margie.CreateResponseProcessor(
+            responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetYoureWelcome(); }
             ));
@@ -224,7 +224,7 @@ namespace MargieBot.UI.ViewModels
                 .IfBotIsMentioned();
 
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other processor has responded
-            responseProcessors.Add(_Margie.CreateResponseProcessor(
+            responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => {
                     return
                         context.Message.MentionsBot &&
@@ -238,7 +238,7 @@ namespace MargieBot.UI.ViewModels
                 }
             ));
 
-            return responseProcessors;
+            return responders;
         }
 
         /// <summary>
