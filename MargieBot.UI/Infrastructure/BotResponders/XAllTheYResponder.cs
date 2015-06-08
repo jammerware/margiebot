@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors
+namespace MargieBot.UI.Infrastructure.BotResponders
 {
-    public class XAllTheYResponseProcessor : IResponseProcessor
+    public class XAllTheYResponder : IResponder
     {
         private const string XY_REGEX = @"\b(?<x>[\w-]+)\b all the \b(?<y>\w+)\b";
 

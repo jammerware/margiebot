@@ -5,18 +5,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Bazam.WPF.UIHelpers;
 using Bazam.WPF.ViewModels;
-using MargieBot.Models;
 using MargieBot.ExampleResponders.Models;
 using MargieBot.ExampleResponders.Responders;
-using MargieBot.Responders;
-using System.Configuration;
-using MargieBot.ExampleResponseProcessors.Models;
-using MargieBot.ExampleResponseProcessors.ResponseProcessors;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
-using MargieBot.UI.Infrastructure.BotResponseProcessors;
-using MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors;
-using MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessors;
+using MargieBot.Responders;
+using MargieBot.UI.Infrastructure.BotResponders;
+using MargieBot.UI.Infrastructure.BotResponders.DnDResponders;
+using MargieBot.UI.Infrastructure.BotResponders.GW2Responders;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -194,18 +189,18 @@ namespace MargieBot.UI.ViewModels
             List<IResponder> responders = new List<IResponder>();
 
             // custom processors
-            responseProcessors.Add(new RollResponseProcessor());
-            responseProcessors.Add(new CharacterResponseProcessor());
-            responseProcessors.Add(new WvWResponseProcessor());
-            responseProcessors.Add(new XAllTheYResponseProcessor());
-            responseProcessors.Add(new SavingThrowResponseProcessor());
+            responders.Add(new RollResponseProcessor());
+            responders.Add(new CharacterResponseProcessor());
+            responders.Add(new WvWResponseProcessor());
+            responders.Add(new XAllTheYResponder());
+            responders.Add(new SavingThrowResponseProcessor());
 
             // examples of semi-complex or "messier" processors (created in separate classes)
-            responseProcessors.Add(new ScoreResponseProcessor());
-            responseProcessors.Add(new ScoreboardRequestResponseProcessor());
-            responseProcessors.Add(new WhatsNewResponseProcessor());
-            responseProcessors.Add(new WikipediaResponseProcessor());
-            responseProcessors.Add(new BountyResponseProcessor());
+            responders.Add(new ScoreResponder());
+            responders.Add(new ScoreboardRequestResponder());
+            responders.Add(new WhatsNewResponder());
+            responders.Add(new WikipediaResponder());
+            responders.Add(new BountyResponder());
 
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
             responders.Add(new WeatherRequestResponder(ConfigurationManager.AppSettings["wundergroundApiKey"]));

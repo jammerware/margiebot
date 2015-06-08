@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Bazam.DestupidifiedCollections;
-using MargieBot.ExampleResponseProcessors.Models;
-using MargieBot.MessageProcessors;
+using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
+using MargieBot.Responders;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors
+namespace MargieBot.UI.Infrastructure.BotResponders
 {
-    public class BountyResponseProcessor : IResponseProcessor
+    public class BountyResponder : IResponder
     {
         private DestupidifiedList<string> _ActiveBounties = new DestupidifiedList<string>();
         private const string BOUNTY_START_REGEX = @"bounty[\s:]+(?<bountyText>[\s\S]+)";

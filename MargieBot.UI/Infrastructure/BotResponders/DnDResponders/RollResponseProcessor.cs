@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.Models;
 using MargieBot.UI.Infrastructure.Models.DnD;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors
+namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class RollResponseProcessor : IResponseProcessor
+    public class RollResponseProcessor : IResponder
     {
         private const string DICE_REGEX = @"(?<NumberOfDice>[0-9]+)d(?<NumberOfSides>[1-9][0-9]*)";
 

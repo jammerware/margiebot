@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.Models.GW2;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors.GW2ResponseProcessors
+namespace MargieBot.UI.Infrastructure.BotResponders.GW2Responders
 {
-    public class WvWResponseProcessor : IResponseProcessor
+    public class WvWResponseProcessor : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {

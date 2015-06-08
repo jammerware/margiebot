@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Bazam.Modules.Enumerations;
-using MargieBot.MessageProcessors;
 using MargieBot.Models;
+using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.Models.DnD;
 
-namespace MargieBot.UI.Infrastructure.BotResponseProcessors.DnDResponseProcessors
+namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class SavingThrowResponseProcessor : IResponseProcessor
+    public class SavingThrowResponseProcessor : IResponder
     {
         /*
          * This process lets Margie make saving throws in D&D!
