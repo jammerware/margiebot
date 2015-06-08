@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\BotResponseProcessors\BountyResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\CharacterResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\RollResponseProcessor.cs" />
     <Compile Include="Infrastructure\BotResponseProcessors\DnDResponseProcessors\SavingThrowResponseProcessor.cs" />
