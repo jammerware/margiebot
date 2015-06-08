@@ -49,12 +49,12 @@
     <Compile Include="Models\Phrasebook.cs" />
     <Compile Include="Models\Scorebook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Responders\DefineResponseProcessor.cs" />
-    <Compile Include="Responders\ScoreboardRequestResponseProcessor.cs" />
-    <Compile Include="Responders\ScoreResponseProcessor.cs" />
-    <Compile Include="Responders\WeatherRequestResponseProcessor.cs" />
-    <Compile Include="Responders\WhatsNewResponseProcessor.cs" />
-    <Compile Include="Responders\WikipediaResponseProcessor.cs" />
+    <Compile Include="Responders\DefineResponder.cs" />
+    <Compile Include="Responders\ScoreboardRequestResponder.cs" />
+    <Compile Include="Responders\ScoreResponder.cs" />
+    <Compile Include="Responders\WeatherRequestResponder.cs" />
+    <Compile Include="Responders\WhatsNewResponder.cs" />
+    <Compile Include="Responders\WikipediaResponder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MargieBot\MargieBot.csproj">

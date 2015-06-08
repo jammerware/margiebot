@@ -58,30 +58,30 @@ namespace MargieBot.Tests
         public void SimpleResponderCanRespond()
         {
             Bot bot = new Bot();
-            IResponder processor = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
+            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
             ResponseContext context = GetResponseContext("Hi everybody.");
 
-            Assert.AreEqual(true, processor.CanRespond(context));
+            Assert.AreEqual(true, responder.CanRespond(context));
         }
 
         [TestMethod]
         public void SimpleResponderRespondsCorrectly()
         {
             Bot bot = new Bot();
-            IResponder processor = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
+            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
             ResponseContext context = GetResponseContext("Hi, everybody.");
 
-            Assert.AreEqual("Hello, friend!", processor.GetResponse(context).Text);
+            Assert.AreEqual("Hello, friend!", responder.GetResponse(context).Text);
         }
 
         [TestMethod]
         public void SimpleResponderWithMentionRespondsToMention()
         {
             Bot bot = new Bot();
-            IResponder processor = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponder();
+            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponder();
             ResponseContext context = GetResponseContext("Hi, Margie.");
 
-            Assert.AreEqual(true, processor.CanRespond(context));
+            Assert.AreEqual(true, responder.CanRespond(context));
         }
 
         [TestMethod]

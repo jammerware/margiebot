@@ -8,7 +8,7 @@ using MargieBot.Responders;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class ScoreboardRequestResponseProcessor : IResponder
+    public class ScoreboardRequestResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {

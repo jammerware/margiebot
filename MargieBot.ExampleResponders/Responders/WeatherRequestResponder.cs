@@ -10,13 +10,13 @@ using Newtonsoft.Json.Linq;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class WeatherRequestResponseProcessor : IResponder
+    public class WeatherRequestResponder : IResponder
     {
         private string LastData { get; set; }
         private DateTime? LastDataGrab { get; set; }
         private string WundergroundAPIKey { get; set; }
 
-        public WeatherRequestResponseProcessor(string apiKey)
+        public WeatherRequestResponder(string apiKey)
         {
             //WundergroundAPIKey = ConfigurationManager.AppSettings["wundergroundApiKey"];
             WundergroundAPIKey = apiKey;

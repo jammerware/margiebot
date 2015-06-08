@@ -103,7 +103,7 @@ namespace MargieBot.UI.ViewModels
                             _Margie.ResponseContext.Add(value.Key, value.Value);
                         }
                         
-                        // PROCESSOR WIREUP
+                        // RESPONDER WIREUP
                         _Margie.Responders.AddRange(GetResponders());
 
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
@@ -173,33 +173,33 @@ namespace MargieBot.UI.ViewModels
         }
 
         /// <summary>
-        /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the processors
-        /// described in this method as you want and start fresh. Define your own resposne processors using the methods describe
+        /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the responders
+        /// described in this method as you want and start fresh. Define your own responders using the methods describe
         /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IList<IResponder>. 
-        /// You create them in this project, in a separate one, or even in the ExampleProcessors project if you want.
+        /// You create them in this project, in a separate one, or even in the ExampleResponders project if you want.
         /// 
         /// Boom! You have your own bot.
         /// </summary>
-        /// <returns>A list of the processors this bot should respond with.</returns>
+        /// <returns>A list of the responders this bot should respond with.</returns>
         private IList<IResponder> GetResponders()
         {
             // Some of these are more complicated than they need to be for the sake of example
             List<IResponder> responders = new List<IResponder>();
 
-            // examples of semi-complex or "messier" processors (created in separate classes)
-            responders.Add(new ScoreResponseProcessor());
-            responders.Add(new ScoreboardRequestResponseProcessor());
-            responders.Add(new WhatsNewResponseProcessor());
-            responders.Add(new WikipediaResponseProcessor());
+            // examples of semi-complex or "messier" responders (created in separate classes)
+            responders.Add(new ScoreResponder());
+            responders.Add(new ScoreboardRequestResponder());
+            responders.Add(new WhatsNewResponder());
+            responders.Add(new WikipediaResponder());
 
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
-            responders.Add(new WeatherRequestResponseProcessor(ConfigurationManager.AppSettings["wundergroundApiKey"]));
-            responders.Add(new DefineResponseProcessor(ConfigurationManager.AppSettings["dictionaryApiKey"]));
+            responders.Add(new WeatherRequestResponder(ConfigurationManager.AppSettings["wundergroundApiKey"]));
+            responders.Add(new DefineResponder(ConfigurationManager.AppSettings["dictionaryApiKey"]));
 
-            // examples of simple-ish "inline" processors
-            // this processor hits on Slackbot when he talks 1/4 times or so
+            // examples of simple-ish "inline" responders
+            // this one hits on Slackbot when he talks 1/8 times or so
             _Margie.Responders.Add(_Margie.CreateResponder(
-                (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(4) <= 1); },
+                (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(8) <= 1); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
             ));
 
@@ -209,7 +209,7 @@ namespace MargieBot.UI.ViewModels
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetYoureWelcome(); }
             ));
 
-            // example of Supa Fly Mega EZ Syntactic Sugary Response Processors (not their actual name)
+            // example of Supa Fly Mega EZ Syntactic Sugary Responder (not their actual name)
             _Margie
                 .RespondsTo("get on that")
                 .With("Sure, hun!")
@@ -223,7 +223,7 @@ namespace MargieBot.UI.ViewModels
                 .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
                 .IfBotIsMentioned();
 
-            // this last one just responds if someone says "hi" or whatever to Margie, but only if no other processor has responded
+            // this last one just responds if someone says "hi" or whatever to Margie, but only if no other responder has responded
             responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => {
                     return
@@ -242,8 +242,8 @@ namespace MargieBot.UI.ViewModels
         }
 
         /// <summary>
-        /// If you want to share any data across all your processors, you can use the StaticResponseContextData property of the bot to do it. I elected
-        /// to have most of my processors use a "Phrasebook" object to ensure a consistent tone across the bot's responses, so I stuff the Phrasebook
+        /// If you want to share any data across all your responders, you can use the StaticResponseContextData property of the bot to do it. I elected
+        /// to have most of my responders use a "Phrasebook" object to ensure a consistent tone across the bot's responses, so I stuff the Phrasebook
         /// into the context for use.
         /// </summary>
         /// <returns></returns>

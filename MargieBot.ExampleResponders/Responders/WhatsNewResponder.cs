@@ -6,7 +6,7 @@ using MargieBot.Responders;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class WhatsNewResponseProcessor : IResponder
+    public class WhatsNewResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {

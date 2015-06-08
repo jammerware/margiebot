@@ -16,7 +16,7 @@ namespace MargieBot.Models
         #endregion
 
         #region Content
-        // the internal Content dictionary and its related methods allow processors to pass information to or share information with one another. Unless the
+        // the internal Content dictionary and its related methods allow responders to pass information to or share information with one another. Unless the
         // end programmer specifies otherwise, it won't have anything in it at all.
         private IDictionary<string, object> Content { get; set; }
 

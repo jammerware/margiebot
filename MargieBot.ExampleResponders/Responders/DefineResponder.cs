@@ -11,12 +11,12 @@ using MargieBot.Responders;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class DefineResponseProcessor : IResponder
+    public class DefineResponder : IResponder
     {
         private const string DEFINE_REGEX = @"define\s+(?<term>\w+)";
         private string ApiKey { get; set; }
 
-        public DefineResponseProcessor(string apiKey)
+        public DefineResponder(string apiKey)
         {
             ApiKey = apiKey;
         }

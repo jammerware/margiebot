@@ -234,7 +234,7 @@ namespace MargieBot
                     UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
                 };
 
-                // if the end dev has added any static entries to the ResponseContext collection of Bot, add them to the context being passed to the processors.
+                // if the end dev has added any static entries to the ResponseContext collection of Bot, add them to the context being passed to the responders.
                 if (ResponseContext != null) {
                     foreach (string key in ResponseContext.Keys) {
                         context.Set(key, ResponseContext[key]);
@@ -243,9 +243,9 @@ namespace MargieBot
 
                 // margie can never respond to herself and requires that the message have text and be from an actual person
                 if (message.User != null && message.User.ID != UserID && message.Text != null) {
-                    foreach (IResponder processor in Responders) {
-                        if (processor.CanRespond(context)) {
-                            await Say(processor.GetResponse(context), context);
+                    foreach (IResponder responder in Responders) {
+                        if (responder.CanRespond(context)) {
+                            await Say(responder.GetResponse(context), context);
                             context.BotHasResponded = true;
                         }
                     }

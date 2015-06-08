@@ -9,14 +9,14 @@ using MargieBot.Responders;
 namespace MargieBot.ExampleResponders.Responders
 {
     /// <summary>
-    /// This processor makes MargieBot into a game! When a user says "@user+1" or similar in chat, Margie awards the mentioned user a point. The 
-    /// accompanying ScoreboardRequestResponseProcessor displays the scoreboard to chat.
+    /// This responder makes MargieBot into a game! When a user says "@user+1" or similar in chat, Margie awards the mentioned user a point. The 
+    /// accompanying ScoreboardRequestResponder displays the scoreboard to chat.
     /// </summary>
-    public class ScoreResponseProcessor : IResponder
+    public class ScoreResponder : IResponder
     {
         private static string SCORE_REGEX = @"((?<formattedUserID><@(?<userID>U[a-zA-Z0-9]+)>)[\s,:]*)+?\+\s*1";
 
-        // this processor holds a scorebook that keeps track of the score per teamID. We hold internal references
+        // this responder holds a scorebook that keeps track of the score per teamID. We hold internal references
         // to the team we're scoring so we don't have to build the scorebook every time a response is requested, but
         // we still need to compare it to the ResponseContext's TeamID every time in case the bot is disconnected
         // and then connected to a different team.
@@ -56,7 +56,7 @@ namespace MargieBot.ExampleResponders.Responders
             IList<string> scoringUsers = scoringResults.Where(r => r.IsValidScorer).Select(r => r.UserID).ToList();
             IList<string> allUsers = scoringResults.Select(r => r.UserID).ToList();
 
-            // score the users and shove the scorebook into the context for use by the ScoreboardRequestResponseProcessor
+            // score the users and shove the scorebook into the context for use by the ScoreboardRequestResponder
             Scorebook.ScoreUsers(scoringUsers, 1);
 
             Phrasebook phrasebook = context.Get<Phrasebook>();

@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class WikipediaResponseProcessor : IResponder
+    public class WikipediaResponder : IResponder
     {
         private const string WIKI_SINGLEWORD_REGEX = @"\b(wiki|wikipedia)\b\s+(?<term>\w+)";
         private const string WIKI_MULTIWORD_REGEX = @"\b(wiki|wikipedia)\b\s+""(?<term>[\s\S]+)""";
