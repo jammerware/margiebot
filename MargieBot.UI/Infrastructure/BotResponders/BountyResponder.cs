@@ -31,7 +31,7 @@ namespace MargieBot.UI.Infrastructure.BotResponders
             if(bountyStartMatch.Success) {
                 _ActiveBounties.Add(context.Message.User.ID);
                 return new BotMessage() {
-                    Text = "It's bounty huntin' time! " + context.Message.User.FormattedUserID + " is givin' out a point for the best answer to: " + bountyStartMatch.Groups["bountyText"].Value
+                    Text = "It's bounty huntin' time! " + context.Message.User.FormattedUserID + " is givin' out a point for the best answer to: _" + bountyStartMatch.Groups["bountyText"].Value + "_"
                 };
             }
             else if (Regex.IsMatch(context.Message.Text, BOUNTY_CANCEL_REGEX, RegexOptions.IgnoreCase)) {
@@ -56,7 +56,7 @@ namespace MargieBot.UI.Infrastructure.BotResponders
                     _ActiveBounties.Remove(context.Message.User.ID);
 
                     return new BotMessage() {
-                        Text = "Whoohoo! " + formattedWinningUserId + "just completed " + context.Message.User.FormattedUserID + "'s bounty for a point. " + formattedWinningUserId + ", your score is now " + scorebook.GetUserScore(winningUser) + "."
+                        Text = "Whoohoo! " + formattedWinningUserId + " just completed " + context.Message.User.FormattedUserID + "'s bounty for a point. " + formattedWinningUserId + ", your score is now " + scorebook.GetUserScore(winningUser) + "."
                     };
                 }
             }
