@@ -16,10 +16,10 @@ namespace MargieBot.UI.Infrastructure.BotResponders
         public bool CanRespond(ResponseContext context)
         {
             return (
-                (context.Message.ChatHub.Type != SlackChatHubType.DM && context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, BOUNTY_START_REGEX)) || (
+                (context.Message.ChatHub.Type != SlackChatHubType.DM && context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, BOUNTY_START_REGEX, RegexOptions.IgnoreCase)) || (
                     _ActiveBounties.Contains(context.Message.User.ID) && (
-                        Regex.IsMatch(context.Message.Text, BOUNTY_SUCCESS_REGEX) ||
-                        Regex.IsMatch(context.Message.Text, BOUNTY_CANCEL_REGEX)
+                        Regex.IsMatch(context.Message.Text, BOUNTY_SUCCESS_REGEX, RegexOptions.IgnoreCase) ||
+                        Regex.IsMatch(context.Message.Text, BOUNTY_CANCEL_REGEX, RegexOptions.IgnoreCase)
                     )
                 )
             );
@@ -27,21 +27,21 @@ namespace MargieBot.UI.Infrastructure.BotResponders
 
         public BotMessage GetResponse(ResponseContext context)
         {
-            Match bountyStartMatch = Regex.Match(context.Message.Text, BOUNTY_START_REGEX);
+            Match bountyStartMatch = Regex.Match(context.Message.Text, BOUNTY_START_REGEX, RegexOptions.IgnoreCase);
             if(bountyStartMatch.Success) {
                 _ActiveBounties.Add(context.Message.User.ID);
                 return new BotMessage() {
                     Text = "It's bounty huntin' time! " + context.Message.User.FormattedUserID + " is givin' out a point for the best answer to: " + bountyStartMatch.Groups["bountyText"].Value
                 };
             }
-            else if (Regex.IsMatch(context.Message.Text, BOUNTY_CANCEL_REGEX)) {
+            else if (Regex.IsMatch(context.Message.Text, BOUNTY_CANCEL_REGEX, RegexOptions.IgnoreCase)) {
                 _ActiveBounties.Remove(context.Message.User.ID);
                 return new BotMessage() {
                     Text = context.Message.User.FormattedUserID + " canceled his/her bounty. No points for that one, y'all."
                 };
             }
             else {
-                Match bountyEndMatch = Regex.Match(context.Message.Text, BOUNTY_SUCCESS_REGEX);
+                Match bountyEndMatch = Regex.Match(context.Message.Text, BOUNTY_SUCCESS_REGEX, RegexOptions.IgnoreCase);
                 string winningUser = bountyEndMatch.Groups["userId"].Value;
 
                 if (context.Message.User.ID == winningUser) {
