@@ -25,6 +25,8 @@ namespace MargieBot.ExampleResponders.Responders
 
                 // add the scores to a list for sorting. while we do, figure out who has the longest name for the pseudo table formatting
                 List<KeyValuePair<string, int>> sortedScores = new List<KeyValuePair<string, int>>();
+                // add comcast, because lol
+                sortedScores.Add(new KeyValuePair<string, int>("comcast", -9001));
                 string longestName = string.Empty;
 
                 foreach (string key in scores.Keys) {
