@@ -13,5 +13,12 @@
     <releaseNotes>Margie's on NuGet, y'all!</releaseNotes>
     <copyright>Copyright Jammerware 2015</copyright>
     <tags>.NET Slack Bot Framework</tags>
+    <references>
+      <reference file="MargieBot.dll" />
+      <reference file="websocket-sharp.dll" />
+    </references>
   </metadata>
+  <files>
+    <file src="lib\websocket-sharp.dll" target="lib\net45" />
+  </files>
 </package>
