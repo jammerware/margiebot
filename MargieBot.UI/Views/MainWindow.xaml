@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-    xmlns:bazamBehaviors="clr-namespace:Bazam.WPF.Behaviors;assembly=Bazam.WPF"
+    xmlns:bazamBehaviors="clr-namespace:Bazam.Wpf.Behaviors;assembly=Bazam.Wpf"
     xmlns:controls="clr-namespace:MargieBot.UI.Views.Helpers.Controls"
     xmlns:convert="clr-namespace:MargieBot.UI.Views.Helpers.ValueConverters"
     xmlns:vm="clr-namespace:MargieBot.UI.ViewModels"

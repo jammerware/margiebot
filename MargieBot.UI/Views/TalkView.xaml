@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:bazamBehaviors="clr-namespace:Bazam.WPF.Behaviors;assembly=Bazam.WPF"
+    xmlns:bazamBehaviors="clr-namespace:Bazam.Wpf.Behaviors;assembly=Bazam.Wpf"
     xmlns:convert="clr-namespace:MargieBot.UI.Views.Helpers.ValueConverters">
     <Grid>
         <Grid.Resources>
