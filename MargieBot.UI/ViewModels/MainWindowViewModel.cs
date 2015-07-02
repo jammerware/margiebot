@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using Bazam.WPF.UIHelpers;
-using Bazam.WPF.ViewModels;
+using Bazam.Wpf.UIHelpers;
+using Bazam.Wpf.ViewModels;
 using MargieBot.ExampleResponders.Models;
 using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
@@ -15,7 +15,7 @@ using MargieBot.UI.Infrastructure.BotResponders.GW2Responders;
 
 namespace MargieBot.UI.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
     {
         private Bot _Margie;
 
@@ -23,42 +23,42 @@ namespace MargieBot.UI.ViewModels
         public string AuthKeySlack
         {
             get { return _AuthKeySlack; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.AuthKeySlack, value); }
+            set { ChangeProperty(vm => vm.AuthKeySlack, value); }
         }
 
         private string _BotUserID = string.Empty;
         public string BotUserID
         {
             get { return _BotUserID; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.BotUserID, value); }
+            set { ChangeProperty(vm => vm.BotUserID, value); }
         }
 
         private string _BotUserName = string.Empty;
         public string BotUserName
         {
             get { return _BotUserName; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.BotUserName, value); }
+            set { ChangeProperty(vm => vm.BotUserName, value); }
         }
 
         private IReadOnlyList<SlackChatHub> _ConnectedHubs;
         public IReadOnlyList<SlackChatHub> ConnectedHubs
         {
             get { return _ConnectedHubs; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectedHubs, value); }
+            set { ChangeProperty(vm => vm.ConnectedHubs, value); }
         }
 
         private DateTime? _ConnectedSince = null;
         public DateTime? ConnectedSince
         {
             get { return _ConnectedSince; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectedSince, value); }
+            set { ChangeProperty(vm => vm.ConnectedSince, value); }
         }
 
         private bool _ConnectionStatus = false;
         public bool ConnectionStatus
         {
             get { return _ConnectionStatus; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.ConnectionStatus, value); }
+            set { ChangeProperty(vm => vm.ConnectionStatus, value); }
         }
 
         private List<string> _Messages = new List<string>();
@@ -71,27 +71,27 @@ namespace MargieBot.UI.ViewModels
         public string MessageToSend
         {
             get { return _MessageToSend; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.MessageToSend, value); }
+            set { ChangeProperty(vm => vm.MessageToSend, value); }
         }
 
         private SlackChatHub _SelectedChatHub;
         public SlackChatHub SelectedChatHub
         {
             get { return _SelectedChatHub; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.SelectedChatHub, value); }
+            set { ChangeProperty(vm => vm.SelectedChatHub, value); }
         }
 
         private string _TeamName = string.Empty;
         public string TeamName
         {
             get { return _TeamName; }
-            set { ChangeProperty<MainWindowViewModel>(vm => vm.TeamName, value); }
+            set { ChangeProperty(vm => vm.TeamName, value); }
         }
 
         public ICommand ConnectCommand
         {
             get { 
-                return new RelayCommand(async (timeForThings) => {
+                return new RelayCommand(async () => {
                     if (_Margie != null && ConnectionStatus) {
                         SelectedChatHub = null;
                         ConnectedHubs = null;
@@ -157,7 +157,7 @@ namespace MargieBot.UI.ViewModels
         {
             get
             {
-                return new RelayCommand(async (letsChatterYall) => {
+                return new RelayCommand(async () => {
                     await _Margie.Say(new BotMessage() { Text = MessageToSend, ChatHub = SelectedChatHub });
                     MessageToSend = string.Empty;
                 });
@@ -197,7 +197,7 @@ namespace MargieBot.UI.ViewModels
 
             // examples of semi-complex or "messier" processors (created in separate classes)
             responders.Add(new ScoreResponder());
-            responders.Add(new ScoreboardRequestResponder());
+            responders.Add(new ScoreboardResponder());
             responders.Add(new WhatsNewResponder());
             responders.Add(new WikipediaResponder());
             responders.Add(new BountyResponder());

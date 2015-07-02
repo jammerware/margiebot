@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Bazam.Extensions;
 using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class ScoreboardRequestResponder : IResponder
+    public class ScoreboardResponder : IResponder
     {
         public bool CanRespond(ResponseContext context)
         {
@@ -25,13 +26,24 @@ namespace MargieBot.ExampleResponders.Responders
 
                 // add the scores to a list for sorting. while we do, figure out who has the longest name for the pseudo table formatting
                 List<KeyValuePair<string, int>> sortedScores = new List<KeyValuePair<string, int>>();
-                // add comcast, because lol
-                sortedScores.Add(new KeyValuePair<string, int>("comcast", -9001));
                 string longestName = string.Empty;
 
                 foreach (string key in scores.Keys) {
                     KeyValuePair<string, int> newScore = new KeyValuePair<string, int>(context.UserNameCache[key], scores[key]);
-                    
+
+                    if (key == "U02FP643K") {
+                        string[] randomBpNames = new string[] {
+                            "artist formerly known as bp",
+                            "parrish-caliente",
+                            "b-pizzle",
+                            "bp (not the oil-spill one)",
+                            "flea-p",
+                            "pizzlybear"
+                        };
+
+                        newScore = new KeyValuePair<string, int>(randomBpNames.Random(), scores[key]);
+                    }
+
                     if(newScore.Key.Length > longestName.Length) {
                         longestName = newScore.Key;
                     }

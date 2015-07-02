@@ -1,4 +1,5 @@
 ﻿using System;
+using Bazam.Extensions;
 
 namespace MargieBot.ExampleResponders.Models
 {
@@ -14,7 +15,7 @@ namespace MargieBot.ExampleResponders.Models
                 "You go!"
             };
 
-            return affirmations[new Random().Next(affirmations.Length)];
+            return affirmations.Random();
         }
 
         public string GetExclamation()
@@ -27,7 +28,7 @@ namespace MargieBot.ExampleResponders.Models
                 "Yahoo!"
             };
 
-            return exclamations[new Random().Next(exclamations.Length)];
+            return exclamations.Random();
         }
 
         public string GetQuery()
@@ -39,7 +40,7 @@ namespace MargieBot.ExampleResponders.Models
                 "*[yawns]*. Whew. 'Scuse me. Sorry 'bout that. You rang?"
             };
 
-            return queries[new Random().Next(queries.Length)];
+            return queries.Random();
         }
 
         public string GetScoreboardHype()
@@ -50,7 +51,7 @@ namespace MargieBot.ExampleResponders.Models
                 "Howdy, friends! It's time for an update on this here rodeo. Here's how we're lookin."
             };
 
-            return hypes[new Random().Next(hypes.Length)];
+            return hypes.Random();
         }
 
         public string GetSlackbotSalutation()
@@ -62,7 +63,7 @@ namespace MargieBot.ExampleResponders.Models
                 "Well, howdy, Slackbot. You're lookin' mighty handsome today."
             };
 
-            return salutations[new Random().Next(salutations.Length)];
+            return salutations.Random();
         }
 
         public string GetWeatherAnalysis(double temp)
@@ -84,7 +85,7 @@ namespace MargieBot.ExampleResponders.Models
                 "No problem, sugarbean."
             };
 
-            return youreWelcomes[new Random().Next(youreWelcomes.Length)];
+            return youreWelcomes.Random();
         }
     }
 }
