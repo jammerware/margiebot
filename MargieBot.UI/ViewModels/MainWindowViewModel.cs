@@ -194,8 +194,6 @@ namespace MargieBot.UI.ViewModels
             responders.Add(new WvWResponder());
             responders.Add(new XAllTheYResponder());
             responders.Add(new SavingThrowResponder());
-
-            // examples of semi-complex or "messier" processors (created in separate classes)
             responders.Add(new ScoreResponder());
             responders.Add(new ScoreboardResponder());
             responders.Add(new WhatsNewResponder());
@@ -205,6 +203,7 @@ namespace MargieBot.UI.ViewModels
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
             responders.Add(new WeatherRequestResponder(ConfigurationManager.AppSettings["wundergroundApiKey"]));
             responders.Add(new DefineResponder(ConfigurationManager.AppSettings["dictionaryApiKey"]));
+            responders.Add(new PackageTrackerResponder(ConfigurationManager.AppSettings["uspsApiKey"]));
 
             // examples of simple-ish "inline" responders
             // this one hits on Slackbot when he talks 1/8 times or so

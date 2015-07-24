@@ -48,10 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Package.cs" />
+    <Compile Include="Models\PackageCarrier.cs" />
     <Compile Include="Models\Phrasebook.cs" />
     <Compile Include="Models\Scorebook.cs" />
+    <Compile Include="Models\UspsPackageStatusRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responders\DefineResponder.cs" />
+    <Compile Include="Responders\PackageTrackerResponder.cs" />
     <Compile Include="Responders\ScoreboardResponder.cs" />
     <Compile Include="Responders\ScoreResponder.cs" />
     <Compile Include="Responders\WeatherRequestResponder.cs" />
