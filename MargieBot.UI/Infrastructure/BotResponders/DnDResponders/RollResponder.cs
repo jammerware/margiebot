@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
 using MargieBot.Responders;
-using MargieBot.UI.Infrastructure.Models;
 using MargieBot.UI.Infrastructure.Models.DnD;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class RollResponder : IResponder
+    public class RollResponder : IResponder, IDescribable
     {
         private const string DICE_REGEX = @"(?<NumberOfDice>[0-9]+)d(?<NumberOfSides>[1-9][0-9]*)";
 
@@ -82,5 +82,12 @@ namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
                 return new BotMessage() { Text = "Are y'all funnin' with me again?" };
             }
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return "roll some dice for you. Try asking me to roll 4d6!"; }
+        }
+        #endregion
     }
 }

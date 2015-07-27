@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class WikipediaResponder : IResponder
+    public class WikipediaResponder : IResponder, IDescribable
     {
         private const string WIKI_SINGLEWORD_REGEX = @"\b(wiki|wikipedia)\b\s+(?<term>\w+)";
         private const string WIKI_MULTIWORD_REGEX = @"\b(wiki|wikipedia)\b\s+""(?<term>[\s\S]+)""";
@@ -58,5 +58,12 @@ namespace MargieBot.ExampleResponders.Responders
                 Text = "I never heard of that, which isn't all that surprisin'. What IS surprisin' is that neither has Wikipedia. Have you been hangin' out behind the barn again with SkeeterBot?"
             };
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return @"look things up on wikipedia for ya"; }
+        }
+        #endregion
     }
 }

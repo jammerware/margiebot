@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
 using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.Models.DnD;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class CharacterResponder : IResponder
+    public class CharacterResponder : IResponder, IDescribable
     {
         public bool CanRespond(ResponseContext context)
         {
@@ -44,5 +45,12 @@ namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 
             return retVal;
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return "tell you about my D&D character"; }
+        }
+        #endregion
     }
 }

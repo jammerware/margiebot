@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Bazam.NoobWebClient;
+using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
 using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.Models.GW2;
@@ -10,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.GW2Responders
 {
-    public class WvWResponder : IResponder
+    public class WvWResponder : IResponder, IDescribable
     {
         public bool CanRespond(ResponseContext context)
         {
@@ -84,5 +85,12 @@ namespace MargieBot.UI.Infrastructure.BotResponders.GW2Responders
                 Text = messageText
             };
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return "tell you how the old WvWvW match is going in Guild Wars 2! Ask me about the Mist War."; }
+        }
+        #endregion
     }
 }

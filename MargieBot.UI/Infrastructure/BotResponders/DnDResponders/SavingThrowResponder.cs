@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Bazam.Modules;
+using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
 using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.Models.DnD;
 
 namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
 {
-    public class SavingThrowResponder : IResponder
+    public class SavingThrowResponder : IResponder, IDescribable
     {
         /*
          * This process lets Margie make saving throws in D&D!
@@ -135,5 +136,12 @@ namespace MargieBot.UI.Infrastructure.BotResponders.DnDResponders
             
             return builder.ToString();
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return "make a savin' throw, like in D&D. Try asking me to make a CON save!"; }
+        }
+        #endregion
     }
 }

@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class WeatherRequestResponder : IResponder
+    public class WeatherRequestResponder : IResponder, IDescribable
     {
         private string LastData { get; set; }
         private DateTime? LastDataGrab { get; set; }
@@ -50,5 +50,12 @@ namespace MargieBot.ExampleResponders.Responders
                 return new BotMessage() { Text = "Aww, nuts. My weatherbot gal-pal ain't around. Try 'gin later - she's prolly just fixin' her makeup." };
             }
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return @"tell you about the weather"; }
+        }
+        #endregion
     }
 }

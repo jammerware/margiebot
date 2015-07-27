@@ -12,6 +12,7 @@ using MargieBot.Responders;
 using MargieBot.UI.Infrastructure.BotResponders;
 using MargieBot.UI.Infrastructure.BotResponders.DnDResponders;
 using MargieBot.UI.Infrastructure.BotResponders.GW2Responders;
+using MargieBot.UI.Infrastructure.Models;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -101,12 +102,19 @@ namespace MargieBot.UI.ViewModels
                         // let's margie
                         _Margie = new Bot();
                         _Margie.Aliases = GetAliases();
-                        foreach(KeyValuePair<string, object> value in GetStaticResponseContextData()) {
-                            _Margie.ResponseContext.Add(value.Key, value.Value);
-                        }
+                        _Margie.ResponseContext.Add("phrasebook", new Phrasebook());
                         
                         // RESPONDER WIREUP
                         _Margie.Responders.AddRange(GetResponders());
+
+                        // build descriptions for a certain lovable responder
+                        ResponderSummary summary = new ResponderSummary();
+                        foreach(IResponder responder in _Margie.Responders) {
+                            if(typeof(IDescribable).IsAssignableFrom(responder.GetType())) {
+                                summary.Summaries.Add((responder as IDescribable).Description);
+                            }
+                        }
+                        _Margie.ResponseContext.Add("responder summary", summary);
 
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
                             ConnectionStatus = isConnected;
@@ -199,6 +207,7 @@ namespace MargieBot.UI.ViewModels
             responders.Add(new WhatsNewResponder());
             responders.Add(new WikipediaResponder());
             responders.Add(new BountyResponder());
+            responders.Add(new WhatCanYouDoResponder());
 
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your app.config and you're good to go.
             responders.Add(new WeatherRequestResponder(ConfigurationManager.AppSettings["wundergroundApiKey"]));
@@ -248,19 +257,6 @@ namespace MargieBot.UI.ViewModels
             ));
 
             return responders;
-        }
-
-        /// <summary>
-        /// If you want to share any data across all your responders, you can use the StaticResponseContextData property of the bot to do it. I elected
-        /// to have most of my responders use a "Phrasebook" object to ensure a consistent tone across the bot's responses, so I stuff the Phrasebook
-        /// into the context for use.
-        /// </summary>
-        /// <returns></returns>
-        private static Dictionary<string, object> GetStaticResponseContextData()
-        {
-            return new Dictionary<string, object>() { 
-                { "Phrasebook", new Phrasebook() }
-            };
         }
     }
 }

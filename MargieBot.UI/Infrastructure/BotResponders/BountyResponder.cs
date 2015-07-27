@@ -1,16 +1,17 @@
 ﻿using System.Text.RegularExpressions;
 using Bazam.DestupidifiedCollections;
 using MargieBot.ExampleResponders.Models;
+using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
 using MargieBot.Responders;
 
 namespace MargieBot.UI.Infrastructure.BotResponders
 {
-    public class BountyResponder : IResponder
+    public class BountyResponder : IResponder, IDescribable
     {
         private DestupidifiedList<string> _ActiveBounties = new DestupidifiedList<string>();
         private const string BOUNTY_START_REGEX = @"bounty[\s:]+(?<bountyText>[\s\S]+)";
-        private const string BOUNTY_SUCCESS_REGEX = @"^<@(?<userId>[A-Z0-9]+)>\s+(wins|got it|gets it)$";
+        private const string BOUNTY_SUCCESS_REGEX = @"<@(?<userId>[A-Z0-9]+)>\s+(wins|got it|gets it)";
         private const string BOUNTY_CANCEL_REGEX = @"\bcancel\b\s*\bbounty$";
 
         public bool CanRespond(ResponseContext context)
@@ -61,5 +62,12 @@ namespace MargieBot.UI.Infrastructure.BotResponders
                 }
             }
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return @"track bounties for ya! Start one by mentioning me and saying ""bounty: where should i go for lunch?"" Declare a winner by saying ""@sergei wins"" or ""@sergei gets it"", and cancel your bounty by saying ""cancel bounty""."; }
+        }
+        #endregion
     }
 }

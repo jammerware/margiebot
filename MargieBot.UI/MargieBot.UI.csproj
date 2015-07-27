@@ -99,6 +99,7 @@
     <Compile Include="Infrastructure\BotResponders\DnDResponders\RollResponder.cs" />
     <Compile Include="Infrastructure\BotResponders\DnDResponders\SavingThrowResponder.cs" />
     <Compile Include="Infrastructure\BotResponders\GW2Responders\WvWResponder.cs" />
+    <Compile Include="Infrastructure\BotResponders\WhatCanYouDoResponder.cs" />
     <Compile Include="Infrastructure\BotResponders\XAllTheYResponder.cs" />
     <Compile Include="Infrastructure\Models\DnD\Character.cs" />
     <Compile Include="Infrastructure\Models\DnD\CharacterAttribute.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Infrastructure\Models\GW2\WvWMatchStandings.cs" />
     <Compile Include="Infrastructure\Models\GW2\WvWWorld.cs" />
     <Compile Include="Infrastructure\Models\GW2\WvWWorldStanding.cs" />
+    <Compile Include="Infrastructure\Models\ResponderSummary.cs" />
     <Compile Include="Views\Helpers\Controls\MargiesModernWindow.cs" />
     <Compile Include="Views\Helpers\ValueConverters\BooleanInversionConverter.cs" />
     <Compile Include="Views\Helpers\Behaviors\TextChangedAppendBehavior.cs" />

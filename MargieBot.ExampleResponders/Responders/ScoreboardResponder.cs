@@ -9,7 +9,7 @@ using MargieBot.Responders;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class ScoreboardResponder : IResponder
+    public class ScoreboardResponder : IResponder, IDescribable
     {
         public bool CanRespond(ResponseContext context)
         {
@@ -74,5 +74,12 @@ namespace MargieBot.ExampleResponders.Responders
             }
             else { return new BotMessage() { Text = "Not a one-of-ya has scored yet. Come on, sleepyheads!" }; }
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return @"tell you the score"; }
+        }
+        #endregion
     }
 }

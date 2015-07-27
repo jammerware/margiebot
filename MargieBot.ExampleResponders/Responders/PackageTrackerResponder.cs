@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class PackageTrackerResponder : IResponder
+    public class PackageTrackerResponder : IResponder, IDescribable
     {
         private const string FILE_PATH_BASE = "package-tracker-{0}.json";
         private const string NEW_TRACK_REQUEST_REGEX = @"\btrack\s+my\s((?<description>[\s\S]+)\sat\s)?(?<number>[a-zA-Z0-9]+)";
@@ -164,5 +164,12 @@ namespace MargieBot.ExampleResponders.Responders
         {
             File.WriteAllText(FilePath, JsonConvert.SerializeObject(_ActivePackages));
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return @"track USPS packages for ya. Tell me to watch one by sayin' something like ""margie, track my (whatever it is) at (the tracking number, like 9400111899562265395591). You can find out where everything by asking me ""where's my stuff?"", and you can tell me to stop tracking something by just saying ""stop tracking (the tracking number)"""; }
+        }
+        #endregion
     }
 }

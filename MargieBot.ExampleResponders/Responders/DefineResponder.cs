@@ -11,7 +11,7 @@ using MargieBot.Responders;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class DefineResponder : IResponder
+    public class DefineResponder : IResponder, IDescribable
     {
         private const string DEFINE_REGEX = @"define\s+(?<term>\w+)";
         private string ApiKey { get; set; }
@@ -117,5 +117,12 @@ namespace MargieBot.ExampleResponders.Responders
                 };
             }
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return "define words for ya"; }
+        }
+        #endregion
     }
 }

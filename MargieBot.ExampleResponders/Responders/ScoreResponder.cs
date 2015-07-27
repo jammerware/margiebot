@@ -12,7 +12,7 @@ namespace MargieBot.ExampleResponders.Responders
     /// This responder makes MargieBot into a game! When a user says "@user+1" or similar in chat, Margie awards the mentioned user a point. The 
     /// accompanying ScoreboardRequestResponder displays the scoreboard to chat.
     /// </summary>
-    public class ScoreResponder : IResponder
+    public class ScoreResponder : IResponder, IDescribable
     {
         private static string SCORE_REGEX = @"((?<formattedUserID><@(?<userID>U[a-zA-Z0-9]+)>)[\s,:]*)+?\+\s*1";
 
@@ -128,6 +128,13 @@ namespace MargieBot.ExampleResponders.Responders
 
             return new BotMessage() { Text = responseBuilder.ToString().Trim() };
         }
+
+        #region IDescribable
+        public string Description
+        {
+            get { return @"give points to your buddies from you! Try giving a helpful coworker a +1 sometime."; }
+        }
+        #endregion
 
         private class ScoringResult
         {
