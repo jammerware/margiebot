@@ -235,12 +235,6 @@ namespace MargieBot.UI.ViewModels
                 .With("I'll try. No promises, though!")
                 .IfBotIsMentioned();
 
-            // you can do these with regexes too
-            _Margie
-                .RespondsTo("what (can|do) you do", true)
-                .With(@"Lots o' things! I mean, potentially, anyway. Right now I'm real good at keepin' score (try plus-one-ing one of your buddies sometime). I'm learnin' about how to keep up with the weather from my friend DonnaBot. I also can't quite keep my eyes off a certain other bot around here :) If there's anythin' else you think I can help y'all with, just say so! The feller who made me tends to keep an eye on me and see how I'm doin'. So there ya have it.")
-                .IfBotIsMentioned();
-
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other responder has responded
             responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => {
