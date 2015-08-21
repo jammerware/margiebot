@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
@@ -34,7 +34,7 @@ namespace MargieBot.ExampleResponders.Responders
             }
             else {
                 NoobWebClient client = new NoobWebClient();
-                data = client.GetResponse("http://api.wunderground.com/api/" + WundergroundAPIKey + "/conditions/q/TN/Nashville.json", RequestMethod.Get).GetAwaiter().GetResult();
+                data = client.DownloadString("http://api.wunderground.com/api/" + WundergroundAPIKey + "/conditions/q/TN/Nashville.json", RequestMethod.Get).GetAwaiter().GetResult();
                 LastData = data;
                 LastDataGrab = DateTime.Now;
             }

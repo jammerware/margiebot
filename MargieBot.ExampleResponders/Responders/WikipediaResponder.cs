@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 using MargieBot.Models;
 using MargieBot.Responders;
 using Newtonsoft.Json.Linq;
@@ -29,7 +29,7 @@ namespace MargieBot.ExampleResponders.Responders
                 searchTerm = match.Groups["term"].Value;
             }
             string requestUrl = string.Format("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&prop=extracts&exintro=&explaintext=&srsearch={0}&utf8=&continue=", WebUtility.UrlEncode(searchTerm.Trim()));
-            string response = new NoobWebClient().GetResponse(requestUrl, RequestMethod.Get).GetAwaiter().GetResult();
+            string response = new NoobWebClient().DownloadString(requestUrl, RequestMethod.Get).GetAwaiter().GetResult();
             JObject responseData = JObject.Parse(response);
 
             if (responseData["query"] != null && responseData["query"]["searchinfo"] != null) {
@@ -38,7 +38,7 @@ namespace MargieBot.ExampleResponders.Responders
                 if (totalHits > 0) {
                     string articleTitle = responseData["query"]["search"][0]["title"].Value<string>();
                     string articleRequestUrl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" + WebUtility.UrlEncode(articleTitle);
-                    string articleResponse = new NoobWebClient().GetResponse(articleRequestUrl, RequestMethod.Get).GetAwaiter().GetResult();
+                    string articleResponse = new NoobWebClient().DownloadString(articleRequestUrl, RequestMethod.Get).GetAwaiter().GetResult();
                     JObject articleData = JObject.Parse(articleResponse);
 
                     if (articleData["query"]["pages"]["-1"] == null) {

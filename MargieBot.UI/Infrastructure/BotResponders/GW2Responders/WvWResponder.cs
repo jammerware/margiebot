@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 using MargieBot.ExampleResponders.Responders;
 using MargieBot.Models;
 using MargieBot.Responders;
@@ -22,8 +22,8 @@ namespace MargieBot.UI.Infrastructure.BotResponders.GW2Responders
         {
             NoobWebClient client = new NoobWebClient();
 
-            string worldsData = client.GetResponse("https://api.guildwars2.com/v1/world_names.json", RequestMethod.Get).GetAwaiter().GetResult();
-            string matchesData = client.GetResponse("https://api.guildwars2.com/v1/wvw/matches.json", RequestMethod.Get).GetAwaiter().GetResult();
+            string worldsData = client.DownloadString("https://api.guildwars2.com/v1/world_names.json", RequestMethod.Get).GetAwaiter().GetResult();
+            string matchesData = client.DownloadString("https://api.guildwars2.com/v1/wvw/matches.json", RequestMethod.Get).GetAwaiter().GetResult();
 
             // resolve relevant IDs and shit from these requests
             Dictionary<int, string> worlds = new Dictionary<int, string>();
@@ -41,7 +41,7 @@ namespace MargieBot.UI.Infrastructure.BotResponders.GW2Responders
             ).First();
 
             // pull the details from BP's current match
-            string matchDetailsData = client.GetResponse("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + tokenBPMatch["wvw_match_id"].Value<string>(), RequestMethod.Get).GetAwaiter().GetResult();
+            string matchDetailsData = client.DownloadString("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + tokenBPMatch["wvw_match_id"].Value<string>(), RequestMethod.Get).GetAwaiter().GetResult();
             WvWMatch match = JsonConvert.DeserializeObject<WvWMatch>(matchDetailsData);
             match.RedTeamID = tokenBPMatch["red_world_id"].Value<int>();
             match.BlueTeamID = tokenBPMatch["blue_world_id"].Value<int>();

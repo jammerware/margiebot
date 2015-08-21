@@ -32,8 +32,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bazam, Version=2.6.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.2.6.9.0\lib\net45\Bazam.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Bazam.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Http">
+      <HintPath>lib\Bazam.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.SharpZipLibHelpers">
+      <HintPath>lib\Bazam.SharpZipLibHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Melek.Client">
+      <HintPath>lib\Melek.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Melek.Domain">
+      <HintPath>lib\Melek.Domain.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -56,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responders\DefineResponder.cs" />
     <Compile Include="Responders\IDescribable.cs" />
+    <Compile Include="Responders\MagicCardResponder.cs" />
     <Compile Include="Responders\PackageTrackerResponder.cs" />
     <Compile Include="Responders\ScoreboardResponder.cs" />
     <Compile Include="Responders\ScoreResponder.cs" />

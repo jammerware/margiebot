@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 
 namespace MargieBot.ExampleResponders.Models
 {
@@ -14,7 +14,7 @@ namespace MargieBot.ExampleResponders.Models
         public string Get()
         {
             string url = string.Format(USPS_API_URL, ApiKey, TrackingNumber);
-            string packageStatusXml = new NoobWebClient().GetResponse(url, RequestMethod.Get).GetAwaiter().GetResult();
+            string packageStatusXml = new NoobWebClient().DownloadString(url, RequestMethod.Get).GetAwaiter().GetResult();
             XDocument doc = XDocument.Parse(packageStatusXml);
             XElement el = (from e in doc.Descendants("TrackSummary") select e).FirstOrDefault();
 

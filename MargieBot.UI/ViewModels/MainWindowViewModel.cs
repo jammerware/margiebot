@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
@@ -105,7 +106,7 @@ namespace MargieBot.UI.ViewModels
                         _Margie.ResponseContext.Add("phrasebook", new Phrasebook());
                         
                         // RESPONDER WIREUP
-                        _Margie.Responders.AddRange(GetResponders());
+                        _Margie.Responders.AddRange(await GetResponders());
 
                         // build descriptions for a certain lovable responder
                         ResponderSummary summary = new ResponderSummary();
@@ -191,7 +192,7 @@ namespace MargieBot.UI.ViewModels
         /// Boom! You have your own bot.
         /// </summary>
         /// <returns>A list of the responders this bot should respond with.</returns>
-        private IList<IResponder> GetResponders()
+        private async Task<IList<IResponder>> GetResponders()
         {
             // Some of these are more complicated than they need to be for the sake of example
             List<IResponder> responders = new List<IResponder>();
@@ -213,6 +214,7 @@ namespace MargieBot.UI.ViewModels
             responders.Add(new WeatherRequestResponder(ConfigurationManager.AppSettings["wundergroundApiKey"]));
             responders.Add(new DefineResponder(ConfigurationManager.AppSettings["dictionaryApiKey"]));
             responders.Add(new PackageTrackerResponder(ConfigurationManager.AppSettings["uspsApiKey"]));
+            responders.Add(await MagicCardResponder.GetAsync());
 
             // examples of simple-ish "inline" responders
             // this one hits on Slackbot when he talks 1/8 times or so

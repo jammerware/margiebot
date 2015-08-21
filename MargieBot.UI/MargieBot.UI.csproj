@@ -53,13 +53,14 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.6.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.2.6.9.0\lib\net45\Bazam.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bazam">
+      <HintPath>Libs\Bazam.dll</HintPath>
     </Reference>
-    <Reference Include="Bazam.Wpf, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.WPF.2.0.8.0\lib\net45\Bazam.Wpf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bazam.Http">
+      <HintPath>Libs\Bazam.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Wpf">
+      <HintPath>Libs\Bazam.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
@@ -73,8 +74,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />

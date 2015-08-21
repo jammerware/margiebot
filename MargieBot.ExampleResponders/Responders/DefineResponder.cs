@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 using MargieBot.Models;
 using MargieBot.Responders;
 
@@ -31,7 +31,7 @@ namespace MargieBot.ExampleResponders.Responders
             string term = WebUtility.UrlEncode(Regex.Match(context.Message.Text, DEFINE_REGEX).Groups["term"].Value);
 
             NoobWebClient client = new NoobWebClient();
-            string definitionData = client.GetResponse(
+            string definitionData = client.DownloadString(
                 string.Format(
                     "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/{0}?key={1}", 
                     term,
