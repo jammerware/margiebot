@@ -56,8 +56,6 @@ namespace MargieBot.ExampleResponders.Responders
                 ICard card = results.First();
                 IPrinting printing = card.GetLastPrinting();
                 GathererClient gathererClient = new GathererClient();
-
-                string message = (results.Count == 1 ? string.Empty : "Not sure exactly... is this what you meant?: ");
                 Uri uri = _MelekClient.GetCardImageUri(printing).GetAwaiter().GetResult();
 
                 return new BotMessage() {
