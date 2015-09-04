@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Bazam.Modules;
+using Bazam.Extensions;
 using MargieBot.Models;
 using MargieBot.Responders;
 using Melek.Client.DataStore;
@@ -58,6 +58,14 @@ namespace MargieBot.ExampleResponders.Responders
                 GathererClient gathererClient = new GathererClient();
                 Uri uri = _MelekClient.GetCardImageUri(printing).GetAwaiter().GetResult();
 
+                string text = card.AllTypes.Concatenate(" ");
+                if(card.AllTribes != null) {
+                    text += " - " + card.AllTribes.Concatenate(" ");
+                }
+                if(card.AllCosts != null) {
+                    text += ", " + card.AllCosts.Concatenate(" ");
+                }
+
                 return new BotMessage() {
                     Attachments = new SlackAttachment[] {
                         new SlackAttachment() {
@@ -66,7 +74,7 @@ namespace MargieBot.ExampleResponders.Responders
                             ImageUrl = uri.AbsoluteUri,
                             Title = card.Name,
                             TitleLink = gathererClient.GetLink(card, printing.Set).GetAwaiter().GetResult(),
-                            Text = Listless.ListToString(card.AllTypes, " ") + " - " + Listless.ListToString(card.AllTribes, " ") + ", " + Listless.ListToString(card.AllCosts, " ")
+                            Text = text
                         }
                     }
                 };

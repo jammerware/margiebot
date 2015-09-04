@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
+using Bazam.Extensions;
 
 namespace MargieBot.UI.Views.Helpers.ValueConverters
 {
@@ -9,7 +10,7 @@ namespace MargieBot.UI.Views.Helpers.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Bazam.Modules.Listless.ListToString(value as IEnumerable<string>);
+            return (value as IEnumerable<string>).Concatenate();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
