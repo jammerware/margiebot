@@ -70,9 +70,11 @@ namespace MargieBot.ExampleResponders.Responders
                     Uri uri = _MelekClient.GetCardImageUri(printing).GetAwaiter().GetResult();
 
                     string text = card.AllTypes.Concatenate(" ");
-                    if (card.AllTribes != null) {
+
+                    if (card.AllTribes.Count > 0) {
                         text += " - " + card.AllTribes.Concatenate(" ");
                     }
+
                     if (card.AllCosts != null) {
                         text += ", " + card.AllCosts.Concatenate(" ");
                     }
