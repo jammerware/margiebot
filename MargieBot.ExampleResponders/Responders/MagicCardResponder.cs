@@ -14,7 +14,7 @@ namespace MargieBot.ExampleResponders.Responders
 {
     public sealed class MagicCardResponder : IResponder, IDescribable
     {
-        private const string REQUEST_REGEX = @"\[\[(?<cardName>[\S\s,]+)\]\]";
+        private const string REQUEST_REGEX = @"\[\[(?<cardName>[^\]]+)\]\]";
         private MelekClient _MelekClient = new MelekClient();
 
         private MagicCardResponder() { }
@@ -44,41 +44,69 @@ namespace MargieBot.ExampleResponders.Responders
 
         public BotMessage GetResponse(ResponseContext context)
         {
-            string searchTerm = Regex.Match(context.Message.Text, REQUEST_REGEX).Groups["cardName"].Value;
-            IReadOnlyList<ICard> results = _MelekClient.Search(searchTerm);
+            BotMessage response = new BotMessage();
+            MatchCollection matches = Regex.Matches(context.Message.Text, REQUEST_REGEX);
+            List<ICard> foundCards = new List<ICard>();
+            List<string> whiffedTerms = new List<string>();
 
-            if (results.Count == 0) {
-                return new BotMessage() {
-                    Text = @"I couldn't find """ + searchTerm + @""". You spellin' that right? Thought you Magic fellas were good at spells. ;)"
-                };
+            foreach(Match match in matches) {
+                string searchTerm = match.Groups["cardName"].Value;
+                ICard result = _MelekClient.Search(searchTerm).FirstOrDefault();
+
+                if(result != null) {
+                    foundCards.Add(result);
+                }
+                else {
+                    whiffedTerms.Add(searchTerm);
+                }
             }
-            else {
-                ICard card = results.First();
-                IPrinting printing = card.GetLastPrinting();
+
+            if(foundCards.Count > 0) {
+                List<SlackAttachment> attachments = new List<SlackAttachment>();
                 GathererClient gathererClient = new GathererClient();
-                Uri uri = _MelekClient.GetCardImageUri(printing).GetAwaiter().GetResult();
 
-                string text = card.AllTypes.Concatenate(" ");
-                if(card.AllTribes != null) {
-                    text += " - " + card.AllTribes.Concatenate(" ");
-                }
-                if(card.AllCosts != null) {
-                    text += ", " + card.AllCosts.Concatenate(" ");
-                }
+                foreach (ICard card in foundCards) {
+                    IPrinting printing = card.GetLastPrinting();    
+                    Uri uri = _MelekClient.GetCardImageUri(printing).GetAwaiter().GetResult();
 
-                return new BotMessage() {
-                    Attachments = new SlackAttachment[] {
-                        new SlackAttachment() {
-                            ColorHex = "#8C8C8C",
-                            Fallback = card.Name,
-                            ImageUrl = uri.AbsoluteUri,
-                            Title = card.Name,
-                            TitleLink = gathererClient.GetLink(card, printing.Set).GetAwaiter().GetResult(),
-                            Text = text
-                        }
+                    string text = card.AllTypes.Concatenate(" ");
+                    if (card.AllTribes != null) {
+                        text += " - " + card.AllTribes.Concatenate(" ");
                     }
-                };
+                    if (card.AllCosts != null) {
+                        text += ", " + card.AllCosts.Concatenate(" ");
+                    }
+
+                    attachments.Add(new SlackAttachment() {
+                        ColorHex = "#8C8C8C",
+                        Fallback = card.Name,
+                        ImageUrl = uri.AbsoluteUri,
+                        Title = card.Name,
+                        TitleLink = gathererClient.GetLink(card, printing.Set).GetAwaiter().GetResult(),
+                        Text = text
+                    });
+                }
+
+                response.Attachments = attachments;
             }
+
+            if(whiffedTerms.Count > 0) {
+                string text = null;
+
+                if (whiffedTerms.Count == 1) {
+                    text = @"I couldn't find """ + whiffedTerms[0] + @""". You spellin' that right? Thought you Magic fellas were good at spells. ;)";
+                }
+                else if (whiffedTerms.Count == 2) {
+                    text = @"I couldn't find """ + whiffedTerms[0] + @""" or """ + whiffedTerms[1] + @""". You spellin' those right? Thought you Magic fellas were good at spells. ;)";
+                }
+                else {
+                    text = @"I couldn't find like half of what you just said. You been sniffin' somethin' in a back alley with Fblthp again?";
+                }
+
+                response.Text = text;
+            }
+
+            return response;
         }
 
         public string Description
