@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 using MargieBot.EventHandlers;
 using MargieBot.Models;
 using MargieBot.Responders;
@@ -113,7 +113,7 @@ namespace MargieBot
             BotNameRegex = string.Empty;
 
             NoobWebClient client = new NoobWebClient();
-            string json = await client.GetResponse("https://slack.com/api/rtm.start", RequestMethod.Post, "token", this.SlackKey);
+            string json = await client.DownloadString("https://slack.com/api/rtm.start", RequestMethod.Post, "token", this.SlackKey);
             JObject jData = JObject.Parse(json);
 
             TeamID = jData["team"]["id"].Value<string>();
@@ -292,7 +292,7 @@ namespace MargieBot
                     values.Add(JsonConvert.SerializeObject(message.Attachments));
                 }
 
-                await client.GetResponse(
+                await client.DownloadString(
                     "https://slack.com/api/chat.postMessage",
                     RequestMethod.Post,
                     values.ToArray()
