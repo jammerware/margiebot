@@ -221,6 +221,7 @@ namespace MargieBot
                 SlackMessage message = new SlackMessage() {
                     ChatHub = hub,
                     MentionsBot = (messageText != null ? Regex.IsMatch(messageText, BotNameRegex, RegexOptions.IgnoreCase) : false),
+                    Timestamp = (jObject["ts"] != null ? jObject["ts"].Value<string>() : null),
                     RawData = json,
                     // some messages may not have text or a user (like unfurled data from URLs)
                     Text = messageText,
@@ -264,18 +265,11 @@ namespace MargieBot
 
         private async Task Say(BotMessage message, ResponseContext context)
         {
-            string chatHubID = null;
             if (message == null)
             {
                 return;
             }
-
-            if(message.ChatHub != null) {
-                chatHubID = message.ChatHub.ID;
-            }
-            else if(context != null && context.Message.ChatHub != null) {
-                chatHubID = context.Message.ChatHub.ID;
-            }
+            var chatHubID = GetChatHubId(message, context);
 
             if(chatHubID != null) {
                 NoobWebClient client = new NoobWebClient();
@@ -301,6 +295,61 @@ namespace MargieBot
             else {
                 throw new ArgumentException("When calling the Say() method, the message parameter must have its ChatHub property set.");
             }
+        }
+
+        public async Task React(BotMessage message, ResponseContext context)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            if (context == null || context.Message == null || context.Message.Timestamp.IsNullOrEmpty())
+            {
+                throw new ArgumentException("When calling the React() method, the context must have a Message and Timestamp.");
+            }
+
+            var chatHubID = GetChatHubId(message, context);
+            if (chatHubID != null)
+            {
+                NoobWebClient client = new NoobWebClient();
+
+                List<string> values = new List<string>() {
+                    "token", this.SlackKey,
+                    "channel", chatHubID,
+                    "timestamp", context.Message.Timestamp,
+                    "name", message.Text
+                };
+
+                await client.GetResponse(
+                    "https://slack.com/api/reactions.add",
+                    RequestMethod.Post,
+                    values.ToArray()
+                );
+            }
+            else
+            {
+                throw new ArgumentException("When calling the React() method, the message parameter must have its ChatHub property set.");
+            }
+        }
+
+        private static string GetChatHubId(BotMessage message, ResponseContext context)
+        {
+            string chatHubID = null;
+            if (message == null)
+            {
+                return chatHubID;
+            }
+
+            if (message.ChatHub != null)
+            {
+                chatHubID = message.ChatHub.ID;
+            }
+            else if (context != null && context.Message.ChatHub != null)
+            {
+                chatHubID = context.Message.ChatHub.ID;
+            }
+            return chatHubID;
         }
 
         #region Events
