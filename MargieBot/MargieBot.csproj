@@ -71,6 +71,10 @@
     <Compile Include="EventHandlers\MargieMessageReceivedEventHandler.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Extensions\BotExtensions.cs" />
+    <Compile Include="Models\BotReaction.cs" />
+    <Compile Include="Models\BotReactionType.cs" />
+    <Compile Include="Models\BotResponse.cs" />
+    <Compile Include="Models\BotResponseType.cs" />
     <Compile Include="Responders\IResponder.cs" />
     <Compile Include="Responders\SimpleResponder.cs" />
     <Compile Include="Models\BotMessage.cs" />

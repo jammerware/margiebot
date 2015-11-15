@@ -21,12 +21,17 @@ namespace MargieBot.ExampleResponders.Responders
             ApiKey = apiKey;
         }
 
+        public BotResponseType GetResponseType()
+        {
+            return BotResponseType.Message;
+        }
+
         public bool CanRespond(ResponseContext context)
         {
             return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM) && Regex.IsMatch(context.Message.Text, DEFINE_REGEX);
         }
 
-        public BotMessage GetResponse(ResponseContext context)
+        public BotResponse GetResponse(ResponseContext context)
         {
             string term = WebUtility.UrlEncode(Regex.Match(context.Message.Text, DEFINE_REGEX).Groups["term"].Value);
 

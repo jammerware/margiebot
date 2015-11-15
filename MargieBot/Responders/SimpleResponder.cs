@@ -14,12 +14,17 @@ namespace MargieBot.Responders
             GetResponseFunctions = new List<Func<ResponseContext, BotMessage>>();
         }
 
+        public BotResponseType GetResponseType()
+        {
+            return BotResponseType.Message;
+        }
+
         public bool CanRespond(ResponseContext context)
         {
             return CanRespondFunction(context);
         }
 
-        public BotMessage GetResponse(ResponseContext context)
+        public BotResponse GetResponse(ResponseContext context)
         {
             if (GetResponseFunctions.Count == 0) {
                 throw new InvalidOperationException("Attempted to get a response for \"" + context.Message.Text + "\", but no valid responses have been registered.");
