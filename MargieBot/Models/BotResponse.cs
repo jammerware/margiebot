@@ -1,6 +1,6 @@
 ﻿namespace MargieBot.Models
 {
-    public class BotResponse
+    public abstract class BotResponse
     {
     }
 }
