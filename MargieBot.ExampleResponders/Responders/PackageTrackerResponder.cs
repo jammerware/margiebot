@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,8 @@ namespace MargieBot.ExampleResponders.Responders
     public class PackageTrackerResponder : IResponder, IDescribable
     {
         private const string FILE_PATH_BASE = "package-tracker-{0}.json";
-        private const string NEW_TRACK_REQUEST_REGEX = @"\btrack\s+my\s((?<description>[\s\S]+)\sat\s)?(?<number>[a-zA-Z0-9]+)";
-        private const string STOP_TRACK_REQUEST_REGEX = @"\b(don't\s+track|stop\s+tracking)\s+(?<number>[a-zA-Z0-9]+)\b";
+        private const string NEW_TRACK_REQUEST_REGEX = @"\btrack\s+(my\s)?((?<description>[\s\S]+)\sat\s)?(?<number>[a-zA-Z0-9]+)";
+        private const string STOP_TRACK_REQUEST_REGEX = @"\b(don't\s+track|stop\s+tracking)\s+(my\s+)?(?<identity>[\s\S]+)\b";
         private const string UPDATE_REQUEST_REGEX = @"\bwhere('s)?\s+my\s+stuff\b";
         private const string USPS_NUMBER_REGEX = @"9400[0-9]{18}";
         
@@ -102,8 +103,13 @@ namespace MargieBot.ExampleResponders.Responders
                 }
             }
             else if (stopTrackMatch.Success) {
-                string trackingNumber = stopTrackMatch.Groups["number"].Value;
-                Package package = _ActivePackages.Where(p => p.UserID == context.Message.User.ID && p.TrackingNumber == trackingNumber).FirstOrDefault();
+                string packageIdentity = stopTrackMatch.Groups["identity"].Value;
+                Package package = _ActivePackages.Where(
+                    p => p.UserID == context.Message.User.ID && (
+                        p.TrackingNumber == packageIdentity ||
+                        p.Description.Equals(packageIdentity, StringComparison.InvariantCultureIgnoreCase)
+                    )
+                ).FirstOrDefault();
 
                 if(package != null) {
                     _ActivePackages.Remove(package);
@@ -112,7 +118,7 @@ namespace MargieBot.ExampleResponders.Responders
                     return new BotMessage() { Text = "I'll stop trackin' your " + package.Description + ". Hope it made it alright!" };
                 }
                 else {
-                    return new BotMessage() { Text = "Hrrmmmm. I'm not trackin' a package with that number for you, " + context.Message.User.FormattedUserID + ". You sure?" };
+                    return new BotMessage() { Text = "Hrrmmmm. I'm not trackin' a package with that number or name for you, " + context.Message.User.FormattedUserID + ". You sure?" };
                 }
 
             }
