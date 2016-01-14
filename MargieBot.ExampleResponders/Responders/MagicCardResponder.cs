@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Bazam.Extensions;
 using MargieBot.Models;
 using MargieBot.Responders;
+using Melek;
 using Melek.Client.DataStore;
 using Melek.Client.Vendors;
-using Melek.Domain;
 
 namespace MargieBot.ExampleResponders.Responders
 {
@@ -67,7 +67,7 @@ namespace MargieBot.ExampleResponders.Responders
 
                 foreach (ICard card in foundCards) {
                     IPrinting printing = card.GetLastPrinting();    
-                    Uri uri = _MelekClient.GetCardImageUri(printing).GetAwaiter().GetResult();
+                    Uri uri = _MelekClient.GetImageUri(printing).GetAwaiter().GetResult();
 
                     string text = card.AllTypes.Concatenate(" ");
 
