@@ -17,7 +17,7 @@ namespace MargieBot.UI.ViewModels
     {
         private Bot _Margie;
 
-        private string _AuthKeySlack = string.Empty;
+        private string _AuthKeySlack = ConfigurationManager.AppSettings["slackAccountApiKey"];
         public string AuthKeySlack
         {
             get { return _AuthKeySlack; }
