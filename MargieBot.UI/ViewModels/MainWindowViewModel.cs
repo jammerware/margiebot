@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Bazam.Wpf.UIHelpers;
@@ -10,6 +9,7 @@ using MargieBot.ExampleResponders.Models;
 using MargieBot.ExampleResponders.Responders;
 using MargieBot.Responders;
 using System.Configuration;
+using MargieBot.UI.Properties;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -135,6 +135,7 @@ namespace MargieBot.UI.ViewModels
                                 TeamName = null;
                             }
                         };
+
                         _Margie.MessageReceived += (string message) => {
                             int messageCount = _Messages.Count - 500;
                             for (int i = 0; i < messageCount; i++) {
@@ -145,7 +146,11 @@ namespace MargieBot.UI.ViewModels
                             RaisePropertyChanged("Messages");
                         };
 
-                        await _Margie.Connect(AuthKeySlack); 
+                        await _Margie.Connect(AuthKeySlack);
+
+                        // if we're here, we're connected, so store the key as our last slack key in settings
+                        Settings.Default.LastSlackKey = AuthKeySlack;
+                        Settings.Default.Save();
                     }
                 }); 
             }
@@ -160,6 +165,11 @@ namespace MargieBot.UI.ViewModels
                     MessageToSend = string.Empty;
                 });
             }
+        }
+
+        public MainWindowViewModel()
+        {
+            AuthKeySlack = Settings.Default.LastSlackKey;
         }
 
         /// <summary>
