@@ -5,6 +5,7 @@ namespace MargieBot.Responders
     public interface IResponder
     {
         bool CanRespond(ResponseContext context);
-        BotMessage GetResponse(ResponseContext context);
+        BotResponse GetResponse(ResponseContext context);
+        BotResponseType GetResponseType();
     }
 }

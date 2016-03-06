@@ -28,13 +28,18 @@ namespace MargieBot.ExampleResponders.Responders
             WundergroundAPIKey = apiKey;
         }
 
+        public BotResponseType GetResponseType()
+        {
+            return BotResponseType.Message;
+        }
+
         public bool CanRespond(ResponseContext context)
         {
             return (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM)
                 && (Regex.IsMatch(context.Message.Text, WEATHER_NOTERM_REGEX) || Regex.IsMatch(context.Message.Text, WEATHER_LOCATIONTERM_REGEX));
         }
 
-        public BotMessage GetResponse(ResponseContext context)
+        public BotResponse GetResponse(ResponseContext context)
         {
             string city = Regex.Match(context.Message.Text, WEATHER_LOCATIONTERM_REGEX).Groups["cityTerm"].Value;
             string state = Regex.Match(context.Message.Text, WEATHER_LOCATIONTERM_REGEX).Groups["stateTerm"].Value;

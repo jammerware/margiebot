@@ -2,7 +2,7 @@
 
 namespace MargieBot.Models
 {
-    public class BotMessage
+    public class BotMessage : BotResponse
     {
         public IList<SlackAttachment> Attachments { get; set; }
         public SlackChatHub ChatHub { get; set; }

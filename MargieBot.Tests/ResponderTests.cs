@@ -71,7 +71,7 @@ namespace MargieBot.Tests
             IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
             ResponseContext context = GetResponseContext("Hi, everybody.");
 
-            Assert.AreEqual("Hello, friend!", responder.GetResponse(context).Text);
+            Assert.AreEqual("Hello, friend!", ((BotMessage)responder.GetResponse(context)).Text);
         }
 
         [TestMethod]

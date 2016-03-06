@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot.UI", "MargieBot.UI\MargieBot.UI.csproj", "{222E7C27-2B98-4478-AED5-8CE914B42CFF}"
 EndProject
@@ -33,6 +33,14 @@ Global
 		{C214B6B0-B876-4F24-9417-A05FC6D4B616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C214B6B0-B876-4F24-9417-A05FC6D4B616}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C214B6B0-B876-4F24-9417-A05FC6D4B616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58E4D59F-4FA0-4CEC-AFC7-187B7F24D1A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58E4D59F-4FA0-4CEC-AFC7-187B7F24D1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58E4D59F-4FA0-4CEC-AFC7-187B7F24D1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58E4D59F-4FA0-4CEC-AFC7-187B7F24D1A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F081F3-6523-4938-83FF-59B0A8F92533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F081F3-6523-4938-83FF-59B0A8F92533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F081F3-6523-4938-83FF-59B0A8F92533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F081F3-6523-4938-83FF-59B0A8F92533}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
