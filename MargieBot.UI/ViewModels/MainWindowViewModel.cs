@@ -229,12 +229,6 @@ namespace MargieBot.UI.ViewModels
             responders.Add(await MagicCardResponder.GetAsync());
 
             // examples of simple-ish "inline" responders
-            // this one hits on Slackbot when he talks 1/8 times or so
-            _Margie.Responders.Add(_Margie.CreateResponder(
-                (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(8) <= 1); },
-                (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
-            ));
-
             // easiest one of all - this one responds if someone thanks Margie
             responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
