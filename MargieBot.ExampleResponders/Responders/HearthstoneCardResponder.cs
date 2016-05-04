@@ -61,11 +61,7 @@ namespace MargieBot.ExampleResponders.Responders
                 if (card != null)
                 {
                     foundCount = foundCount++;
-
-                    var text = string.Empty;
-
-                    var text = $"*{card.Type}* - {{{card.Cost}}}\n _{card.Flavor}_";
-
+                    
                     attachments.Add(new SlackAttachment()
                     {
                         ColorHex = "#8C8C8C",
@@ -73,7 +69,7 @@ namespace MargieBot.ExampleResponders.Responders
                         ImageUrl = _client.GetCardImageUrl(card, isGoldRequested),
                         Title = card.Name,
                         TitleLink = _client.GetCardImageUrl(card, isGoldRequested),
-                        Text = text,
+                        Text = $"{card.PlayerClass} *{card.Type}* - {{{card.Cost}}}\n _{card.Flavor}_",
                         TextFormattingEnabled = true
                     });
                 }

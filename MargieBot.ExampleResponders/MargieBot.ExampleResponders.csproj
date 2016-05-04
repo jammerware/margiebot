@@ -61,8 +61,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NKeeper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NKeeper.1.0.1\lib\net46\NKeeper.dll</HintPath>
+    <Reference Include="NKeeper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NKeeper.1.0.2\lib\net46\NKeeper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
