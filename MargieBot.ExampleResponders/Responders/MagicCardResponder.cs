@@ -14,7 +14,7 @@ namespace MargieBot.ExampleResponders.Responders
 {
     public sealed class MagicCardResponder : IResponder, IDescribable
     {
-        private const string REQUEST_REGEX = @"\[\[(?<cardName>[^\]]+)\]\]";
+        private const string REQUEST_REGEX = @"\[\[(?<cardName>[^\]]+)\]\]|\[m:(?<cardName>[^\]]+)\]";
         private MelekClient _MelekClient = new MelekClient();
 
         private MagicCardResponder() { }
@@ -50,7 +50,7 @@ namespace MargieBot.ExampleResponders.Responders
             List<string> whiffedTerms = new List<string>();
 
             foreach(Match match in matches) {
-                string searchTerm = match.Groups["cardName"].Value;
+                string searchTerm = match.Groups["cardName"].Value.Trim();
                 ICard result = _MelekClient.Search(searchTerm).FirstOrDefault();
 
                 if(result != null) {
@@ -69,10 +69,10 @@ namespace MargieBot.ExampleResponders.Responders
                     IPrinting printing = card.GetLastPrinting();    
                     Uri uri = _MelekClient.GetImageUri(printing).GetAwaiter().GetResult();
 
-                    string text = card.AllTypes.Concatenate(" ");
+                    string text = card.AllTypes.Distinct().Concatenate(" ");
 
                     if (card.AllTribes.Count > 0) {
-                        text += " - " + card.AllTribes.Concatenate(" ");
+                        text += " - " + card.AllTribes.Distinct().Concatenate(" ");
                     }
 
                     if (card.AllCosts != null) {

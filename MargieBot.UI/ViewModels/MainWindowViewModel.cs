@@ -14,7 +14,6 @@ using MargieBot.UI.Infrastructure.BotResponders;
 using MargieBot.UI.Infrastructure.BotResponders.DnDResponders;
 using MargieBot.UI.Infrastructure.BotResponders.GW2Responders;
 using MargieBot.UI.Infrastructure.Models;
-using System.Configuration;
 using MargieBot.UI.Properties;
 
 namespace MargieBot.UI.ViewModels
@@ -227,6 +226,7 @@ namespace MargieBot.UI.ViewModels
             responders.Add(new DefineResponder(ConfigurationManager.AppSettings["dictionaryApiKey"]));
             responders.Add(new PackageTrackerResponder(ConfigurationManager.AppSettings["uspsApiKey"]));
             responders.Add(await MagicCardResponder.GetAsync());
+            responders.Add(await HearthstoneCardResponder.CreateAsync());
 
             // examples of simple-ish "inline" responders
             // easiest one of all - this one responds if someone thanks Margie
