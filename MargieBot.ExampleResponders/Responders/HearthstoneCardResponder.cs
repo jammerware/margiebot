@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,8 +14,8 @@ namespace MargieBot.ExampleResponders.Responders
     public class HearthstoneCardResponder : IResponder, IDescribable
     {
         // i feel weird about this regex, but whatever for now
-        // matches things like [h:annoy-o-tron], [hg:sunwalker], but not [h:]. Manually permitting comma, period, and dash. Kill me now.
-        private const string CANRESPOND_REGEX = @"\[h(?<goldRequested>g)?:(?<cardName>[\sa-zA-Z0-9,\.\-]{2,})]";
+        // matches things like [h:annoy-o-tron], [hg:sunwalker], but not [h:]. Manually permitting comma, period, apostrophe, and dash. Kill me now.
+        private const string CANRESPOND_REGEX = @"\[h(?<goldRequested>g)?:(?<cardName>[\sa-zA-Z0-9,'\.\-]{2,})]";
         private NKeeperClient _client;
 
         #region Async "constructor"
@@ -56,7 +57,29 @@ namespace MargieBot.ExampleResponders.Responders
                 string searchTerm = match.Groups["cardName"].Value.Trim();
                 bool isGoldRequested = (match.Groups["goldRequested"]?.Value == "g");
 
-                Card card = _client.Cards.Where(c => c.Name.Equals(searchTerm, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+                // TODO: change this if i ever support non-english hearthstone translations
+                var culture = CultureInfo.CreateSpecificCulture("en-US");
+
+                Card card = _client
+                    .Cards
+                    .Where(c => culture.CompareInfo.IndexOf(c.Name, searchTerm, CompareOptions.IgnoreCase) >= 0) // case-insensitive "contains"
+                    .OrderBy(c => c.Name.Equals(searchTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => c.Name.StartsWith(searchTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => c.Name)
+                    .FirstOrDefault();
+
+                var text = $"{card.PlayerClass} *{card.Type}* - {{{card.Cost}}} mana";
+
+                if(card.Type == "MINION")
+                {
+                    text += $" {card.Attack}/{card.Health}";
+                }
+                else if(card.Type == "WEAPON")
+                {
+                    text += $" {card.Attack}/{card.Durability}";
+                }
+
+                text += $"\n_{card.Flavor}_";
 
                 if (card != null)
                 {
@@ -69,7 +92,7 @@ namespace MargieBot.ExampleResponders.Responders
                         ImageUrl = _client.GetCardImageUrl(card, isGoldRequested),
                         Title = card.Name,
                         TitleLink = _client.GetCardImageUrl(card, isGoldRequested),
-                        Text = $"{card.PlayerClass} *{card.Type}* - {{{card.Cost}}}\n _{card.Flavor}_",
+                        Text = text,
                         TextFormattingEnabled = true
                     });
                 }
@@ -95,7 +118,7 @@ namespace MargieBot.ExampleResponders.Responders
                 }
                 else
                 {
-                    text = @"I couldn't find like half of what you just said. You been drinkin' with Harth again?";
+                    text = @"I couldn't find like half of what you just said. You been drinkin' with Harth again? He's a fox, that one.";
                 }
 
                 response.Text = text;
