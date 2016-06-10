@@ -4,30 +4,30 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DotNetRunner;
+using DotNetRunner.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
-using NKeeper;
-using NKeeper.Models;
 
 namespace MargieBot.ExampleResponders.Responders
 {
-    public class HearthstoneCardResponder : IResponder, IDescribable
+    public class NetRunnerCardResponder : IResponder, IDescribable
     {
         // i feel weird about this regex, but whatever for now
         // matches things like [h:annoy-o-tron], [hg:sunwalker], but not [h:]. Manually permitting comma, period, apostrophe, and dash. Kill me now.
-        private const string CANRESPOND_REGEX = @"\[h(?<goldRequested>g)?:(?<cardName>[\sa-zA-Z0-9,'\.\-]{2,})]";
-        private NKeeperClient _client;
+        private const string CANRESPOND_REGEX = @"\[n:(?<cardName>[\sa-zA-Z0-9,'\.\-]{2,})]";
+        private DnrClient _client;
 
         #region Async "constructor"
-        private HearthstoneCardResponder() { }
+        private NetRunnerCardResponder() { }
 
-        public static async Task<HearthstoneCardResponder> CreateAsync()
+        public static async Task<NetRunnerCardResponder> CreateAsync()
         {
-            var responder = new HearthstoneCardResponder()
+            var responder = new NetRunnerCardResponder()
             {
-                _client = await NKeeperClient.CreateAsync()
+                _client = await DnrClient.CreateAsync()
             };
-            
+
             return responder;
         }
         #endregion
@@ -35,7 +35,7 @@ namespace MargieBot.ExampleResponders.Responders
         #region IDescribable
         public string Description
         {
-            get { return "look up Hearthstone cards for ya"; }
+            get { return "look up NetRunner cards for ya"; }
         }
         #endregion
 
@@ -55,43 +55,46 @@ namespace MargieBot.ExampleResponders.Responders
             foreach (Match match in matches)
             {
                 string searchTerm = match.Groups["cardName"].Value.Trim();
-                bool isGoldRequested = (match.Groups["goldRequested"]?.Value == "g");
 
-                // TODO: change this if i ever support non-english hearthstone translations
+                // TODO: change this if i ever support non-english translations
                 var culture = CultureInfo.CreateSpecificCulture("en-US");
 
                 Card card = _client
                     .Cards
-                    .Where(c => culture.CompareInfo.IndexOf(c.Name, searchTerm, CompareOptions.IgnoreCase) >= 0) // case-insensitive "contains"
-                    .OrderBy(c => c.Name.Equals(searchTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
-                    .ThenBy(c => c.Name.StartsWith(searchTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
-                    .ThenBy(c => c.Name)
+                    .Where(c => culture.CompareInfo.IndexOf(c.Title, searchTerm, CompareOptions.IgnoreCase) >= 0) // case-insensitive "contains"
+                    .OrderBy(c => c.Title.Equals(searchTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => c.Title.StartsWith(searchTerm, StringComparison.InvariantCultureIgnoreCase) ? 0 : 1)
+                    .ThenBy(c => c.Title)
                     .FirstOrDefault();
 
-                var text = $"{card.PlayerClass} *{card.Type}* - {{{card.Cost}}} mana";
+                var text = $"*{card.Type}*";
 
-                if(card.Type == CardType.Minion)
+                if(!string.IsNullOrEmpty(card.SubType))
                 {
-                    text += $" {card.Attack}/{card.Health}";
-                }
-                else if(card.Type == CardType.Weapon)
-                {
-                    text += $" {card.Attack}/{card.Durability}";
+                    text += $": {card.SubType}";
                 }
 
-                text += $"\n_{card.Flavor}_";
+                if(card.Cost != null)
+                {
+                    text += $" | {card.Cost.Value}";
+                }
+
+                if(!string.IsNullOrEmpty(card.FlavorText))
+                {
+                    text += $"\n_{card.FlavorText}_";
+                }
 
                 if (card != null)
                 {
                     foundCount = foundCount++;
-                    
+
                     attachments.Add(new SlackAttachment()
                     {
                         ColorHex = "#8C8C8C",
-                        Fallback = card.Name,
-                        ImageUrl = _client.GetCardImageUrl(card, isGoldRequested),
-                        Title = card.Name,
-                        TitleLink = _client.GetCardImageUrl(card, isGoldRequested),
+                        Fallback = card.Title,
+                        ImageUrl = card.ImageUrl,
+                        Title = card.Title,
+                        TitleLink = card.Url,
                         Text = text,
                         TextFormattingEnabled = true
                     });
@@ -110,15 +113,15 @@ namespace MargieBot.ExampleResponders.Responders
 
                 if (whiffedTerms.Count == 1)
                 {
-                    text = $@"I couldn't find ""{whiffedTerms[0]}"". Is that somethin' you found on /r/customhearthstone?";
+                    text = $@"I couldn't find ""{whiffedTerms[0]}"". I know we're all new to this thing, but are you SURE?";
                 }
                 else if (whiffedTerms.Count == 2)
                 {
-                    text = @"I couldn't find """ + whiffedTerms[0] + @""" or """ + whiffedTerms[1] + @""". You spellin' those right? Maybe you should watch more Kibler.";
+                    text = @"I couldn't find """ + whiffedTerms[0] + @""" or """ + whiffedTerms[1] + @""". You spellin' those right?";
                 }
                 else
                 {
-                    text = @"I couldn't find like half of what you just said. You been drinkin' with Harth again? He's a fox, that one.";
+                    text = @"I couldn't find like half of what you just said. How much brain damage did you take last game?";
                 }
 
                 response.Text = text;

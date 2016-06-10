@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MargieBot.ExampleResponders</RootNamespace>
     <AssemblyName>MargieBot.ExampleResponders</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -45,6 +45,10 @@
       <HintPath>..\packages\Bazam.SharpZipLibHelpers.1.1.1\lib\net46\Bazam.SharpZipLibHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DotNetRunner, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetRunner.1.0.3\lib\net461\DotNetRunner.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -61,8 +65,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NKeeper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NKeeper.1.0.2\lib\net46\NKeeper.dll</HintPath>
+    <Reference Include="NKeeper, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NKeeper.1.0.3\lib\net46\NKeeper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -95,6 +99,7 @@
     <Compile Include="Responders\HearthstoneCardResponder.cs" />
     <Compile Include="Responders\IDescribable.cs" />
     <Compile Include="Responders\MagicCardResponder.cs" />
+    <Compile Include="Responders\NetRunnerCardResponder.cs" />
     <Compile Include="Responders\PackageTrackerResponder.cs" />
     <Compile Include="Responders\ScoreboardResponder.cs" />
     <Compile Include="Responders\ScoreResponder.cs" />
@@ -111,6 +116,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

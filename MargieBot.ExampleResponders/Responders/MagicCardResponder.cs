@@ -71,7 +71,7 @@ namespace MargieBot.ExampleResponders.Responders
 
                     string text = card.AllTypes.Distinct().Concatenate(" ");
 
-                    if (card.AllTribes.Count > 0) {
+                    if (card.AllTribes?.Count > 0) {
                         text += " - " + card.AllTribes.Distinct().Concatenate(" ");
                     }
 

@@ -227,6 +227,7 @@ namespace MargieBot.UI.ViewModels
             responders.Add(new PackageTrackerResponder(ConfigurationManager.AppSettings["uspsApiKey"]));
             responders.Add(await MagicCardResponder.GetAsync());
             responders.Add(await HearthstoneCardResponder.CreateAsync());
+            responders.Add(await NetRunnerCardResponder.CreateAsync());
             responders.Add(new GoogleImageSearchResponder(ConfigurationManager.AppSettings["googleCustomSearchEngineId"], ConfigurationManager.AppSettings["googleCustomSearchApiKey"]));
 
             // examples of simple-ish "inline" responders
