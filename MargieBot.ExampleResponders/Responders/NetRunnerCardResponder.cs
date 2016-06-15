@@ -67,25 +67,27 @@ namespace MargieBot.ExampleResponders.Responders
                     .ThenBy(c => c.Title)
                     .FirstOrDefault();
 
-                var text = $"*{card.Type}*";
-
-                if(!string.IsNullOrEmpty(card.SubType))
-                {
-                    text += $": {card.SubType}";
-                }
-
-                if(card.Cost != null)
-                {
-                    text += $" | {card.Cost.Value}";
-                }
-
-                if(!string.IsNullOrEmpty(card.FlavorText))
-                {
-                    text += $"\n_{card.FlavorText}_";
-                }
-
                 if (card != null)
                 {
+                    var text = $"*{card.Type}*";
+
+                    if (!string.IsNullOrEmpty(card.SubType))
+                    {
+                        text += $": {card.SubType}";
+                    }
+
+                    if (card.Cost != null)
+                    {
+                        text += $" | {card.Cost.Value}";
+                    }
+
+                    if (!string.IsNullOrEmpty(card.FlavorText))
+                    {
+                        text += $"\n_{card.FlavorText}_";
+                    }
+
+                    text += $"\n\nprinted in _{card.Set.Name}_";
+
                     foundCount = foundCount++;
 
                     attachments.Add(new SlackAttachment()
