@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MargieBot")]
+[assembly: AssemblyProduct("MargieBot.Debug")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c4e14f85-f98f-484c-8fcb-f0d95f91472a")]
+[assembly: Guid("604e4cf2-a6e0-4bcc-a7f1-77a5ca7bc167")]
