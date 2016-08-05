@@ -31,7 +31,7 @@ namespace MargieBot.SampleResponders.Responders
                 this.Scorebook = new Scorebook(TeamID);
             }
             // put the scorebook in context in case someone wants to see the scoreboard
-            context.Set<Scorebook>(this.Scorebook);
+            context.Set(this.Scorebook);
 
             return !context.Message.User.IsSlackbot && Regex.IsMatch(context.Message.Text, SCORE_REGEX);
         }

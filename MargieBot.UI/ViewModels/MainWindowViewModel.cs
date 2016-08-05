@@ -4,12 +4,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
-using MargieBot.Models;
-using MargieBot.ExampleResponders.Models;
-using MargieBot.ExampleResponders.Responders;
-using MargieBot.Responders;
 using System.Configuration;
+using MargieBot;
 using MargieBot.UI.Properties;
+using MargieBot.Models;
+using MargieBot.SampleResponders.Responders;
+using MargieBot.SampleResponders.Models;
+using MargieBot.Responders;
 
 namespace MargieBot.UI.ViewModels
 {
@@ -102,9 +103,12 @@ namespace MargieBot.UI.ViewModels
                         foreach(KeyValuePair<string, object> value in GetStaticResponseContextData()) {
                             _Margie.ResponseContext.Add(value.Key, value.Value);
                         }
-                        
+
                         // RESPONDER WIREUP
-                        _Margie.Responders.AddRange(GetResponders());
+                        foreach(var responder in GetResponders())
+                        {
+                            _Margie.Responders.Add(responder);
+                        }
 
                         _Margie.ConnectionStatusChanged += (bool isConnected) => {
                             ConnectionStatus = isConnected;

@@ -1,8 +1,8 @@
-﻿using MargieBot.Models;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using MargieBot.Models;
 
 namespace MargieBot.UI.Views.Helpers.ValueConverters
 {
@@ -10,7 +10,7 @@ namespace MargieBot.UI.Views.Helpers.ValueConverters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if(values != null && values.Length > 2 && values[0] != DependencyProperty.UnsetValue) {
+            if (values != null && values.Length > 2 && values[0] != DependencyProperty.UnsetValue) {
                 return (bool)values[0] && !string.IsNullOrEmpty(values[1].ToString()) && (values[2] as SlackChatHub) != null;
             }
             return false;

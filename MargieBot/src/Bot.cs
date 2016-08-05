@@ -35,7 +35,7 @@ namespace MargieBot
             set { _BotNameRegex = value; }
         }
 
-        private Dictionary<string, string> UserNameCache { get; set; }
+        private Dictionary<string, string> UserNameCache { get; set; } = new Dictionary<string, string>();
         private MargieBotWebSocket WebSocket { get; set; }
         #endregion
 
@@ -44,13 +44,13 @@ namespace MargieBot
         public IReadOnlyList<string> Aliases
         {
             get { return _Aliases; }
-            private set
+            set
             {
                 _Aliases = value;
                 BotNameRegex = string.Empty;
             }
         }
-        public List<IResponder> Responders { get; } = new List<IResponder>();
+        public IList<IResponder> Responders { get; } = new List<IResponder>();
 
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
@@ -96,12 +96,6 @@ namespace MargieBot
         public string UserName { get; private set; }
         #endregion
 
-        public Bot()
-        {
-            // get the books ready
-            UserNameCache = new Dictionary<string, string>();
-        }
-
         public async Task Connect(string slackKey)
         {
             this.SlackKey = slackKey;
@@ -112,16 +106,19 @@ namespace MargieBot
             // kill the regex for our bot's name - we'll rebuild it upon request with some of the info we get here
             BotNameRegex = string.Empty;
 
+            // start session and get response
             var httpClient = new HttpClient();
             var json = await httpClient.GetStringAsync($"https://slack.com/api/rtm.start?token={SlackKey}");
-            JObject jData = JObject.Parse(json);
+            var jData = JObject.Parse(json);
 
+            // read various bot properties out of the response
             TeamID = jData["team"]["id"].Value<string>();
             TeamName = jData["team"]["name"].Value<string>();
             UserID = jData["self"]["id"].Value<string>();
             UserName = jData["self"]["name"].Value<string>();
-            string webSocketUrl = jData["url"].Value<string>();
+            var webSocketUrl = jData["url"].Value<string>();
 
+            // rebuild the username cache
             UserNameCache.Clear();
             foreach (JObject userObject in jData["users"])
             {
@@ -173,7 +170,7 @@ namespace MargieBot
             {
                 foreach (JObject dmData in jData["ims"])
                 {
-                    string userID = dmData["user"].Value<string>();
+                    var userID = dmData["user"].Value<string>();
                     SlackChatHub dm = new SlackChatHub()
                     {
                         ID = dmData["id"].Value<string>(),
@@ -184,7 +181,7 @@ namespace MargieBot
                 }
             }
 
-            // set up the websocket and connect
+            // set up the websocket
             WebSocket = new MargieBotWebSocket();
             WebSocket.OnOpen += (object sender, EventArgs e) =>
             {
@@ -204,6 +201,8 @@ namespace MargieBot
                 UserID = null;
                 UserName = null;
             };
+            
+            // connect
             await WebSocket.Connect(webSocketUrl);
         }
 
@@ -217,7 +216,7 @@ namespace MargieBot
             JObject jObject = JObject.Parse(json);
             if (jObject["type"].Value<string>() == "message")
             {
-                string channelID = jObject["channel"].Value<string>();
+                var channelID = jObject["channel"].Value<string>();
                 SlackChatHub hub = null;
 
                 if (ConnectedHubs.ContainsKey(channelID))
@@ -233,7 +232,7 @@ namespace MargieBot
                 }
 
                 // some messages may not have text or a user (like unfurled data from URLs)
-                string messageText = (jObject["text"] != null ? jObject["text"].Value<string>() : null);
+                var messageText = (jObject["text"] != null ? jObject["text"].Value<string>() : null);
 
                 SlackMessage message = new SlackMessage()
                 {
@@ -308,7 +307,7 @@ namespace MargieBot
             {
                 NoobWebClient client = new NoobWebClient();
 
-                List<string> values = new List<string>() {
+                var values = new List<string>() {
                     "token", this.SlackKey,
                     "channel", chatHubID,
                     "text", message.Text,
