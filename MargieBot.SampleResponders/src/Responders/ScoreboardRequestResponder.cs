@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
+using MargieBot.SampleResponders.Models;
 
-namespace MargieBot.ExampleResponders.Responders
+namespace MargieBot.SampleResponders.Responders
 {
     public class ScoreboardRequestResponder : IResponder
     {

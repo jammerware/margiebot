@@ -1,15 +1,13 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Bazam.Http;
-using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
+using MargieBot.SampleResponders.Models;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Net;
 
-namespace MargieBot.ExampleResponders.Responders
+namespace MargieBot.SampleResponders.Responders
 {
     public class WeatherRequestResponder : IResponder
     {

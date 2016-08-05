@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.ExampleResponders.Models;
+using MargieBot.SampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
 
-namespace MargieBot.ExampleResponders.Responders
+namespace MargieBot.SampleResponders.Responders
 {
     /// <summary>
     /// This responder makes MargieBot into a game! When a user says "@user+1" or similar in chat, Margie awards the mentioned user a point. The 

@@ -5,7 +5,7 @@ using MargieBot.Models;
 using MargieBot.Responders;
 using Newtonsoft.Json.Linq;
 
-namespace MargieBot.ExampleResponders.Responders
+namespace MargieBot.SampleResponders.Responders
 {
     public class WikipediaResponder : IResponder
     {

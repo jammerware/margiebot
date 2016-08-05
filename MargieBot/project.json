@@ -1,5 +1,17 @@
 ﻿{
   "version": "2.0.1-*",
+  "authors": [ "Jammerware, LLC" ],
+  "copyright": "2016 Jammerware LLC",
+
+  "packOptions": {
+    "licenseUrl": "https://opensource.org/licenses/MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/jammerware/margiebot.git"
+    },
+    "releaseNotes": "Margiebot journeys to .NET Core!",
+    "tags": [ "slack" ]
+  },
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",

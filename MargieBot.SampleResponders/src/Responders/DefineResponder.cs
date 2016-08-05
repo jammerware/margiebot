@@ -9,7 +9,7 @@ using Bazam.Http;
 using MargieBot.Models;
 using MargieBot.Responders;
 
-namespace MargieBot.ExampleResponders.Responders
+namespace MargieBot.SampleResponders.Responders
 {
     public class DefineResponder : IResponder
     {
