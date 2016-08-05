@@ -40,17 +40,17 @@ namespace MargieBot
         #endregion
 
         #region Public properties
-        private IReadOnlyList<string> _Aliases;
+        private IReadOnlyList<string> _Aliases = new List<string>();
         public IReadOnlyList<string> Aliases
         {
             get { return _Aliases; }
-            set
+            private set
             {
                 _Aliases = value;
                 BotNameRegex = string.Empty;
             }
         }
-        public List<IResponder> Responders { get; private set; }
+        public List<IResponder> Responders { get; } = new List<IResponder>();
 
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
@@ -88,7 +88,7 @@ namespace MargieBot
             }
         }
 
-        public Dictionary<string, object> ResponseContext { get; private set; }
+        public Dictionary<string, object> ResponseContext { get; } = new Dictionary<string, object>();
         public string SlackKey { get; private set; }
         public string TeamID { get; private set; }
         public string TeamName { get; private set; }
@@ -99,9 +99,6 @@ namespace MargieBot
         public Bot()
         {
             // get the books ready
-            Aliases = new List<string>();
-            ResponseContext = new Dictionary<string, object>();
-            Responders = new List<IResponder>();
             UserNameCache = new Dictionary<string, string>();
         }
 

@@ -61,15 +61,42 @@ namespace MargieBot.WebSockets
                 }
                 else
                 {
-                    var data = _encoding.GetString(buffer).TrimEnd('\0');
-                    var lastIndexOfJsonStuff = data.LastIndexOf('}');
-                    data = data.Substring(0, lastIndexOfJsonStuff);
 #if DEBUG
                     Console.WriteLine($"Receive: {_encoding.GetString(buffer)}");
 #endif
-                    OnMessage?.Invoke(this, _encoding.GetString(buffer).TrimEnd('\0'));
+
+                    var data = _encoding.GetString(buffer);
+                    // TODO: should i be doing this, and if not, what should i do instead?
+                    data = TrimStuffIDontKnowWhatItEvenIs(data);
+                    OnMessage?.Invoke(this, data);
                 }
             }
+        }
+
+        private string TrimStuffIDontKnowWhatItEvenIs(string input)
+        {
+            var openBraceCount = 0;
+            var indexOfLastBrace = 0;
+
+            for (var i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '{')
+                {
+                    openBraceCount++;
+                }
+                else if (input[i] == '}')
+                {
+                    openBraceCount--;
+                }
+
+                if (openBraceCount == 0)
+                {
+                    indexOfLastBrace = i;
+                    break;
+                }
+            }
+
+            return input.Substring(0, indexOfLastBrace + 1);
         }
         #endregion
 

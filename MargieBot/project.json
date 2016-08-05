@@ -6,7 +6,7 @@
     "Newtonsoft.Json": "9.0.1",
     "Bazam.Http": "2.0.0",
     "System.Net.WebSockets": "4.0.0",
-    "system.net.websockets.client": "4.0.0-beta-23123"
+    "System.Net.WebSockets.Client": "4.0.0"
   },
 
   "frameworks": {

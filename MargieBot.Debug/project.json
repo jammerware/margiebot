@@ -1,7 +1,10 @@
 ﻿{
   "version": "1.0.0-*",
   "buildOptions": {
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+  },
+  "publishOptions": {
+    "includeFiles": "config.json"
   },
 
   "dependencies": {
@@ -9,6 +12,8 @@
       "type": "platform",
       "version": "1.0.0"
     },
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "Microsoft.Extensions.Configuration": "1.0.0",
     "MargieBot": "2.0.0"
   },
 

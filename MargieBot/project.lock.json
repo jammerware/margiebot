@@ -249,41 +249,6 @@
           "lib/netstandard1.3/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.NonGeneric/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Diagnostics.Debug": "4.0.10",
-          "System.Globalization": "4.0.10",
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Runtime.Extensions": "4.0.10",
-          "System.Threading": "4.0.10"
-        },
-        "compile": {
-          "ref/dotnet/System.Collections.NonGeneric.dll": {}
-        },
-        "runtime": {
-          "lib/dotnet/System.Collections.NonGeneric.dll": {}
-        }
-      },
-      "System.Collections.Specialized/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Collections.NonGeneric": "4.0.0",
-          "System.Globalization": "4.0.10",
-          "System.Globalization.Extensions": "4.0.0",
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Runtime.Extensions": "4.0.10",
-          "System.Threading": "4.0.10"
-        },
-        "compile": {
-          "ref/dotnet/System.Collections.Specialized.dll": {}
-        },
-        "runtime": {
-          "lib/dotnet/System.Collections.Specialized.dll": {}
-        }
-      },
       "System.Console/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -393,22 +358,6 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Globalization.Calendars.dll": {}
-        }
-      },
-      "System.Globalization.Extensions/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Globalization": "4.0.10",
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Runtime.Extensions": "4.0.10",
-          "System.Runtime.InteropServices": "4.0.20"
-        },
-        "compile": {
-          "ref/dotnet/System.Globalization.Extensions.dll": {}
-        },
-        "runtime": {
-          "lib/dotnet/System.Globalization.Extensions.dll": {}
         }
       },
       "System.IO/4.1.0": {
@@ -583,19 +532,19 @@
           "ref/netstandard1.3/System.Net.Sockets.dll": {}
         }
       },
-      "System.Net.WebHeaderCollection/4.0.0": {
+      "System.Net.WebHeaderCollection/4.0.1": {
         "type": "package",
         "dependencies": {
-          "System.Collections.NonGeneric": "4.0.0",
-          "System.Collections.Specialized": "4.0.0",
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20"
+          "System.Collections": "4.0.11",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0"
         },
         "compile": {
-          "ref/dotnet/System.Net.WebHeaderCollection.dll": {}
+          "ref/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/dotnet/System.Net.WebHeaderCollection.dll": {}
+          "lib/netstandard1.3/System.Net.WebHeaderCollection.dll": {}
         }
       },
       "System.Net.WebSockets/4.0.0": {
@@ -613,32 +562,40 @@
           "lib/netstandard1.3/System.Net.WebSockets.dll": {}
         }
       },
-      "system.net.websockets.client/4.0.0-beta-23123": {
+      "System.Net.WebSockets.Client/4.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Win32.Primitives": "4.0.0",
-          "System.Collections": "4.0.10",
-          "System.Diagnostics.Debug": "4.0.10",
-          "System.Diagnostics.Tracing": "4.0.20",
-          "System.Globalization": "4.0.10",
-          "System.Net.Primitives": "4.0.10",
-          "System.Net.WebHeaderCollection": "4.0.0",
-          "System.Net.WebSockets": "4.0.0-beta-23123",
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Runtime.Extensions": "4.0.10",
-          "System.Runtime.Handles": "4.0.0",
-          "System.Runtime.InteropServices": "4.0.20",
-          "System.Security.Cryptography.X509Certificates": "4.0.0-beta-23123",
-          "System.Text.Encoding": "4.0.10",
-          "System.Threading": "4.0.10",
-          "System.Threading.Tasks": "4.0.10"
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.Win32.Primitives": "4.0.1",
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Diagnostics.Tracing": "4.1.0",
+          "System.Globalization": "4.0.11",
+          "System.Net.Primitives": "4.0.11",
+          "System.Net.WebHeaderCollection": "4.0.1",
+          "System.Net.WebSockets": "4.0.0",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.Handles": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Security.Cryptography.X509Certificates": "4.1.0",
+          "System.Text.Encoding": "4.0.11",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11"
         },
         "compile": {
-          "ref/dotnet/System.Net.WebSockets.Client.dll": {}
+          "ref/netstandard1.3/System.Net.WebSockets.Client.dll": {}
         },
-        "runtime": {
-          "lib/DNXCore50/System.Net.WebSockets.Client.dll": {}
+        "runtimeTargets": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.WebSockets.Client.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard1.3/System.Net.WebSockets.Client.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
         }
       },
       "System.ObjectModel/4.0.12": {
@@ -1063,7 +1020,7 @@
       ]
     },
     "Microsoft.CSharp/4.0.1": {
-      "sha512": "gAeoqoRov9O6EHs+PnmfCRoJGwyMhzh4A60mNPPNTQZKyGi1ssRD1jeXCtUkyL3bkbtvckSqSHw5zHIWwMjN9A==",
+      "sha512": "17h8b5mXa87XYKrrVqdgZ38JefSUqLChUQpXgSnpzsM0nDOhE40FTeNWOJ/YmySGV6tG6T8+hjz6vxbknHJr6A==",
       "type": "package",
       "path": "Microsoft.CSharp/4.0.1",
       "files": [
@@ -1450,68 +1407,6 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Collections.NonGeneric/4.0.0": {
-      "sha512": "rVgwrFBMkmp8LI6GhAYd6Bx+2uLIXjRfNg6Ie+ASfX8ESuh9e2HNxFy2yh1MPIXZq3OAYa+0mmULVwpnEC6UDA==",
-      "type": "package",
-      "path": "System.Collections.NonGeneric/4.0.0",
-      "files": [
-        "System.Collections.NonGeneric.4.0.0.nupkg.sha512",
-        "System.Collections.NonGeneric.nuspec",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/dotnet/System.Collections.NonGeneric.dll",
-        "lib/net46/System.Collections.NonGeneric.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/dotnet/System.Collections.NonGeneric.dll",
-        "ref/dotnet/System.Collections.NonGeneric.xml",
-        "ref/dotnet/de/System.Collections.NonGeneric.xml",
-        "ref/dotnet/es/System.Collections.NonGeneric.xml",
-        "ref/dotnet/fr/System.Collections.NonGeneric.xml",
-        "ref/dotnet/it/System.Collections.NonGeneric.xml",
-        "ref/dotnet/ja/System.Collections.NonGeneric.xml",
-        "ref/dotnet/ko/System.Collections.NonGeneric.xml",
-        "ref/dotnet/ru/System.Collections.NonGeneric.xml",
-        "ref/dotnet/zh-hans/System.Collections.NonGeneric.xml",
-        "ref/dotnet/zh-hant/System.Collections.NonGeneric.xml",
-        "ref/net46/System.Collections.NonGeneric.dll",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._"
-      ]
-    },
-    "System.Collections.Specialized/4.0.0": {
-      "sha512": "poJFwQCUOoXqvdoGxx+3p8Z63yawcYKPBSFP67Z2jICeOINvEIQZN7mVOAnC7gsVF0WU+A2wtVwfhagC7UCgAg==",
-      "type": "package",
-      "path": "System.Collections.Specialized/4.0.0",
-      "files": [
-        "System.Collections.Specialized.4.0.0.nupkg.sha512",
-        "System.Collections.Specialized.nuspec",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/dotnet/System.Collections.Specialized.dll",
-        "lib/net46/System.Collections.Specialized.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/dotnet/System.Collections.Specialized.dll",
-        "ref/dotnet/System.Collections.Specialized.xml",
-        "ref/dotnet/de/System.Collections.Specialized.xml",
-        "ref/dotnet/es/System.Collections.Specialized.xml",
-        "ref/dotnet/fr/System.Collections.Specialized.xml",
-        "ref/dotnet/it/System.Collections.Specialized.xml",
-        "ref/dotnet/ja/System.Collections.Specialized.xml",
-        "ref/dotnet/ko/System.Collections.Specialized.xml",
-        "ref/dotnet/ru/System.Collections.Specialized.xml",
-        "ref/dotnet/zh-hans/System.Collections.Specialized.xml",
-        "ref/dotnet/zh-hant/System.Collections.Specialized.xml",
-        "ref/net46/System.Collections.Specialized.dll",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._"
-      ]
-    },
     "System.Console/4.0.0": {
       "sha512": "qSKUSOIiYA/a0g5XXdxFcUFmv1hNICBD7QZ0QhGYVipPIhvpiydY8VZqr1thmCXvmn8aipMg64zuanB4eotK9A==",
       "type": "package",
@@ -1777,7 +1672,7 @@
       ]
     },
     "System.Dynamic.Runtime/4.0.11": {
-      "sha512": "6GUpjqTwoMogwqEmQlL5+claGvGpv3yUSgZ/vToJLUNM5Jv02fiJEQKo1v7ra6urUMKVXvQfdFTas9Xb+KfQJA==",
+      "sha512": "db34f6LHYM0U0JpE+sOmjar27BnqTVkbLJhgfwMpTdgTigG/Hna3m2MYVwnFzGGKnEJk2UXFuoVTr8WUbU91/A==",
       "type": "package",
       "path": "System.Dynamic.Runtime/4.0.11",
       "files": [
@@ -1945,37 +1840,6 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
-      ]
-    },
-    "System.Globalization.Extensions/4.0.0": {
-      "sha512": "rqbUXiwpBCvJ18ySCsjh20zleazO+6fr3s5GihC2sVwhyS0MUl6+oc5Rzk0z6CKkS4kmxbZQSeZLsK7cFSO0ng==",
-      "type": "package",
-      "path": "System.Globalization.Extensions/4.0.0",
-      "files": [
-        "System.Globalization.Extensions.4.0.0.nupkg.sha512",
-        "System.Globalization.Extensions.nuspec",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/dotnet/System.Globalization.Extensions.dll",
-        "lib/net46/System.Globalization.Extensions.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/dotnet/System.Globalization.Extensions.dll",
-        "ref/dotnet/System.Globalization.Extensions.xml",
-        "ref/dotnet/de/System.Globalization.Extensions.xml",
-        "ref/dotnet/es/System.Globalization.Extensions.xml",
-        "ref/dotnet/fr/System.Globalization.Extensions.xml",
-        "ref/dotnet/it/System.Globalization.Extensions.xml",
-        "ref/dotnet/ja/System.Globalization.Extensions.xml",
-        "ref/dotnet/ko/System.Globalization.Extensions.xml",
-        "ref/dotnet/ru/System.Globalization.Extensions.xml",
-        "ref/dotnet/zh-hans/System.Globalization.Extensions.xml",
-        "ref/dotnet/zh-hant/System.Globalization.Extensions.xml",
-        "ref/net46/System.Globalization.Extensions.dll",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._"
       ]
     },
     "System.IO/4.1.0": {
@@ -2581,35 +2445,41 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Net.WebHeaderCollection/4.0.0": {
-      "sha512": "IsIZAsHm/yK7R/XASnEc4EMffFLIMgYchG3/zJv6B4LwMnXZwrVlSPpNbPgEVb0lSXyztsn7A6sIPAACQQ2vTQ==",
+    "System.Net.WebHeaderCollection/4.0.1": {
+      "sha512": "XX2TIAN+wBSAIV51BU2FvvXMdstUa8b0FBSZmDWjZdwUMmggQSifpTOZ5fNH20z9ZCg2fkV1L5SsZnpO2RQDRQ==",
       "type": "package",
-      "path": "System.Net.WebHeaderCollection/4.0.0",
+      "path": "System.Net.WebHeaderCollection/4.0.1",
       "files": [
-        "System.Net.WebHeaderCollection.4.0.0.nupkg.sha512",
+        "System.Net.WebHeaderCollection.4.0.1.nupkg.sha512",
         "System.Net.WebHeaderCollection.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
-        "lib/dotnet/System.Net.WebHeaderCollection.dll",
         "lib/net46/_._",
+        "lib/netstandard1.3/System.Net.WebHeaderCollection.dll",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
-        "ref/dotnet/System.Net.WebHeaderCollection.dll",
-        "ref/dotnet/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/de/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/es/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/fr/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/it/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/ja/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/ko/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/ru/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/zh-hans/System.Net.WebHeaderCollection.xml",
-        "ref/dotnet/zh-hant/System.Net.WebHeaderCollection.xml",
         "ref/net46/_._",
+        "ref/netstandard1.3/System.Net.WebHeaderCollection.dll",
+        "ref/netstandard1.3/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/de/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/es/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/fr/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/it/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/ja/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/ko/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/ru/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/zh-hans/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/zh-hant/System.Net.WebHeaderCollection.xml",
         "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._"
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Net.WebSockets/4.0.0": {
@@ -2649,35 +2519,44 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "system.net.websockets.client/4.0.0-beta-23123": {
-      "sha512": "jNs1CO8LJyFVf63dfOg0djTOyLGORm6TiOhKMIq87z6eCvwK5h7St95LhvEZ9g8CZ55LQdH4MLLcM8SnjJ76Cw==",
+    "System.Net.WebSockets.Client/4.0.0": {
+      "sha512": "GY5h9cn0ZVsG4ORQqMytTldrqxet2RC2CSEsgWGf4XNW5jhL5SxzcUZph03xbZsgn7K3qMr+Rq+gkbJNI+FEXg==",
       "type": "package",
-      "path": "system.net.websockets.client/4.0.0-beta-23123",
+      "path": "System.Net.WebSockets.Client/4.0.0",
       "files": [
-        "lib/DNXCore50/System.Net.WebSockets.Client.dll",
+        "System.Net.WebSockets.Client.4.0.0.nupkg.sha512",
+        "System.Net.WebSockets.Client.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
         "lib/net46/System.Net.WebSockets.Client.dll",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
-        "ref/dotnet/System.Net.WebSockets.Client.dll",
-        "ref/dotnet/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/de/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/es/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/fr/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/it/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/ja/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/ko/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/ru/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/zh-hans/System.Net.WebSockets.Client.xml",
-        "ref/dotnet/zh-hant/System.Net.WebSockets.Client.xml",
         "ref/net46/System.Net.WebSockets.Client.dll",
+        "ref/netstandard1.3/System.Net.WebSockets.Client.dll",
+        "ref/netstandard1.3/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/de/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/es/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/fr/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/it/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/ja/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/ko/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/ru/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/zh-hans/System.Net.WebSockets.Client.xml",
+        "ref/netstandard1.3/zh-hant/System.Net.WebSockets.Client.xml",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
-        "system.net.websockets.client.4.0.0-beta-23123.nupkg.sha512",
-        "system.net.websockets.client.nuspec"
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/unix/lib/netstandard1.3/System.Net.WebSockets.Client.dll",
+        "runtimes/win/lib/net46/System.Net.WebSockets.Client.dll",
+        "runtimes/win/lib/netcore50/System.Net.WebSockets.Client.dll",
+        "runtimes/win/lib/netstandard1.3/System.Net.WebSockets.Client.dll"
       ]
     },
     "System.ObjectModel/4.0.12": {
@@ -4273,7 +4152,7 @@
       "NETStandard.Library >= 1.6.0",
       "Newtonsoft.Json >= 9.0.1",
       "System.Net.WebSockets >= 4.0.0",
-      "system.net.websockets.client >= 4.0.0-beta-23123"
+      "System.Net.WebSockets.Client >= 4.0.0"
     ],
     ".NETStandard,Version=v1.4": []
   },

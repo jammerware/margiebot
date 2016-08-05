@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
-using Bazam.NoobWebClient;
+using Bazam.Http;
 using MargieBot.ExampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
@@ -102,7 +101,7 @@ namespace MargieBot.ExampleResponders.Responders
 
             string requestUrl = string.Format("http://api.wunderground.com/api/{0}/conditions/q/{1}/{2}.json", WundergroundAPIKey, state.ToUpperInvariant(), city.Replace(' ', '_'));
 
-            resultWeatherReport = client.GetResponse(requestUrl, RequestMethod.Get).GetAwaiter().GetResult();
+            resultWeatherReport = client.DownloadString(requestUrl, RequestMethod.Get).GetAwaiter().GetResult();
 
             return resultWeatherReport;
         }

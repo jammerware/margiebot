@@ -200,12 +200,6 @@
     <Resource Include="Assets\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MargieBot.ExampleResponders\MargieBot.ExampleResponders.csproj">
-      <Project>{c214b6b0-b876-4f24-9417-a05fc6d4b616}</Project>
-      <Name>MargieBot.ExampleResponders</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\margie-warlock.jpg" />
   </ItemGroup>
   <ItemGroup>

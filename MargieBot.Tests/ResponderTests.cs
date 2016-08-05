@@ -1,6 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using MargieBot.Models;
-using MargieBot.Responders;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -39,59 +37,61 @@ namespace MargieBot.Tests
         #endregion
 
         #region Utility methods
-        private ResponseContext GetResponseContext(string messageText)
-        {
-            var context = Substitute.For<ResponseContext>();
-            context.Message = new SlackMessage() {
-                ChatHub = Substitute.For<SlackChatHub>(),
-                MentionsBot = Regex.IsMatch(messageText, @"\bmargie\b", RegexOptions.IgnoreCase),
-                RawData = string.Empty,
-                Text = messageText,
-                User = Substitute.For<SlackUser>()
-            };
+        // TODO: resolve general fixture
+        //private ResponseContext GetResponseContext(string messageText)
+        //{
+        //    var context = Substitute.For<ResponseContext>();
+        //    context.Message = new SlackMessage() {
+        //        ChatHub = Substitute.For<SlackChatHub>(),
+        //        MentionsBot = Regex.IsMatch(messageText, @"\bmargie\b", RegexOptions.IgnoreCase),
+        //        RawData = string.Empty,
+        //        Text = messageText,
+        //        User = Substitute.For<SlackUser>()
+        //    };
 
-            return context;
-        }
+        //    return context;
+        //}
         #endregion
 
-        [TestMethod]
-        public void SimpleResponderCanRespond()
-        {
-            Bot bot = new Bot();
-            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
-            ResponseContext context = GetResponseContext("Hi everybody.");
+        // TODO: port to NUnit, then write actual tests
+        //[TestMethod]
+        //public void SimpleResponderCanRespond()
+        //{
+        //    Bot bot = new Bot();
+        //    IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
+        //    ResponseContext context = GetResponseContext("Hi everybody.");
 
-            Assert.AreEqual(true, responder.CanRespond(context));
-        }
+        //    Assert.AreEqual(true, responder.CanRespond(context));
+        //}
 
-        [TestMethod]
-        public void SimpleResponderRespondsCorrectly()
-        {
-            Bot bot = new Bot();
-            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
-            ResponseContext context = GetResponseContext("Hi, everybody.");
+        //[TestMethod]
+        //public void SimpleResponderRespondsCorrectly()
+        //{
+        //    Bot bot = new Bot();
+        //    IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").GetResponder();
+        //    ResponseContext context = GetResponseContext("Hi, everybody.");
 
-            Assert.AreEqual("Hello, friend!", responder.GetResponse(context).Text);
-        }
+        //    Assert.AreEqual("Hello, friend!", responder.GetResponse(context).Text);
+        //}
 
-        [TestMethod]
-        public void SimpleResponderWithMentionRespondsToMention()
-        {
-            Bot bot = new Bot();
-            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponder();
-            ResponseContext context = GetResponseContext("Hi, Margie.");
+        //[TestMethod]
+        //public void SimpleResponderWithMentionRespondsToMention()
+        //{
+        //    Bot bot = new Bot();
+        //    IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponder();
+        //    ResponseContext context = GetResponseContext("Hi, Margie.");
 
-            Assert.AreEqual(true, responder.CanRespond(context));
-        }
+        //    Assert.AreEqual(true, responder.CanRespond(context));
+        //}
 
-        [TestMethod]
-        public void SimpleResponderWithMentionDoesntRespondWithoutMention()
-        {
-            Bot bot = new Bot();
-            IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponder();
-            ResponseContext context = GetResponseContext("Hi, everybody.");
+        //[TestMethod]
+        //public void SimpleResponderWithMentionDoesntRespondWithoutMention()
+        //{
+        //    Bot bot = new Bot();
+        //    IResponder responder = bot.RespondsTo("Hi").With("Hello, friend!").IfBotIsMentioned().GetResponder();
+        //    ResponseContext context = GetResponseContext("Hi, everybody.");
 
-            Assert.AreEqual(false, responder.CanRespond(context));
-        }
+        //    Assert.AreEqual(false, responder.CanRespond(context));
+        //}
     }
 }
