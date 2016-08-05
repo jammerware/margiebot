@@ -15,7 +15,8 @@ namespace MargieBot.ExampleResponders.Responders
 
         public BotMessage GetResponse(ResponseContext context)
         {
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            // TODO: better way to do this?
+            Version version = typeof(WhatsNewResponder).GetTypeInfo().Assembly.GetName().Version;
 
             string message =
                 @"I'm " + context.BotUserName + " v." +

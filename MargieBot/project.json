@@ -1,10 +1,10 @@
 ﻿{
-  "version": "2.0.0-*",
+  "version": "2.0.1-*",
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
     "Newtonsoft.Json": "9.0.1",
-    "Bazam.Http": "2.0.0",
+    "Bazam.Http": "2.0.2",
     "System.Net.WebSockets": "4.0.0",
     "System.Net.WebSockets.Client": "4.0.0"
   },
