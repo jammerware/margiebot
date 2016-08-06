@@ -69,8 +69,8 @@
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MargieBot, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MargieBot.2.0.2\lib\netstandard1.4\MargieBot.dll</HintPath>
+    <Reference Include="MargieBot, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MargieBot.2.0.3\lib\netstandard1.4\MargieBot.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MargieBot.SampleResponders, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

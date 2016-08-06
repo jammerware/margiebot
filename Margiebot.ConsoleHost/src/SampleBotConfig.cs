@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using MargieBot.Models;
 using MargieBot.Responders;
 using MargieBot.SampleResponders.Models;
 using MargieBot.SampleResponders.Responders;
@@ -50,15 +49,15 @@ namespace MargieBot.ConsoleHost
             // this one hits on Slackbot when he talks 1/8 times or so
             responders.Add(SimpleResponder.Create
             (
-                (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(8) <= 1); },
-                (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
+                (responseCtx) => responseCtx.Message.User.IsSlackbot && new Random().Next(8) <= 1,
+                (responseCtx) => responseCtx.Get<Phrasebook>().GetSlackbotSalutation()
             ));
 
-            // easiest one of all - this one responds if someone thanks Margie
+            // this one responds if someone thanks Margie
             responders.Add(SimpleResponder.Create
             (
-                (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
-                (ResponseContext context) => { return context.Get<Phrasebook>().GetYoureWelcome(); }
+                (responseCtx) => responseCtx.Message.MentionsBot && Regex.IsMatch(responseCtx.Message.Text, @"\b(thx|thanks|thank you)\b", RegexOptions.IgnoreCase),
+                (responseCtx) => responseCtx.Get<Phrasebook>().GetYoureWelcome()
             ));
 
             // example of Supa Fly Mega EZ Syntactic Sugary Responder (not their actual name)
@@ -78,16 +77,16 @@ namespace MargieBot.ConsoleHost
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other responder has responded
             responders.Add(SimpleResponder.Create
             (
-                (ResponseContext context) =>
+                (responseCtx) =>
                 {
                     return
-                        context.Message.MentionsBot &&
-                        !context.BotHasResponded &&
-                        Regex.IsMatch(context.Message.Text, @"\b(hi|hey|hello|what's up|what's happening)\b", RegexOptions.IgnoreCase) &&
-                        context.Message.User.ID != context.BotUserID &&
-                        !context.Message.User.IsSlackbot;
+                        responseCtx.Message.MentionsBot &&
+                        !responseCtx.BotHasResponded &&
+                        Regex.IsMatch(responseCtx.Message.Text, @"\b(hi|hey|hello|what's up|what's happening)\b", RegexOptions.IgnoreCase) &&
+                        responseCtx.Message.User.ID != responseCtx.BotUserID &&
+                        !responseCtx.Message.User.IsSlackbot;
                 },
-                (ResponseContext context) => { return context.Get<Phrasebook>().GetQuery(); }
+                (responseCtx) => responseCtx.Get<Phrasebook>().GetQuery()
             ));
 
             return responders;

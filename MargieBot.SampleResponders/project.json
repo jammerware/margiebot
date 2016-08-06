@@ -6,7 +6,7 @@
   "dependencies": {
     "NETStandard.Library": "1.6.0",
     "Bazam.Http": "2.0.2",
-    "MargieBot": "2.0.3"
+    "MargieBot": "2.0.4"
   },
 
   "frameworks": {
