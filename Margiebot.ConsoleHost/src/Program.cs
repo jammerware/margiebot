@@ -15,7 +15,7 @@ namespace MargieBot.ConsoleHost
             // let's make a bot!
             var bot = new Bot();
 
-            // load the slack key out of the config.json file - remember to rename the "config.sample" file from the repo to "config.json" and replace the default value with your bot's slack key.
+            // load the slack key out of the config.json file - remember to copy the "config.sample" file from the repo to "config.json" and replace the default value with your bot's slack key.
             if(File.Exists("config.json"))
             {
                 _appConfig = new ConfigurationBuilder()
@@ -26,8 +26,8 @@ namespace MargieBot.ConsoleHost
             // this part just tells the end developer to add his/her slack key if he/she hasn't already
             if (_appConfig?["slackApiKey"] == null)
             {
-                Console.WriteLine("To run your bot, you first need to create a key for it at https://<yourteam>.slack.com/apps/manage. Then rename the file called \"config.sample\" in the root of this project to \"config.json\" and replace the value of the key \"slackApiKey\" with your bot's key.\n\n Press any key to exit.");
-                Console.ReadLine();
+                Console.WriteLine("To run your bot, you first need to create a key for it at https://<yourteam>.slack.com/apps/manage. Then copy the file called \"config.sample\" in the root of this project to \"config.json\" and replace the value of the key \"slackApiKey\" with your bot's key.\n\n Press any key to exit.");
+                Console.ReadKey();
                 Environment.Exit(0);
             }
 
@@ -36,15 +36,16 @@ namespace MargieBot.ConsoleHost
             var botConfig = new SampleBotConfig();
 
             bot.Aliases = botConfig.GetAliases();
-            bot.Responders = botConfig.GetResponders(bot);
+            bot.Responders.AddRange(botConfig.GetResponders(bot, _appConfig));
             foreach(var pair in botConfig.GetStaticResponseContextData())
             {
                 bot.ResponseContext.Add(pair.Key, pair.Value);
             }
 
             // connect
-            Console.WriteLine($@"Connecting with Slack key ""{_appConfig["apiSlackKey"]}""...");
-            bot.Connect(_appConfig["apiSlackKey"]).Wait();
+            var slackApiKey = _appConfig["slackApiKey"];
+            Console.WriteLine($@"Connecting with Slack key ""{slackApiKey}""...");
+            bot.Connect(slackApiKey).Wait();
             Console.WriteLine("Connected!");
 
             // loop and listen. entering "exit" will end the program. entering the name of a chat hub (like "@jammer" or "#news") that the bot's connected to, followed by a message,
@@ -54,6 +55,7 @@ namespace MargieBot.ConsoleHost
                 var input = Console.ReadLine();
                 if (input.Equals("exit", StringComparison.CurrentCultureIgnoreCase)) { break; }
                 
+                // TODO: parse out the chat hub
 
                 var sayTask = bot.Say(new BotMessage()
                 {

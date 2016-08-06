@@ -50,7 +50,12 @@ namespace MargieBot
                 BotNameRegex = string.Empty;
             }
         }
-        public IEnumerable<IResponder> Responders { get; set; } = new List<IResponder>();
+
+        // TODO: think about this
+        //
+        // This is a List<IResponder> because I wanted the end dev to be really free to manipulate the responders programmatically. Even IList doesn't have everything I wanted (AddRange, for example),
+        // so I made it a List for now. 
+        public List<IResponder> Responders { get; } = new List<IResponder>();
 
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
@@ -221,6 +226,7 @@ namespace MargieBot
         private async Task ListenTo(string json)
         {
             JObject jObject = JObject.Parse(json);
+            
             if (jObject["type"].Value<string>() == "message")
             {
                 var channelID = jObject["channel"].Value<string>();
@@ -275,7 +281,7 @@ namespace MargieBot
                 {
                     foreach (var responder in Responders ?? Enumerable.Empty<IResponder>())
                     {
-                        if (responder.CanRespond(context))
+                        if (responder != null && responder.CanRespond(context))
                         {
                             await SendIsTyping(message.ChatHub);
                             await Say(responder.GetResponse(context), context);

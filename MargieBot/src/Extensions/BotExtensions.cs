@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using MargieBot.Models;
 using MargieBot.Responders;
 
@@ -27,12 +26,10 @@ namespace MargieBot
                     return Regex.IsMatch(context.Message.Text, @"\b" + Regex.Escape(phrase) + @"\b", RegexOptions.IgnoreCase);
                 };
             }
-
-            // this seems wrong - probably not thread safe?
-            var responders = new List<IResponder>(bot.Responders);
-            responders.Add(chainer.Responder);
-            bot.Responders = responders;
-
+            
+            // add the simple responder to the bot
+            bot.Responders.Add(chainer.Responder);
+            
             return chainer;
         }
 

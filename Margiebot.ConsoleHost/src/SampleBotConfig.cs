@@ -5,6 +5,7 @@ using MargieBot.Models;
 using MargieBot.Responders;
 using MargieBot.SampleResponders.Models;
 using MargieBot.SampleResponders.Responders;
+using Microsoft.Extensions.Configuration;
 
 namespace MargieBot.ConsoleHost
 {
@@ -15,7 +16,7 @@ namespace MargieBot.ConsoleHost
             return new List<string>() { "Margie" };
         }
 
-        public IEnumerable<IResponder> GetResponders(Bot bot)
+        public IEnumerable<IResponder> GetResponders(Bot bot, IConfigurationRoot appConfig)
         {
             // Some of these are more complicated than they need to be for the sake of example
             var responders = new List<IResponder>();
@@ -28,19 +29,19 @@ namespace MargieBot.ConsoleHost
 
             // if you want to use these, you'll need to sign up for api keys from http://wunderground.com and http://www.dictionaryapi.com/ - they're free! Put them in your 
             // config.json, uncomment the lines below, and you're good to go.
-            //responders.Add(new WeatherRequestResponder(Configuration["wundergroundApiKey"]));
-            //responders.Add(new DefineResponder(Configuration["dictionaryApiKey"]));
+            //responders.Add(new WeatherRequestResponder(appConfig["wundergroundApiKey"]));
+            //responders.Add(new DefineResponder(appConfig["dictionaryApiKey"]));
 
             // examples of simple-ish "inline" responders
             // this one hits on Slackbot when he talks 1/8 times or so
-            responders.Add(bot.CreateResponder
+            responders.Add(SimpleResponder.Create
             (
                 (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(8) <= 1); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
             ));
 
             // easiest one of all - this one responds if someone thanks Margie
-            responders.Add(bot.CreateResponder
+            responders.Add(SimpleResponder.Create
             (
                 (ResponseContext context) => { return context.Message.MentionsBot && Regex.IsMatch(context.Message.Text, @"\b(thanks|thank you)\b", RegexOptions.IgnoreCase); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetYoureWelcome(); }
@@ -61,7 +62,8 @@ namespace MargieBot.ConsoleHost
                 .IfBotIsMentioned();
 
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other responder has responded
-            responders.Add(bot.CreateResponder(
+            responders.Add(SimpleResponder.Create
+            (
                 (ResponseContext context) =>
                 {
                     return
