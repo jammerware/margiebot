@@ -12,7 +12,7 @@
       "type": "platform",
       "version": "1.0.0"
     },
-    "MargieBot": "2.0.2",
+    "MargieBot": "2.0.3",
     "MargieBot.SampleResponders": "1.0.0",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0"
