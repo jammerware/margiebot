@@ -5,7 +5,6 @@ using System.Windows.Input;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
 using System.Configuration;
-using MargieBot;
 using MargieBot.UI.Properties;
 using MargieBot.Models;
 using MargieBot.SampleResponders.Responders;
@@ -18,7 +17,7 @@ namespace MargieBot.UI.ViewModels
     {
         private Bot _Margie;
 
-        private string _AuthKeySlack = ConfigurationManager.AppSettings["slackAccountApiKey"];
+        private string _AuthKeySlack = Settings.Default.LastSlackKey;
         public string AuthKeySlack
         {
             get { return _AuthKeySlack; }
@@ -89,31 +88,38 @@ namespace MargieBot.UI.ViewModels
 
         public ICommand ConnectCommand
         {
-            get { 
-                return new RelayCommand(async () => {
-                    if (_Margie != null && ConnectionStatus) {
+            get
+            {
+                return new RelayCommand(async () =>
+                {
+                    if (_Margie != null && ConnectionStatus)
+                    {
                         SelectedChatHub = null;
                         ConnectedHubs = null;
                         _Margie.Disconnect();
                     }
-                    else {
+                    else
+                    {
                         // let's margie
                         _Margie = new Bot();
                         _Margie.Aliases = GetAliases();
-                        foreach(KeyValuePair<string, object> value in GetStaticResponseContextData()) {
+                        foreach (KeyValuePair<string, object> value in GetStaticResponseContextData())
+                        {
                             _Margie.ResponseContext.Add(value.Key, value.Value);
                         }
 
                         // RESPONDER WIREUP
-                        foreach(var responder in GetResponders())
+                        foreach (var responder in GetResponders())
                         {
                             _Margie.Responders.Add(responder);
                         }
 
-                        _Margie.ConnectionStatusChanged += (bool isConnected) => {
+                        _Margie.ConnectionStatusChanged += (bool isConnected) =>
+                        {
                             ConnectionStatus = isConnected;
 
-                            if (isConnected) {
+                            if (isConnected)
+                            {
                                 // now that we're connected, build list of connected hubs for great glory
                                 List<SlackChatHub> hubs = new List<SlackChatHub>();
                                 hubs.AddRange(_Margie.ConnectedChannels);
@@ -121,7 +127,8 @@ namespace MargieBot.UI.ViewModels
                                 hubs.AddRange(_Margie.ConnectedDMs);
                                 ConnectedHubs = hubs;
 
-                                if (ConnectedHubs.Count > 0) {
+                                if (ConnectedHubs.Count > 0)
+                                {
                                     SelectedChatHub = ConnectedHubs[0];
                                 }
 
@@ -131,7 +138,8 @@ namespace MargieBot.UI.ViewModels
                                 ConnectedSince = _Margie.ConnectedSince;
                                 TeamName = _Margie.TeamName;
                             }
-                            else {
+                            else
+                            {
                                 ConnectedHubs = null;
                                 BotUserID = null;
                                 BotUserName = null;
@@ -140,9 +148,11 @@ namespace MargieBot.UI.ViewModels
                             }
                         };
 
-                        _Margie.MessageReceived += (string message) => {
+                        _Margie.MessageReceived += (string message) =>
+                        {
                             int messageCount = _Messages.Count - 500;
-                            for (int i = 0; i < messageCount; i++) {
+                            for (int i = 0; i < messageCount; i++)
+                            {
                                 _Messages.RemoveAt(0);
                             }
 
@@ -156,7 +166,7 @@ namespace MargieBot.UI.ViewModels
                         Settings.Default.LastSlackKey = AuthKeySlack;
                         Settings.Default.Save();
                     }
-                }); 
+                });
             }
         }
 
@@ -164,16 +174,12 @@ namespace MargieBot.UI.ViewModels
         {
             get
             {
-                return new RelayCommand(async () => {
+                return new RelayCommand(async () =>
+                {
                     await _Margie.Say(new BotMessage() { Text = MessageToSend, ChatHub = SelectedChatHub });
                     MessageToSend = string.Empty;
                 });
             }
-        }
-
-        public MainWindowViewModel()
-        {
-            AuthKeySlack = Settings.Default.LastSlackKey;
         }
 
         /// <summary>
@@ -190,7 +196,7 @@ namespace MargieBot.UI.ViewModels
         /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the responders
         /// described in this method as you want and start fresh. Define your own responders using the methods describe
         /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IList<IResponder>. 
-        /// You create them in this project, in a separate one, or even in the ExampleResponders project if you want.
+        /// You can create them in this project, in a separate one, or even in the ExampleResponders project if you want.
         /// 
         /// Boom! You have your own bot.
         /// </summary>
@@ -212,7 +218,7 @@ namespace MargieBot.UI.ViewModels
 
             // examples of simple-ish "inline" responders
             // this one hits on Slackbot when he talks 1/8 times or so
-            _Margie.Responders.Add(_Margie.CreateResponder(
+            responders.Add(_Margie.CreateResponder(
                 (ResponseContext context) => { return (context.Message.User.IsSlackbot && new Random().Next(8) <= 1); },
                 (ResponseContext context) => { return context.Get<Phrasebook>().GetSlackbotSalutation(); }
             ));
@@ -239,7 +245,8 @@ namespace MargieBot.UI.ViewModels
 
             // this last one just responds if someone says "hi" or whatever to Margie, but only if no other responder has responded
             responders.Add(_Margie.CreateResponder(
-                (ResponseContext context) => {
+                (ResponseContext context) =>
+                {
                     return
                         context.Message.MentionsBot &&
                         !context.BotHasResponded &&
@@ -247,7 +254,8 @@ namespace MargieBot.UI.ViewModels
                         context.Message.User.ID != context.BotUserID &&
                         !context.Message.User.IsSlackbot;
                 },
-                (ResponseContext context) => {
+                (ResponseContext context) =>
+                {
                     return context.Get<Phrasebook>().GetQuery();
                 }
             ));
@@ -263,7 +271,8 @@ namespace MargieBot.UI.ViewModels
         /// <returns></returns>
         private static Dictionary<string, object> GetStaticResponseContextData()
         {
-            return new Dictionary<string, object>() { 
+            return new Dictionary<string, object>()
+            {
                 { "Phrasebook", new Phrasebook() }
             };
         }

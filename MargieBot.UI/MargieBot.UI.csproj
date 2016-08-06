@@ -62,7 +62,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Bazam.Wpf, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bazam.Wpf.2.6.0\lib\net46\Bazam.Wpf.dll</HintPath>
+      <HintPath>..\packages\Bazam.Wpf.2.6.0\lib\net461\Bazam.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">

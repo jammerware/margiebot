@@ -40,8 +40,8 @@ namespace MargieBot
         #endregion
 
         #region Public properties
-        private IReadOnlyList<string> _Aliases = new List<string>();
-        public IReadOnlyList<string> Aliases
+        private IEnumerable<string> _Aliases = new List<string>();
+        public IEnumerable<string> Aliases
         {
             get { return _Aliases; }
             set
@@ -50,7 +50,7 @@ namespace MargieBot
                 BotNameRegex = string.Empty;
             }
         }
-        public IList<IResponder> Responders { get; } = new List<IResponder>();
+        public IEnumerable<IResponder> Responders { get; set; } = new List<IResponder>();
 
         public IReadOnlyList<SlackChatHub> ConnectedChannels
         {
@@ -96,9 +96,13 @@ namespace MargieBot
         public string UserName { get; private set; }
         #endregion
 
+        /// <summary>
+        /// Connects this bot to Slack using the slack API key provided. Set yours up at https://yourteam.slack.com/apps/manage.
+        /// </summary>
+        /// <param name="slackKey">The API key the bot will use to identify itself to the Slack API.</param>
         public async Task Connect(string slackKey)
         {
-            this.SlackKey = slackKey;
+            SlackKey = slackKey;
 
             // disconnect in case we're already connected like a crazy person
             Disconnect();
@@ -136,7 +140,7 @@ namespace MargieBot
                 {
                     if (!channelData["is_archived"].Value<bool>() && channelData["is_member"].Value<bool>())
                     {
-                        SlackChatHub channel = new SlackChatHub()
+                        var channel = new SlackChatHub()
                         {
                             ID = channelData["id"].Value<string>(),
                             Name = "#" + channelData["name"].Value<string>(),
@@ -154,7 +158,7 @@ namespace MargieBot
                 {
                     if (!groupData["is_archived"].Value<bool>() && groupData["members"].Values<string>().Contains(UserID))
                     {
-                        SlackChatHub group = new SlackChatHub()
+                        var group = new SlackChatHub()
                         {
                             ID = groupData["id"].Value<string>(),
                             Name = groupData["name"].Value<string>(),
@@ -171,7 +175,7 @@ namespace MargieBot
                 foreach (JObject dmData in jData["ims"])
                 {
                     var userID = dmData["user"].Value<string>();
-                    SlackChatHub dm = new SlackChatHub()
+                    var dm = new SlackChatHub()
                     {
                         ID = dmData["id"].Value<string>(),
                         Name = "@" + (UserNameCache.ContainsKey(userID) ? UserNameCache[userID] : userID),
@@ -206,6 +210,9 @@ namespace MargieBot
             await WebSocket.Connect(webSocketUrl);
         }
 
+        /// <summary>
+        /// Disconnect this bot from Slack.
+        /// </summary>
         public void Disconnect()
         {
             WebSocket?.Disconnect();
@@ -250,8 +257,8 @@ namespace MargieBot
                     BotUserID = UserID,
                     BotUserName = UserName,
                     Message = message,
-                    TeamID = this.TeamID,
-                    UserNameCache = new ReadOnlyDictionary<string, string>(this.UserNameCache)
+                    TeamID = TeamID,
+                    UserNameCache = new ReadOnlyDictionary<string, string>(UserNameCache)
                 };
 
                 // if the end dev has added any static entries to the ResponseContext collection of Bot, add them to the context being passed to the responders.
@@ -266,7 +273,7 @@ namespace MargieBot
                 // margie can never respond to herself and requires that the message have text and be from an actual person
                 if (message.User != null && message.User.ID != UserID && message.Text != null)
                 {
-                    foreach (IResponder responder in Responders)
+                    foreach (var responder in Responders ?? Enumerable.Empty<IResponder>())
                     {
                         if (responder.CanRespond(context))
                         {
@@ -281,6 +288,10 @@ namespace MargieBot
             RaiseMessageReceived(json);
         }
 
+        /// <summary>
+        /// Allows you to programmatically operate the bot. The bot will post the passed message in whichever "chat hub" (DM, channel, or group) the message specifies.
+        /// </summary>
+        /// <param name="message">The message you want the bot to post in Slack.</param>
         public async Task Say(BotMessage message)
         {
             await Say(message, null);
@@ -303,35 +314,38 @@ namespace MargieBot
                 chatHubID = context.Message.ChatHub.ID;
             }
 
-            if (chatHubID != null)
+            if(chatHubID == null)
             {
-                NoobWebClient client = new NoobWebClient();
+                throw new ArgumentException($"When calling the {nameof(Say)}() method, the {nameof(message)} parameter must have its {nameof(message.ChatHub)} property set.");
+            }
 
-                var values = new List<string>() {
-                    "token", this.SlackKey,
+            var client = new NoobWebClient();
+            var values = new List<string>() {
+                    "token", SlackKey,
                     "channel", chatHubID,
                     "text", message.Text,
                     "as_user", "true"
                 };
 
-                if (message.Attachments.Count > 0)
-                {
-                    values.Add("attachments");
-                    values.Add(JsonConvert.SerializeObject(message.Attachments));
-                }
-
-                await client.DownloadString(
-                    "https://slack.com/api/chat.postMessage",
-                    RequestMethod.Post,
-                    values.ToArray()
-                );
-            }
-            else
+            if (message.Attachments.Count > 0)
             {
-                throw new ArgumentException($"When calling the {nameof(Say)}() method, the {nameof(message)} parameter must have its {nameof(message.ChatHub)} property set.");
+                values.Add("attachments");
+                values.Add(JsonConvert.SerializeObject(message.Attachments));
             }
+
+            await client.DownloadString(
+                "https://slack.com/api/chat.postMessage",
+                RequestMethod.Post,
+                values.ToArray()
+            );
         }
 
+        /// <summary>
+        /// Causes the bot to appear as though it's typing in whichever hub you specify. Useful for custom interactions, but note that you 
+        /// don't need to set this while typical responders are being evaluated - the Bot class does that for you.
+        /// </summary>
+        /// <param name="chatHub">The hub in which the bot should appear to be typing.</param>
+        /// <returns></returns>
         public async Task SendIsTyping(SlackChatHub chatHub)
         {
             if(!IsConnected)
@@ -347,7 +361,7 @@ namespace MargieBot
 
             await WebSocket.Send(JsonConvert.SerializeObject(message));
         }
-
+        
         #region Events
         public event MargieConnectionStatusChangedEventHandler ConnectionStatusChanged;
         private void RaiseConnectionStatusChanged()

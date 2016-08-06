@@ -64,7 +64,6 @@ namespace MargieBot.WebSockets
 #if DEBUG
                     Console.WriteLine($"Receive: {_encoding.GetString(buffer)}");
 #endif
-
                     var data = _encoding.GetString(buffer);
                     // TODO: should i be doing this, and if not, what should i do instead?
                     data = TrimStuffIDontKnowWhatItEvenIs(data);

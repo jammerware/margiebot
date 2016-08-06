@@ -27,5 +27,22 @@ namespace MargieBot.Responders
 
             return GetResponseFunctions[new Random().Next(GetResponseFunctions.Count - 1)](context);
         }
+
+        #region Utility
+        public static SimpleResponder Create(Func<ResponseContext, bool> canRespond, Func<ResponseContext, string> getResponse)
+        {
+            return new SimpleResponder()
+            {
+                CanRespondFunction = canRespond,
+                GetResponseFunctions = new List<Func<ResponseContext, BotMessage>>()
+                {
+                    (ResponseContext context) =>
+                    {
+                        return new BotMessage() { Text = getResponse(context) };
+                    }
+                }
+            };
+        }
+        #endregion
     }
 }

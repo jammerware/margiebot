@@ -1,0 +1,5 @@
+{
+  "dictionaryApiKey": "(not required) enter your dictionary API key here - go get one at http://www.dictionaryapi.com/",
+  "slackApiKey": "enter your bot's slack key here - go get one at https://yourteam.slack.com/apps/manage",
+  "wundergroundApiKey": "(not required) enter your bot's Wunderground API key here if you want to use the sample WeatherResponder - go get one at https://www.wunderground.com/weather/api"
+}
