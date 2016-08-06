@@ -360,7 +360,7 @@ namespace MargieBot
             }
 
             var message = new {
-                type = "user_typing",
+                type = "typing",
                 channel = chatHub.ID,
                 user = UserID
             };
