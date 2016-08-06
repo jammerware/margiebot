@@ -11,11 +11,25 @@ namespace MargieBot.ConsoleHost
 {
     public class SampleBotConfig
     {
+        /// <summary>
+        /// Replace the contents of the list returned from this method with any aliases you might want your bot to respond to. If you
+        /// don't want your bot to respond to anything other than its actual name, just return an empty list here.
+        /// </summary>
+        /// <returns>A list of aliases that will cause the BotWasMentioned property of the ResponseContext to be true</returns>
         public IEnumerable<string> GetAliases()
         {
             return new List<string>() { "Margie" };
         }
 
+        /// <summary>
+        /// If you want to use this application to run your bot, here's where you start. Just scrap as many of the responders
+        /// described in this method as you want and start fresh. Define your own responders using the methods describe
+        /// at https://github.com/jammerware/margiebot/wiki/Configuring-responses and return them in an IEnumerable<IResponder>. 
+        /// You can create them in this project, in a separate one, or even in the SampleResponders project if you want.
+        /// 
+        /// Boom! You have your own bot.
+        /// </summary>
+        /// <returns>A list of the responders this bot should respond with.</returns>
         public IEnumerable<IResponder> GetResponders(Bot bot, IConfigurationRoot appConfig)
         {
             // Some of these are more complicated than they need to be for the sake of example
