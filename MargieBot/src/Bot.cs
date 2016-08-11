@@ -199,6 +199,7 @@ namespace MargieBot
             };
             WebSocket.OnMessage += async (object sender, string message) =>
             {
+                var things = Newtonsoft.Json.par
                 await ListenTo(message);
             };
             WebSocket.OnClose += (object sender, EventArgs e) =>
@@ -225,7 +226,17 @@ namespace MargieBot
 
         private async Task ListenTo(string json)
         {
-            JObject jObject = JObject.Parse(json);
+            JObject jObject = null;
+            try
+            {
+                jObject = JObject.Parse(json);
+            }
+            catch(JsonReaderException)
+            {
+#if DEBUG
+                Console.WriteLine($"Illegal JSON message: {json}");
+#endif
+            }
             
             if (jObject["type"].Value<string>() == "message")
             {
