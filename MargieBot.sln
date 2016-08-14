@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot.UI", "MargieBot.UI\MargieBot.UI.csproj", "{222E7C27-2B98-4478-AED5-8CE914B42CFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MargieBot.Tests", "MargieBot.Tests\MargieBot.Tests.csproj", "{2E347D00-FB86-4EF2-95BC-D8EEB98584DD}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MargieBot", "MargieBot\MargieBot.xproj", "{C4E14F85-F98F-484C-8FCB-F0D95F91472A}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MargieBot.Debug", "MargieBot.Debug\MargieBot.Debug.xproj", "{604E4CF2-A6E0-4BCC-A7F1-77A5CA7BC167}"
@@ -25,10 +23,6 @@ Global
 		{222E7C27-2B98-4478-AED5-8CE914B42CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{222E7C27-2B98-4478-AED5-8CE914B42CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{222E7C27-2B98-4478-AED5-8CE914B42CFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E347D00-FB86-4EF2-95BC-D8EEB98584DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E347D00-FB86-4EF2-95BC-D8EEB98584DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E347D00-FB86-4EF2-95BC-D8EEB98584DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E347D00-FB86-4EF2-95BC-D8EEB98584DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4E14F85-F98F-484C-8FCB-F0D95F91472A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C4E14F85-F98F-484C-8FCB-F0D95F91472A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4E14F85-F98F-484C-8FCB-F0D95F91472A}.Release|Any CPU.ActiveCfg = Release|Any CPU
