@@ -7,7 +7,7 @@ using MargieBot.Responders;
 using MargieBot.SampleResponders.Models;
 using Newtonsoft.Json.Linq;
 
-namespace MargieBot.SampleResponders.Responders
+namespace MargieBot.SampleResponders
 {
     public class WeatherRequestResponder : IResponder
     {

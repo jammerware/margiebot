@@ -199,7 +199,6 @@ namespace MargieBot
             };
             WebSocket.OnMessage += async (object sender, string message) =>
             {
-                var things = Newtonsoft.Json.par
                 await ListenTo(message);
             };
             WebSocket.OnClose += (object sender, EventArgs e) =>

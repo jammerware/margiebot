@@ -5,7 +5,7 @@ using MargieBot.Models;
 using MargieBot.Responders;
 using MargieBot.SampleResponders.Models;
 
-namespace MargieBot.SampleResponders.Responders
+namespace MargieBot.SampleResponders
 {
     public class ScoreboardRequestResponder : IResponder
     {

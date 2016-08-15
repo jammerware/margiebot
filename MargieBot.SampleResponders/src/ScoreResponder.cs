@@ -6,7 +6,7 @@ using MargieBot.SampleResponders.Models;
 using MargieBot.Models;
 using MargieBot.Responders;
 
-namespace MargieBot.SampleResponders.Responders
+namespace MargieBot.SampleResponders
 {
     /// <summary>
     /// This responder makes MargieBot into a game! When a user says "@user+1" or similar in chat, Margie awards the mentioned user a point. The 
@@ -25,13 +25,14 @@ namespace MargieBot.SampleResponders.Responders
 
         public bool CanRespond(ResponseContext context)
         {
-            if (this.Scorebook == null || this.TeamID != context.TeamID) {
+            if (Scorebook == null || TeamID != context.TeamID)
+            {
                 // start up scorebook for this team
-                this.TeamID = context.TeamID;
-                this.Scorebook = new Scorebook(TeamID);
+                TeamID = context.TeamID;
+                Scorebook = new Scorebook(TeamID);
             }
             // put the scorebook in context in case someone wants to see the scoreboard
-            context.Set(this.Scorebook);
+            context.Set(Scorebook);
 
             return !context.Message.User.IsSlackbot && Regex.IsMatch(context.Message.Text, SCORE_REGEX);
         }
@@ -43,8 +44,10 @@ namespace MargieBot.SampleResponders.Responders
 
             // bet you anything there's a better way to do this
             Match match = Regex.Match(context.Message.Text, SCORE_REGEX);
-            for (int i = 0; i < match.Groups["formattedUserID"].Captures.Count; i++) {
-                scoringResults.Add(new ScoringResult() {
+            for (int i = 0; i < match.Groups["formattedUserID"].Captures.Count; i++)
+            {
+                scoringResults.Add(new ScoringResult()
+                {
                     FormattedUserID = match.Groups["formattedUserID"].Captures[i].Value,
                     IsNewScorer = !this.Scorebook.HasUserScored(match.Groups["userID"].Captures[i].Value),
                     IsValidScorer = (match.Groups["userID"].Captures[i].Value != context.Message.User.ID),
@@ -52,34 +55,41 @@ namespace MargieBot.SampleResponders.Responders
                 });
             }
 
-            IList<string> newScorers = scoringResults.Where(r => r.IsNewScorer).Select(r => r.UserID).ToList();
-            IList<string> scoringUsers = scoringResults.Where(r => r.IsValidScorer).Select(r => r.UserID).ToList();
-            IList<string> allUsers = scoringResults.Select(r => r.UserID).ToList();
+            var newScorers = scoringResults.Where(r => r.IsNewScorer).Select(r => r.UserID).ToList();
+            var scoringUsers = scoringResults.Where(r => r.IsValidScorer).Select(r => r.UserID).ToList();
+            var allUsers = scoringResults.Select(r => r.UserID).ToList();
 
             // score the users and shove the scorebook into the context for use by the ScoreboardRequestResponder
             Scorebook.ScoreUsers(scoringUsers, 1);
 
-            Phrasebook phrasebook = context.Get<Phrasebook>();
-            StringBuilder responseBuilder = new StringBuilder();
+            var phrasebook = context.Get<Phrasebook>();
+            var responseBuilder = new StringBuilder();
 
-            if (allUsers.Contains(context.Message.User.ID)) {
+            if (allUsers.Contains(context.Message.User.ID))
+            {
                 responseBuilder.Append(string.Format("Bless your heart, {0}. You can't score yourself - what kinda game would that be?! Y'all, {0} is cute, but I think he/she might be dumb as a box o' rocks.\n\n", context.Message.User.FormattedUserID));
             }
-            
-            if(scoringUsers.Count() > 0) {
-                if(responseBuilder.Length > 0) {
+
+            if (scoringUsers.Count() > 0)
+            {
+                if (responseBuilder.Length > 0)
+                {
                     responseBuilder.Append("Anyway... ");
                 }
 
-                if(scoringUsers.Count() == 1) {
-                    if(scoringUsers[0] == context.BotUserID) {
+                if (scoringUsers.Count() == 1)
+                {
+                    if (scoringUsers[0] == context.BotUserID)
+                    {
                         int margieScore = Scorebook.GetUserScore(context.BotUserID);
                         responseBuilder.Append(string.Format("Awwww, aren't you a sweetie! *[blushes]* If you insist. Now I have {0} point{1}.\n\n", margieScore, margieScore == 1 ? string.Empty : "s"));
                     }
-                    else if(newScorers.Contains(scoringUsers[0])) {
+                    else if (newScorers.Contains(scoringUsers[0]))
+                    {
                         responseBuilder.Append(string.Format("A new challenger appears, y'all! {0} is on the board with a point. {1}", scoringResults.Where(r => r.UserID == scoringUsers[0]).First().FormattedUserID, phrasebook.GetAffirmation()));
                     }
-                    else {
+                    else
+                    {
                         ScoringResult scoredUser = scoringResults.Where(r => r.UserID == scoringUsers[0]).First();
 
                         responseBuilder.Append(
@@ -93,11 +103,13 @@ namespace MargieBot.SampleResponders.Responders
                         );
                     }
                 }
-                else {
+                else
+                {
                     responseBuilder.Append("There's points all over this joint, y'all. ");
                     IList<ScoringResult> scoringUserResults = scoringResults.Where(r => r.IsValidScorer).ToList();
 
-                    if (scoringUserResults.Count == 2) {
+                    if (scoringUserResults.Count == 2)
+                    {
                         responseBuilder.Append(
                             string.Format(
                                 "{1} and {2} each just scored a point. {3}",
@@ -108,14 +120,18 @@ namespace MargieBot.SampleResponders.Responders
                             )
                         );
                     }
-                    else {
-                        for (int i = 0; i < scoringUserResults.Count; i++) {
+                    else
+                    {
+                        for (int i = 0; i < scoringUserResults.Count; i++)
+                        {
                             responseBuilder.Append(scoringUserResults[i].FormattedUserID);
 
-                            if (i < scoringResults.Count - 2) {
+                            if (i < scoringResults.Count - 2)
+                            {
                                 responseBuilder.Append(", ");
                             }
-                            else if(i == scoringResults.Count - 2) {
+                            else if (i == scoringResults.Count - 2)
+                            {
                                 responseBuilder.Append(", and ");
                             }
                         }

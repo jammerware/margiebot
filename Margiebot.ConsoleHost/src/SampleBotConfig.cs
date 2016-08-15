@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MargieBot.Responders;
+using MargieBot.SampleResponders;
 using MargieBot.SampleResponders.Models;
-using MargieBot.SampleResponders.Responders;
 using Microsoft.Extensions.Configuration;
 
 namespace MargieBot.ConsoleHost
@@ -33,7 +33,7 @@ namespace MargieBot.ConsoleHost
         {
             // Some of these are more complicated than they need to be for the sake of example
             var responders = new List<IResponder>();
-
+            
             // examples of semi-complex or "messier" responders (created in separate classes)
             responders.Add(new ScoreResponder());
             responders.Add(new ScoreboardRequestResponder());
