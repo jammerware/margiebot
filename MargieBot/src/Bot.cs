@@ -222,6 +222,7 @@ namespace MargieBot
 
         private async Task ListenTo(string json)
         {
+            bool isValidJson = true;
             JObject jObject = null;
             try
             {
@@ -229,10 +230,14 @@ namespace MargieBot
             }
             catch(JsonReaderException)
             {
+                isValidJson = false;
 #if DEBUG
                 Console.WriteLine($"Illegal JSON message: {json}");
 #endif
             }
+
+            if (!isValidJson)
+                return;
             
             if (jObject["type"].Value<string>() == "message")
             {
