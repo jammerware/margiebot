@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using MargieBot.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace MargieBot.Debug

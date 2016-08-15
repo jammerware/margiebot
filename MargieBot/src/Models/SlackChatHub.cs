@@ -1,4 +1,4 @@
-﻿namespace MargieBot.Models
+﻿namespace MargieBot
 {
     /// <summary>
     /// This represents a place in Slack where people can chat - typically a channel, group, or DM.

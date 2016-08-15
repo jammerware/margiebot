@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using MargieBot.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace MargieBot.ConsoleHost

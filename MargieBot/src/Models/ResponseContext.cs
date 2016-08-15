@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MargieBot.Models
+namespace MargieBot
 {
     public class ResponseContext
     {

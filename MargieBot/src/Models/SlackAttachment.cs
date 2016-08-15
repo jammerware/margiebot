@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MargieBot.Models
+namespace MargieBot
 {
     public class SlackAttachment
     {

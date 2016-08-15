@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Bazam.Http;
-using MargieBot.Models;
-using MargieBot.Responders;
 using MargieBot.SampleResponders.Models;
 using Newtonsoft.Json.Linq;
 

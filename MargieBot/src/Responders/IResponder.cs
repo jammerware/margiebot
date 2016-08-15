@@ -1,6 +1,4 @@
-﻿using MargieBot.Models;
-
-namespace MargieBot.Responders
+﻿namespace MargieBot
 {
     public interface IResponder
     {

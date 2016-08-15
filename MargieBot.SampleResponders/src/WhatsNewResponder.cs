@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using MargieBot.Models;
-using MargieBot.Responders;
 
 namespace MargieBot.SampleResponders
 {

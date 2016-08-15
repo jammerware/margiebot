@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MargieBot.Models
+namespace MargieBot
 {
     public class BotMessage
     {

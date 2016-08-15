@@ -1,4 +1,4 @@
-﻿namespace MargieBot.EventHandlers
+﻿namespace MargieBot
 {
     public delegate void MargieMessageReceivedEventHandler(string messageText);
 }

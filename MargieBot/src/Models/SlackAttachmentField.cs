@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-namespace MargieBot.Models
+namespace MargieBot
 {
     public class SlackAttachmentField
     {

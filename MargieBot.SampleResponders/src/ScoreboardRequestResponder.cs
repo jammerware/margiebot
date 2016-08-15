@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using MargieBot.Models;
-using MargieBot.Responders;
 using MargieBot.SampleResponders.Models;
 
 namespace MargieBot.SampleResponders

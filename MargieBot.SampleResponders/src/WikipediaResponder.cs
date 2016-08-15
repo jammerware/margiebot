@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
 using Bazam.Http;
-using MargieBot.Models;
-using MargieBot.Responders;
 using Newtonsoft.Json.Linq;
 
 namespace MargieBot.SampleResponders

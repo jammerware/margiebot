@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MargieBot.Models;
 
-namespace MargieBot.Responders
+namespace MargieBot
 {
     public class SimpleResponder : IResponder
     {

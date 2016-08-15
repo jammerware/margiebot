@@ -6,8 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Bazam.Http;
-using MargieBot.Models;
-using MargieBot.Responders;
 
 namespace MargieBot.SampleResponders
 {

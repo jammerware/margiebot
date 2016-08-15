@@ -1,4 +1,4 @@
-﻿namespace MargieBot.Models
+﻿namespace MargieBot
 {
     public enum SlackChatHubType
     {

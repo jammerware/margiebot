@@ -1,6 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using MargieBot.Models;
-using MargieBot.Responders;
 
 // intentionally put in the root namespace so that anyone using the Bot class will have these
 namespace MargieBot

@@ -3,8 +3,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using MargieBot.SampleResponders.Models;
-using MargieBot.Models;
-using MargieBot.Responders;
 
 namespace MargieBot.SampleResponders
 {
