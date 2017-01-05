@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.Http;
@@ -34,10 +35,11 @@ namespace MargieBot
 
         private Dictionary<string, string> UserNameCache { get; set; } = new Dictionary<string, string>();
         private MargieBotWebSocket WebSocket { get; set; }
+        private string SlackRtmStartHelp = "https://api.slack.com/methods/rtm.start";
         #endregion
 
-        #region Public properties
-        private IEnumerable<string> _Aliases = new List<string>();
+    #region Public properties
+    private IEnumerable<string> _Aliases = new List<string>();
         public IEnumerable<string> Aliases
         {
             get { return _Aliases; }
@@ -116,6 +118,37 @@ namespace MargieBot
             var httpClient = new HttpClient();
             var json = await httpClient.GetStringAsync($"https://slack.com/api/rtm.start?token={SlackKey}");
             var jData = JObject.Parse(json);
+
+            // Handle exceptions.
+
+            if (! jData["ok"].Value<bool>())
+            {
+                var errorMessage = jData["ok"].Value<string>();
+                switch (errorMessage)
+                {       
+                    case "not_authed":          
+                    case "account_inactive":
+                    case "invalid_auth":
+                        InvalidCredentialException exIC = new InvalidCredentialException(errorMessage);
+                        exIC.HelpLink = SlackRtmStartHelp;
+                        throw exIC;
+                    case "invalid_arg_name":
+                    case "invalid_array_arg":
+                    case "invalid_charset":
+                    case "invalid_form_data":
+                    case "invalid_post_type":
+                    case "missing_post_type":
+                        ArgumentException exAE = new ArgumentException(errorMessage);
+                        exAE.HelpLink = SlackRtmStartHelp;
+                        throw exAE;
+                    case "request_timeout":
+                        TimeoutException exTE = new TimeoutException(errorMessage);
+                        exTE.HelpLink = SlackRtmStartHelp;
+                        throw exTE;
+                    default:
+                      throw new Exception(errorMessage);
+                }
+            }
 
             // read various bot properties out of the response
             TeamID = jData["team"]["id"].Value<string>();
