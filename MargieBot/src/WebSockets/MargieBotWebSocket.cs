@@ -81,10 +81,10 @@ namespace MargieBot.WebSockets
 							var stringData = await reader.ReadToEndAsync();
 
 #if DEBUG
-                    Console.WriteLine($"Receive: {stringData}");
+							Console.WriteLine($"Receive: {stringData}");
 #endif
 
-					OnMessage?.Invoke(this, stringData);
+							OnMessage?.Invoke(this, stringData);
 						}
 					}
 				}
