@@ -47,56 +47,44 @@ namespace MargieBot.WebSockets
         #endregion
 
         #region Internal utility
-        private async Task Listen()
-        {
-            byte[] buffer = new byte[1024];
-            
-            while (_webSocket.State == WebSocketState.Open)
-            {
-                var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+		private async Task Listen()
+		{
+			List<byte> data = new List<byte>();
+			ArraySegment<Byte> buffer = new ArraySegment<byte>(new Byte[1024]);
 
-                if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                }
-                else
-                {
+			WebSocketReceiveResult result = null;
+
+			while (_webSocket.State == WebSocketState.Open)
+			{
+				data.Clear();
+				do
+				{
+					result = await _webSocket.ReceiveAsync(buffer, CancellationToken.None);
+
+					if (result.MessageType == WebSocketMessageType.Close)
+					{
+						await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+						break;
+					}
+					else
+					{
+						data.AddRange(buffer.Array);
+					}
+				}
+				while (!result.EndOfMessage);
+
+				if (result?.MessageType != WebSocketMessageType.Close && data.Count > 0)
+				{
+					var stringData = _encoding.GetString(data.ToArray());
+
 #if DEBUG
-                    Console.WriteLine($"Receive: {_encoding.GetString(buffer)}");
+                    Console.WriteLine($"Receive: {stringData}");
 #endif
-                    var data = _encoding.GetString(buffer);
-                    // TODO: should i be doing this, and if not, what should i do instead?
-                    data = TrimStuffIDontKnowWhatItEvenIs(data);
-                    OnMessage?.Invoke(this, data);
-                }
-            }
-        }
 
-        private string TrimStuffIDontKnowWhatItEvenIs(string input)
-        {
-            var openBraceCount = 0;
-            var indexOfLastBrace = 0;
-
-            for (var i = 0; i < input.Length; i++)
-            {
-                if (input[i] == '{')
-                {
-                    openBraceCount++;
-                }
-                else if (input[i] == '}')
-                {
-                    openBraceCount--;
-                }
-
-                if (openBraceCount == 0)
-                {
-                    indexOfLastBrace = i;
-                    break;
-                }
-            }
-
-            return input.Substring(0, indexOfLastBrace + 1);
-        }
+					OnMessage?.Invoke(this, stringData);
+				}
+			}
+		}
         #endregion
 
         #region IDisposable
