@@ -33,6 +33,7 @@ namespace MargieBot.WebSockets
         {
             await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure", CancellationToken.None);
             _webSocket.Dispose();
+            OnClose?.Invoke(this, EventArgs.Empty);
         }
 
         public async Task Send(string message)
