@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageVersion>2.0.5</PackageVersion>
+    <PackageDescription>MargieBot is a .NET library designed to make building bots for Slack fast, easy, and fun.</PackageDescription>
+    <Authors>Jammerware, LLC</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jammerware/margiebot</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/jammerware/margiebot.git</RepositoryUrl>
+    <PackageTags>slack;bots</PackageTags>
+    <PackageReleaseNotes>Margiebot journeys to .NET Core!</PackageReleaseNotes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Bazam.Http" Version="2.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+</Project>

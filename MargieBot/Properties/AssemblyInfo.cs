@@ -5,10 +5,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
+[assembly: AssemblyTitle("MargieBot")]
+[assembly: AssemblyDescription("MargieBot is a .NET library designed to make building bots for Slack fast, easy, and fun.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MargieBot")]
+[assembly: AssemblyCopyright("2016 Jammerware LLC")]
 [assembly: AssemblyTrademark("")]
+[assembly: AssemblyVersion("2.0.5")]
+[assembly: AssemblyFileVersion("2.0.5")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
