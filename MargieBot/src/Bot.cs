@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Authentication;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bazam.Http;
@@ -38,8 +40,8 @@ namespace MargieBot
         private string SlackRtmStartHelp = "https://api.slack.com/methods/rtm.start";
         #endregion
 
-    #region Public properties
-    private IEnumerable<string> _Aliases = new List<string>();
+        #region Public properties
+        private IEnumerable<string> _Aliases = new List<string>();
         public IEnumerable<string> Aliases
         {
             get { return _Aliases; }
@@ -271,10 +273,10 @@ namespace MargieBot
 
             if (!isValidJson)
                 return;
-            
-            if (jObject["type"].Value<string>() == "message")
+
+            if (jObject["type"]?.Value<string>() == "message")
             {
-                var channelID = jObject["channel"].Value<string>();
+                var channelID = jObject["channel"]?.Value<string>();
                 SlackChatHub hub = null;
 
                 if (ConnectedHubs.ContainsKey(channelID))
@@ -290,16 +292,45 @@ namespace MargieBot
                 }
 
                 // some messages may not have text or a user (like unfurled data from URLs)
-                var messageText = (jObject["text"] != null ? jObject["text"].Value<string>() : null);
+                string messageText = jObject["text"]?.Value<string>();
+
+                SlackUser user = jObject["user"] != null
+                    ? new SlackUser()
+                    {
+                        ID = jObject["user"].Value<string>()
+                    }
+                    : null;
+
+                if (user == null)
+                {
+                    // a back door (for tests) to respond message from incoming webhook as a person.
+                    string userSlackIdFile = Path.GetFullPath("UserSlackId.debug");
+
+#if DEBUG
+                    Console.WriteLine($"User Slack ID file: '{userSlackIdFile}'");
+#endif
+
+                    if (File.Exists(userSlackIdFile))
+                    {
+                        string userSlackId = File.ReadAllText(userSlackIdFile, Encoding.UTF8).Trim();
+                        if (!string.IsNullOrWhiteSpace(userSlackId))
+                        {
+                            user = new SlackUser()
+                            {
+                                ID = userSlackId
+                            };
+                        }
+                    }
+                }
 
                 SlackMessage message = new SlackMessage()
                 {
                     ChatHub = hub,
                     // check to see if bot has been mentioned
-                    MentionsBot = (messageText != null ? Regex.IsMatch(messageText, BotNameRegex, RegexOptions.IgnoreCase) : false),
+                    MentionsBot = messageText != null && Regex.IsMatch(messageText, BotNameRegex, RegexOptions.IgnoreCase),
                     RawData = json,
                     Text = messageText,
-                    User = (jObject["user"] != null ? new SlackUser() { ID = jObject["user"].Value<string>() } : null)
+                    User = user
                 };
 
                 ResponseContext context = new ResponseContext()

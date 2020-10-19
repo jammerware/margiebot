@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MargieBot", "MargieBot\MargieBot.xproj", "{C4E14F85-F98F-484C-8FCB-F0D95F91472A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MargieBot", "MargieBot\MargieBot.csproj", "{C4E14F85-F98F-484C-8FCB-F0D95F91472A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MargieBot.Debug", "MargieBot.Debug\MargieBot.Debug.xproj", "{604E4CF2-A6E0-4BCC-A7F1-77A5CA7BC167}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MargieBot.Debug", "MargieBot.Debug\MargieBot.Debug.csproj", "{604E4CF2-A6E0-4BCC-A7F1-77A5CA7BC167}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MargieBot.SampleResponders", "MargieBot.SampleResponders\MargieBot.SampleResponders.xproj", "{5AF797B7-B243-47B3-9490-7DBD72DC59DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MargieBot.SampleResponders", "MargieBot.SampleResponders\MargieBot.SampleResponders.csproj", "{5AF797B7-B243-47B3-9490-7DBD72DC59DA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MargieBot.ConsoleHost", "MargieBot.ConsoleHost\MargieBot.ConsoleHost.xproj", "{0BCA1CF2-D9E5-4A0B-9166-D4606CD3065D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MargieBot.ConsoleHost", "MargieBot.ConsoleHost\MargieBot.ConsoleHost.csproj", "{0BCA1CF2-D9E5-4A0B-9166-D4606CD3065D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76B971F7-2289-4A32-899A-43A6E83F16D3}
 	EndGlobalSection
 EndGlobal
